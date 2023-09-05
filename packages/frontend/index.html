@@ -1,13 +1,66 @@
-<!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + TS</title>
+    <link rel="stylesheet" href="/src/styles/index.css" />
+    <title>Øredev 2023 Game</title>
   </head>
-  <body>
-    <div id="app"></div>
+  <body id="app">
+    <header id="app-header">
+      <nav>
+        <button hidden>Back</button>
+      </nav>
+
+      <h1>ØREDEV 2023 GAME</h1>
+
+      <div>
+        <div hidden>idle message</div>
+      </div>
+    </header>
+
+    <noscript>This app requires JavaScript to run.</noscript>
+
+    <main id="splash-screen" class="fill" hidden>
+      <h1>Øredev 2023 Game</h1>
+      <button id="play-button">Play</button>
+    </main>
+
+    <main id="gameplay-screen" hidden>
+      <dl class="start">
+        <dt>Score:</dt>
+        <dd id="score-display">0000000</dd>
+      </dl>
+
+      <dl id="wave-countdown" class="middle" hidden>
+        <dt>Wave starting in:</dt>
+        <dd id="wave-countdown-display"></dd>
+      </dl>
+
+      <dl id="wave" class="middle" hidden>
+        <dt>Overheating servers:</dt>
+        <dd id="active-words"></dd>
+        <dt>Focused server:</dt>
+        <dd id="focused-word"></dd>
+        <dt>Text Entry:</dt>
+        <dd id="text-entry"></dd>
+      </dl>
+
+      <dl class="end">
+        <dt>Heat:</dt>
+        <dd><span id="heat-display">0</span>%</dd>
+      </dl>
+
+      <div id="victory-message" class="message middle" hidden>
+        you saved the servers, great job
+      </div>
+
+      <div id="failure-message" class="message middle" hidden>
+        the servers burned up (because you are bad at typing)
+      </div>
+    </main>
+
+    <main id="game-over-screen" class="fill" hidden>game over</main>
+
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

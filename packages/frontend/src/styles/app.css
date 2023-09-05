@@ -1,0 +1,27 @@
+#app {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-rows: var(--size-xl) 1fr var(--size-xl);
+}
+
+#app-header,
+#app > main:not(.fill, [hidden]) {
+  display: contents;
+}
+#app > main[hidden] {
+  display: none;
+}
+#app > main.fill,
+#app > noscript {
+  grid-column: 1 / 4;
+}
+
+#app > main > .start {
+  grid-column: 1;
+}
+#app > main > .middle {
+  grid-column: 2;
+}
+#app > main > .end {
+  grid-column: 3;
+}

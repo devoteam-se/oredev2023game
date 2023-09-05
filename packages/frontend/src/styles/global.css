@@ -1,0 +1,70 @@
+@import '@fontsource-variable/jetbrains-mono';
+
+:root {
+  --color-fg: #ddd;
+  --color-bg: #222;
+
+  --size-px: 1px;
+  --size-xxs: 0.125rem;
+  --size-xs: 0.25rem;
+  --size-s: 0.5rem;
+  --size-m: 1rem;
+  --size-xl: 3rem;
+
+  --font-size-base: 36; /* 1rem in pixels when viewport is 1920px by 1080px */
+  font-size: min(
+    calc((var(--font-size-base) / 1920) * 100dvw),
+    calc((var(--font-size-base) / 1080) * 100dvh)
+  );
+
+  font-family: 'JetBrains Mono Variable', monospace;
+  color: var(--color-fg);
+  background-color: var(--color-bg);
+}
+
+* {
+  font-size: var(--size-m);
+}
+
+html {
+  width: 100dvw;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  margin: 0;
+  aspect-ratio: 16 / 9;
+  max-width: 100dvw;
+  max-height: 100dvh;
+}
+
+button {
+  font-size: inherit;
+  font-family: inherit;
+  color: var(--color-fg);
+  background-color: var(--color-bg);
+
+  cursor: pointer;
+
+  border-style: solid;
+  border-color: var(--color-fg);
+  border-width: var(--size-xxs);
+  border-radius: 0;
+  padding: var(--size-s) var(--size-m);
+
+  box-shadow: var(--color-fg) var(--size-xs) var(--size-xs);
+}
+
+button:active {
+  color: var(--color-bg);
+  background-color: var(--color-fg);
+}
+
+button:focus-visible {
+  outline: currentColor dashed var(--size-xxs);
+  outline-offset: calc(-1 * var(--size-s));
+}

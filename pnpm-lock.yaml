@@ -10,12 +10,21 @@ importers:
 
   packages/frontend:
     devDependencies:
+      '@fontsource-variable/jetbrains-mono':
+        specifier: ^5.0.9
+        version: 5.0.9
+      '@xstate/immer':
+        specifier: ^0.3.3
+        version: 0.3.3(immer@10.0.2)(xstate@4.38.2)
       typescript:
         specifier: ^5.0.2
         version: 5.2.2
       vite:
         specifier: ^4.4.5
         version: 4.4.9
+      xstate:
+        specifier: ^4.38.2
+        version: 4.38.2
 
 packages:
 
@@ -217,6 +226,20 @@ packages:
     dev: true
     optional: true
 
+  /@fontsource-variable/jetbrains-mono@5.0.9:
+    resolution: {integrity: sha512-VaF1GjUbSFLJIeTG3WE721IyabL5ghOeseIfPukVrPBo+NNLhfFmHPMO+KH2/KSJ9AO/3/JNMYVkszVAnbMd6Q==}
+    dev: true
+
+  /@xstate/immer@0.3.3(immer@10.0.2)(xstate@4.38.2):
+    resolution: {integrity: sha512-6AcNYkWdQrU+BKRg0MVjC2HBRZrZWADHJXcUL9uXem4BFpw9qy9NlbLPWkvnDayvmUq2sbYrzWTfxBMaiOhe5A==}
+    peerDependencies:
+      immer: ^9.0.6 || ^10
+      xstate: ^4.37.2
+    dependencies:
+      immer: 10.0.2
+      xstate: 4.38.2
+    dev: true
+
   /esbuild@0.18.20:
     resolution: {integrity: sha512-ceqxoedUrcayh7Y7ZX6NdbbDzGROiyVBgC4PriJThBKSVPWnnFHZAkfI1lJT8QFkOwH4qOS2SJkS4wvpGl8BpA==}
     engines: {node: '>=12'}
@@ -254,6 +277,10 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /immer@10.0.2:
+    resolution: {integrity: sha512-Rx3CqeqQ19sxUtYV9CU911Vhy8/721wRFnJv3REVGWUmoAcIwzifTsdmJte/MV+0/XpM35LZdQMBGkRIoLPwQA==}
+    dev: true
 
   /nanoid@3.3.6:
     resolution: {integrity: sha512-BGcqMMJuToF7i1rt+2PWSNVnWIkGCU78jBG3RxO/bZlnZPK2Cmi2QaffxGO/2RvWi9sL+FAiRiXMgsyxQ1DIDA==}
@@ -326,4 +353,8 @@ packages:
       rollup: 3.28.1
     optionalDependencies:
       fsevents: 2.3.3
+    dev: true
+
+  /xstate@4.38.2:
+    resolution: {integrity: sha512-Fba/DwEPDLneHT3tbJ9F3zafbQXszOlyCJyQqqdzmtlY/cwE2th462KK48yaANf98jHlP6lJvxfNtN0LFKXPQg==}
     dev: true
