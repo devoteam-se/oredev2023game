@@ -4,7 +4,7 @@ import { elements, hideElement, showElement } from './elements.ts';
 import { cancelAnimation, startAnimation } from './animation.ts';
 import { serverNames } from './server-names.ts';
 
-const maxGameDurationMs = 45_000;
+const maxGameDurationMs = 45_000_000;
 const maxNumActiveWords = 3;
 const maxWaveSize = 7;
 const messageDurationMs = 10_000;

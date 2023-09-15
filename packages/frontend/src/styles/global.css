@@ -1,25 +1,33 @@
 @import '@fontsource-variable/jetbrains-mono';
 
 :root {
-  --color-fg: #ddd;
-  --color-bg: #222;
+  --color-white: #ede8e4;
+  --color-grey: #a1b2ba;
+  --color-dim-grey: #616a71;
+  --color-black: #212227;
+  --color-red: #ee6352;
+  --color-yellow: #fe9000;
+  --color-green: #8fc93a;
+  --color-blue: #7987e2;
 
   --size-px: 1px;
   --size-xxs: 0.125rem;
   --size-xs: 0.25rem;
   --size-s: 0.5rem;
   --size-m: 1rem;
-  --size-xl: 3rem;
+  --size-l: 1.5rem;
+  --size-xl: 2rem;
+  --size-xxl: 3rem;
 
-  --font-size-base: 36; /* 1rem in pixels when viewport is 1920px by 1080px */
+  --font-size-base: 32; /* 1rem in pixels when viewport is 1920px by 1080px */
   font-size: min(
     calc((var(--font-size-base) / 1920) * 100dvw),
     calc((var(--font-size-base) / 1080) * 100dvh)
   );
 
   font-family: 'JetBrains Mono Variable', monospace;
-  color: var(--color-fg);
-  background-color: var(--color-bg);
+  color: var(--color-white);
+  background-color: var(--color-black);
 }
 
 * {
@@ -33,6 +41,8 @@ html {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
+  padding: var(--size-m);
 }
 
 body {
@@ -45,23 +55,23 @@ body {
 button {
   font-size: inherit;
   font-family: inherit;
-  color: var(--color-fg);
-  background-color: var(--color-bg);
+  color: var(--color-white);
+  background-color: var(--color-black);
 
   cursor: pointer;
 
   border-style: solid;
-  border-color: var(--color-fg);
+  border-color: var(--color-white);
   border-width: var(--size-xxs);
   border-radius: 0;
   padding: var(--size-s) var(--size-m);
 
-  box-shadow: var(--color-fg) var(--size-xs) var(--size-xs);
+  box-shadow: var(--color-white) var(--size-xs) var(--size-xs);
 }
 
 button:active {
-  color: var(--color-bg);
-  background-color: var(--color-fg);
+  color: var(--color-black);
+  background-color: var(--color-white);
 }
 
 button:focus-visible {

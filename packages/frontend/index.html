@@ -7,15 +7,7 @@
   </head>
   <body id="app">
     <header id="app-header">
-      <nav>
-        <button hidden>Back</button>
-      </nav>
-
-      <h1>ØREDEV 2023 GAME</h1>
-
-      <div>
-        <div hidden>idle message</div>
-      </div>
+      <h1>dvtm_se // ød_23</h1>
     </header>
 
     <noscript>This app requires JavaScript to run.</noscript>
@@ -26,37 +18,41 @@
     </main>
 
     <main id="gameplay-screen" hidden>
-      <dl class="left">
-        <dt>Score:</dt>
-        <dd id="score-display">0000000</dd>
-      </dl>
+      <section class="left">
+        <h2>Score</h2>
+        <div id="score-display">0000000</div>
+      </section>
 
-      <dl class="right">
-        <dt>Heat:</dt>
-        <dd><span id="heat-display">0</span>%</dd>
-      </dl>
+      <section class="right">
+        <h2>Heat</h2>
+        <div><span id="heat-display">0</span>%</div>
+      </section>
 
-      <dl id="wave-countdown" class="middle" hidden>
-        <dt>Wave starting in:</dt>
-        <dd id="wave-countdown-display"></dd>
-      </dl>
+      <section class="center">
+        <h2>Main</h2>
 
-      <dl id="wave" class="middle" hidden>
-        <dt>Overheating servers:</dt>
-        <dd id="active-words"></dd>
-        <dt>Focused server:</dt>
-        <dd id="focused-word"></dd>
-        <dt>Text Entry:</dt>
-        <dd id="text-entry"></dd>
-      </dl>
+        <dl id="wave-countdown" hidden>
+          <dt>Wave starting in:</dt>
+          <dd id="wave-countdown-display"></dd>
+        </dl>
 
-      <div id="victory-message" class="middle message" hidden>
-        you saved the servers, great job
-      </div>
+        <dl id="wave" hidden>
+          <dt>Overheating servers:</dt>
+          <dd id="active-words"></dd>
+          <dt>Focused server:</dt>
+          <dd id="focused-word"></dd>
+          <dt>Text Entry:</dt>
+          <dd id="text-entry"></dd>
+        </dl>
 
-      <div id="failure-message" class="middle message" hidden>
-        the servers burned up (because you are bad at typing)
-      </div>
+        <div id="victory-message" class="middle message" hidden>
+          you saved the servers, great job
+        </div>
+
+        <div id="failure-message" class="middle message" hidden>
+          the servers burned up (because you are bad at typing)
+        </div>
+      </section>
     </main>
 
     <main id="game-over-screen" class="fill" hidden>game over</main>

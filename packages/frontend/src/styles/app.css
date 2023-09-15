@@ -2,10 +2,17 @@
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
   grid-template-rows: var(--size-xl) 1fr var(--size-xl);
-  grid-template-areas: 'header header header' 'left middle right' 'footer footer footer';
+  grid-template-areas: 'header header header' 'left center right' 'footer footer footer';
+  gap: var(--size-m);
 }
 
-#app-header,
+#app > header {
+  grid-area: header;
+}
+#app > footer {
+  grid-area: footer;
+}
+
 #app > main:not(.fill, [hidden]) {
   display: contents;
 }
@@ -20,8 +27,8 @@
 #app > main > .left {
   grid-area: left;
 }
-#app > main > .middle {
-  grid-area: middle;
+#app > main > .center {
+  grid-area: center;
 }
 #app > main > .right {
   grid-column: right;

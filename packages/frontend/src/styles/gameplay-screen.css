@@ -1,29 +1,19 @@
-#gameplay-screen {
-  inline-size: 100dvw;
+#gameplay-screen section {
+  box-sizing: border-box;
+  border: var(--color-dim-grey) solid var(--size-xxs);
+  padding: var(--size-s);
 }
 
-#gameplay-screen > dl:not([hidden]) {
-  margin: 0;
-
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  align-content: center;
+#gameplay-screen h2 {
+  margin: calc(-1 * var(--size-l)) 0 0 0;
+  background-color: var(--color-black);
+  width: min-content;
+  padding: var(--size-xs);
+  text-transform: uppercase;
+  color: var(--color-grey);
 }
 
-#gameplay-screen > dl[hidden] {
-  display: none;
-}
-
-#gameplay-screen > dl > dt {
-  text-align: end;
-}
-
-#gameplay-screen > dl > dd {
-  margin: 0;
-}
-
-#gameplay-screen > .message {
-  align-self: center;
-  justify-self: center;
+#score-display {
+  font-size: var(--size-xl);
+  font-weight: 1;
 }
