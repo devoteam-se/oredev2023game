@@ -2,9 +2,11 @@ import { createMachine } from 'xstate';
 import { assign } from '@xstate/immer';
 import { elements, hideElement, showElement } from './elements.ts';
 import { cancelAnimation, startAnimation } from './animation.ts';
+import { serverNames } from './server-names.ts';
 
 const maxGameDurationMs = 45_000;
 const maxNumActiveWords = 3;
+const maxWaveSize = 7;
 const messageDurationMs = 10_000;
 const waveStartDelayMs = 3_000;
 
@@ -171,10 +173,22 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       }),
 
       createWaves: assign((ctx) => {
-        ctx.remainingWaves = [
-          ['icicle', 'weasel'],
-          ['weather', 'piecemeal'],
-        ];
+        ctx.remainingWaves = serverNames.map((nameList) => {
+          const pool = [...nameList].sort(Math.random);
+          const result: string[] = [];
+
+          while (result.length < maxWaveSize && result.length < pool.length) {
+            const candidate = pool.pop();
+            if (
+              candidate &&
+              !result.some((word) => word.startsWith(candidate.charAt(0)))
+            ) {
+              result.push(candidate);
+            }
+          }
+
+          return result;
+        });
       }),
 
       resetTextEntry: assign((ctx) => {

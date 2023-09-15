@@ -26,9 +26,14 @@
     </main>
 
     <main id="gameplay-screen" hidden>
-      <dl class="start">
+      <dl class="left">
         <dt>Score:</dt>
         <dd id="score-display">0000000</dd>
+      </dl>
+
+      <dl class="right">
+        <dt>Heat:</dt>
+        <dd><span id="heat-display">0</span>%</dd>
       </dl>
 
       <dl id="wave-countdown" class="middle" hidden>
@@ -45,16 +50,11 @@
         <dd id="text-entry"></dd>
       </dl>
 
-      <dl class="end">
-        <dt>Heat:</dt>
-        <dd><span id="heat-display">0</span>%</dd>
-      </dl>
-
-      <div id="victory-message" class="message middle" hidden>
+      <div id="victory-message" class="middle message" hidden>
         you saved the servers, great job
       </div>
 
-      <div id="failure-message" class="message middle" hidden>
+      <div id="failure-message" class="middle message" hidden>
         the servers burned up (because you are bad at typing)
       </div>
     </main>
