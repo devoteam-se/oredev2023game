@@ -1,6 +1,7 @@
 @import '@fontsource-variable/jetbrains-mono';
 
-:root {
+:root,
+::backdrop {
   --color-white: #ede8e4;
   --color-grey: #a1b2ba;
   --color-dim-grey: #616a71;
@@ -20,6 +21,7 @@
   --size-xxl: 3rem;
 
   --font-size-base: 32; /* 1rem in pixels when viewport is 1920px by 1080px */
+
   font-size: min(
     calc((var(--font-size-base) / 1920) * 100dvw),
     calc((var(--font-size-base) / 1080) * 100dvh)
@@ -52,6 +54,32 @@ body {
   max-height: 100dvh;
 }
 
+dialog[open] {
+  color: inherit;
+  background-color: var(--color-black);
+
+  border-style: double;
+  border-width: calc(3 * var(--size-xxs));
+  border-color: var(--color-grey);
+
+  box-shadow: var(--color-dim-grey) var(--size-xs) var(--size-xs);
+
+  padding: var(--size-l);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-m);
+}
+
+dialog[open] > * {
+  margin: 0;
+}
+
+dialog::backdrop {
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+}
+
 button {
   font-size: inherit;
   font-family: inherit;
@@ -66,7 +94,7 @@ button {
   border-radius: 0;
   padding: var(--size-s) var(--size-m);
 
-  box-shadow: var(--color-white) var(--size-xs) var(--size-xs);
+  box-shadow: var(--color-dim-grey) var(--size-xs) var(--size-xs);
 }
 
 button:active {

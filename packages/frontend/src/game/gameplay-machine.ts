@@ -4,7 +4,7 @@ import { elements, hideElement, showElement } from './elements.ts';
 import { cancelAnimation, startAnimation } from './animation.ts';
 import { serverNames } from './server-names.ts';
 
-const maxGameDurationMs = 45_000_000;
+const maxGameDurationMs = 45_000;
 const maxNumActiveWords = 3;
 const maxWaveSize = 7;
 const messageDurationMs = 10_000;
@@ -32,8 +32,8 @@ export type GameplayKeystrokeEvent = {
   type: 'KEYSTROKE';
   char: string;
 };
-export type GameplayOverheatedEvent = { type: 'OVERHEATED' };
-export type GameplayEvent = GameplayKeystrokeEvent | GameplayOverheatedEvent;
+export type GameplayOkClickedEvent = { type: 'OK_CLICKED' };
+export type GameplayEvent = GameplayKeystrokeEvent | GameplayOkClickedEvent;
 
 const isKeystrokeEvent = (
   event: GameplayEvent,
@@ -63,26 +63,23 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
     states: {
       waveCountdown: {
         entry: [
+          'hideWaveView',
           'assignWaveStartTime',
           'startCountdownAnimation',
-          () => showElement('wave-countdown'),
+          'showWaveCountdownView',
         ],
-        exit: ['stopCountdownAnimation', () => hideElement('wave-countdown')],
+        exit: ['hideWaveCountdownView', 'stopCountdownAnimation'],
         after: { [waveStartDelayMs]: 'wave' },
       },
       wave: {
-        entry: [
-          'startNextWave',
-          'startHeatDisplayAnimation',
-          () => showElement('wave'),
-        ],
-        exit: [() => hideElement('wave'), 'stopHeatDisplayAnimation'],
+        entry: ['startNextWave', 'startHeatDisplayAnimation', 'showWaveView'],
+        exit: ['stopHeatDisplayAnimation'],
 
-        after: { OVERHEAT_DELAY: 'failureMessage' },
         onDone: [
           { target: 'waveCountdown', cond: 'someWavesRemaining' },
-          { target: 'victoryMessage' },
+          { target: 'victory' },
         ],
+        after: { OVERHEAT_DELAY: 'failure' },
 
         initial: 'noWordFocused',
         states: {
@@ -99,7 +96,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
                 actions: 'assignFocusedWord',
               },
             },
-            always: { target: 'waveDone', cond: 'waveExhausted' },
+            always: [{ target: 'waveDone', cond: 'waveCleared' }],
           },
           wordFocused: {
             entry: ['updateTextEntry', 'updateWaveViews'],
@@ -114,14 +111,16 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
           waveDone: { type: 'final' },
         },
       },
-      failureMessage: {
-        entry: () => showElement('failure-message'),
-        exit: () => hideElement('failure-message'),
+      failure: {
+        entry: 'showFailureMessage',
+        exit: 'hideFailureMessage',
+        on: { OK_CLICKED: 'gameplayDone' },
         after: { [messageDurationMs]: 'gameplayDone' },
       },
-      victoryMessage: {
-        entry: () => showElement('victory-message'),
-        exit: () => hideElement('victory-message'),
+      victory: {
+        entry: 'showVictoryMessage',
+        exit: 'hideVictoryMessage',
+        on: { OK_CLICKED: 'gameplayDone' },
         after: { [messageDurationMs]: 'gameplayDone' },
       },
       gameplayDone: { type: 'final' },
@@ -136,7 +135,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
         );
         const inactiveWords = Object.keys(ctx.currentWave)
           .filter((word) => ctx.currentWave[word] === WordState.Inactive)
-          .sort(Math.random);
+          .sort(() => Math.random() - 0.5);
 
         const numWordsToActivate = Math.min(
           inactiveWords.length,
@@ -174,7 +173,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
 
       createWaves: assign((ctx) => {
         ctx.remainingWaves = serverNames.map((nameList) => {
-          const pool = [...nameList].sort(Math.random);
+          const pool = [...nameList].sort(() => Math.random() - 0.5);
           const result: string[] = [];
 
           while (result.length < maxWaveSize && result.length < pool.length) {
@@ -191,10 +190,26 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
         });
       }),
 
+      hideFailureMessage: () => elements['failure-message'].close(),
+
+      hideVictoryMessage: () => elements['victory-message'].close(),
+
+      hideWaveView: () => hideElement('wave'),
+
+      hideWaveCountdownView: () => hideElement('wave-countdown'),
+
       resetTextEntry: assign((ctx) => {
         ctx.textEntry = '';
         ctx.focusedWord = null;
       }),
+
+      showFailureMessage: () => elements['failure-message'].showModal(),
+
+      showVictoryMessage: () => elements['victory-message'].showModal(),
+
+      showWaveView: () => showElement('wave'),
+
+      showWaveCountdownView: () => showElement('wave-countdown'),
 
       startCountdownAnimation: assign((ctx) => {
         const waveStartTime = ctx.waveStartTime;
@@ -208,7 +223,10 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       startHeatDisplayAnimation: assign((ctx) => {
         const waveStartTime = ctx.waveStartTime;
         ctx.animationIds.heatDisplay = startAnimation(() => {
-          const heatRatio = (Date.now() - waveStartTime) / maxGameDurationMs;
+          const heatRatio = Math.min(
+            1,
+            (Date.now() - waveStartTime) / maxGameDurationMs,
+          );
           elements['heat-display'].textContent = Math.floor(
             heatRatio * 100,
           ).toString();
@@ -263,7 +281,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
             word.startsWith(event.char),
         ),
 
-      waveExhausted: ({ currentWave }) =>
+      waveCleared: ({ currentWave }) =>
         Object.values(currentWave).every(
           (wordState) => wordState === WordState.Cleared,
         ),

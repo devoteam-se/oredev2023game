@@ -44,18 +44,25 @@
           <dt>Text Entry:</dt>
           <dd id="text-entry"></dd>
         </dl>
-
-        <div id="victory-message" class="middle message" hidden>
-          you saved the servers, great job
-        </div>
-
-        <div id="failure-message" class="middle message" hidden>
-          the servers burned up (because you are bad at typing)
-        </div>
       </section>
     </main>
 
     <main id="game-over-screen" class="fill" hidden>game over</main>
+
+    <footer id="app-footer">
+      Copyright (C) 1979 Devoteam Informatronics Corporation. All rights
+      reserved.
+    </footer>
+
+    <dialog id="victory-message" class="middle message">
+      <p>you saved the servers, great job</p>
+      <button id="victory-ok-button">OK</button>
+    </dialog>
+
+    <dialog id="failure-message" class="middle message">
+      <p>the servers burned up (because you are bad at typing)</p>
+      <button id="failure-ok-button">OK</button>
+    </dialog>
 
     <script type="module" src="/src/main.ts"></script>
   </body>

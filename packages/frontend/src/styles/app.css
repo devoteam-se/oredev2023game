@@ -1,4 +1,6 @@
 #app {
+  box-sizing: border-box;
+  padding: var(--size-m);
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
   grid-template-rows: var(--size-xl) 1fr var(--size-xl);

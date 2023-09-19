@@ -6,6 +6,7 @@ export type AppContext = {
   startApp: () => void;
   startGame: () => void;
   sendKeystroke: (key: string) => void;
+  sendOkClicked: () => void;
 };
 
 export const createAppContext = (): AppContext => {
@@ -45,6 +46,12 @@ export const createAppContext = (): AppContext => {
         return;
       }
       gameplayService.send({ type: 'KEYSTROKE', char });
+    },
+    sendOkClicked: () => {
+      if (!gameplayService) {
+        return;
+      }
+      gameplayService.send({ type: 'OK_CLICKED' });
     },
   };
 };

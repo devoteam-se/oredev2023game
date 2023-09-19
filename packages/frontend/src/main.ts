@@ -14,4 +14,11 @@ window.addEventListener('keydown', (event: KeyboardEvent) => {
   ctx.sendKeystroke(event.key.toLowerCase());
 });
 
+elements['victory-ok-button'].addEventListener('click', () => {
+  ctx.sendOkClicked();
+});
+elements['failure-ok-button'].addEventListener('click', () => {
+  ctx.sendOkClicked();
+});
+
 ctx.startApp();

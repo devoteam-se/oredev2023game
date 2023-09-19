@@ -11,3 +11,7 @@
 #splash-screen > * {
   margin: 0;
 }
+
+#splash-screen > h1 {
+  text-transform: uppercase;
+}
