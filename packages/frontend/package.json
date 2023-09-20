@@ -7,10 +7,10 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@fontsource-variable/jetbrains-mono": "^5.0.9",
+    "@fontsource-variable/jetbrains-mono": "^5.0.13",
     "@xstate/immer": "^0.3.3",
-    "typescript": "^5.0.2",
-    "vite": "^4.4.5",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9",
     "xstate": "^4.38.2"
   }
 }

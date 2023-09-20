@@ -7,57 +7,77 @@
   </head>
   <body id="app">
     <header id="app-header">
-      <h1>dvtm_se // ød_23</h1>
+      <h1>Server Hypervision Interface v4.1.9_19791118a</h1>
     </header>
 
     <noscript>This app requires JavaScript to run.</noscript>
 
-    <main id="splash-screen" class="fill" hidden>
+    <main id="splash-screen" hidden>
       <h1>Øredev 2023 Game</h1>
       <button id="play-button">Play</button>
     </main>
 
     <main id="gameplay-screen" hidden>
-      <section class="left">
+      <section id="score-box">
         <h2>Score</h2>
         <div id="score-display">0000000</div>
       </section>
 
-      <section class="right">
+      <section id="heat-box">
         <h2>Heat</h2>
         <div><span id="heat-display">0</span>%</div>
       </section>
 
-      <section class="center">
-        <h2>Main</h2>
+      <section id="servers-box">
+        <h2>Servers</h2>
 
-        <dl id="wave-view" hidden>
-          <dt>Overheating servers:</dt>
-          <dd id="active-words"></dd>
-          <dt>Focused server:</dt>
-          <dd id="focused-word"></dd>
-          <dt>Text Entry:</dt>
-          <dd id="text-entry"></dd>
-        </dl>
+        <div id="servers-view">
+          <div class="column-header">ID</div>
+          <div class="column-header">Status</div>
+          <div class="column-header">Reboot Code</div>
+
+          <div class="column-header">ID</div>
+          <div class="column-header">Status</div>
+          <div class="column-header">Reboot Code</div>
+
+          <hr />
+        </div>
+      </section>
+
+      <section id="text-entry-box">
+        <h2>Terminal</h2>
+        <div id="text-entry-view">
+          <span id="text-entry-prompt">&gt;&nbsp;</span>
+          <span id="text-entry"></span>
+          <span id="text-entry-cursor">&nbsp;</span>
+        </div>
       </section>
     </main>
 
-    <main id="game-over-screen" class="fill" hidden>game over</main>
+    <main id="game-over-screen" hidden>game over</main>
 
     <footer id="app-footer">
       Copyright (C) 1979 Devoteam Informatronics Corporation. All rights
       reserved.
     </footer>
 
-    <dialog id="victory-message" class="middle message">
+    <dialog id="victory-message">
       <p>you saved the servers, great job</p>
       <button id="victory-ok-button">OK</button>
     </dialog>
 
-    <dialog id="failure-message" class="middle message">
+    <dialog id="failure-message">
       <p>the servers burned up (because you are bad at typing)</p>
       <button id="failure-ok-button">OK</button>
     </dialog>
+
+    <template id="server-view-template">
+      <div class="server-view">
+        <div class="value id"></div>
+        <div class="value status">Unknown</div>
+        <div class="value code"></div>
+      </div>
+    </template>
 
     <script type="module" src="/src/main.ts"></script>
   </body>

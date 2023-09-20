@@ -6,38 +6,50 @@ export type ScreenContext = {};
 export type ScreenEvent = {
   type: 'START_GAME';
 };
-export const screenMachine = createMachine<ScreenContext, ScreenEvent>({
-  predictableActionArguments: true,
-  preserveActionOrder: true,
+export const screenMachine = createMachine<ScreenContext, ScreenEvent>(
+  {
+    predictableActionArguments: true,
+    preserveActionOrder: true,
 
-  context: {},
+    context: {},
 
-  initial: 'splash',
-  states: {
-    splash: {
-      entry: () => showElement('splash-screen'),
-      exit: () => hideElement('splash-screen'),
-      on: { START_GAME: 'game' },
-    },
-    game: {
-      initial: 'gameplay',
-      onDone: 'splash',
-      states: {
-        gameplay: {
-          entry: () => showElement('gameplay-screen'),
-          exit: () => hideElement('gameplay-screen'),
-          invoke: {
-            id: 'gameplayMachine',
-            src: gameplayMachine,
-            onDone: 'gameOver',
+    initial: 'splash',
+    states: {
+      splash: {
+        entry: 'showSplashScreen',
+        exit: 'hideSplashScreen',
+        on: { START_GAME: 'game' },
+      },
+      game: {
+        initial: 'gameplay',
+        onDone: 'splash',
+        states: {
+          gameplay: {
+            entry: 'showGameplayScreen',
+            exit: 'hideGameplayScreen',
+            invoke: {
+              id: 'gameplayMachine',
+              src: gameplayMachine,
+              onDone: 'gameOver',
+            },
           },
-        },
-        gameOver: {
-          entry: () => showElement('game-over-screen'),
-          exit: () => hideElement('game-over-screen'),
-          type: 'final',
+          gameOver: {
+            entry: 'showGameOverScreen',
+            exit: 'hideGameOverScreen',
+            type: 'final',
+          },
         },
       },
     },
   },
-});
+  {
+    actions: {
+      hideGameplayScreen: () => hideElement('gameplay-screen'),
+      hideGameOverScreen: () => hideElement('game-over-screen'),
+      hideSplashScreen: () => hideElement('splash-screen'),
+      showGameplayScreen: () => showElement('gameplay-screen'),
+      showGameOverScreen: () => showElement('game-over-screen'),
+      showSplashScreen: () => showElement('splash-screen'),
+    },
+  },
+);

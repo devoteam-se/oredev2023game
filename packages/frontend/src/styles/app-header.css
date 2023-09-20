@@ -1,5 +1,5 @@
 #app-header h1 {
   margin: 0;
   font-weight: normal;
-  color: var(--color-dim-grey);
+  color: var(--color-tertiary);
 }

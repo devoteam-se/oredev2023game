@@ -2,36 +2,23 @@
   box-sizing: border-box;
   padding: var(--size-m);
   display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
-  grid-template-rows: var(--size-xl) 1fr var(--size-xl);
-  grid-template-areas: 'header header header' 'left center right' 'footer footer footer';
+  grid-template:
+    'header' var(--size-xl)
+    'main' 1fr
+    'footer' var(--size-xl);
   gap: var(--size-m);
 }
 
 #app > header {
   grid-area: header;
 }
-#app > footer {
-  grid-area: footer;
-}
-
-#app > main:not(.fill, [hidden]) {
-  display: contents;
+#app > main,
+#app > noscript {
+  grid-area: main;
 }
 #app > main[hidden] {
   display: none;
 }
-#app > main.fill,
-#app > noscript {
-  grid-area: left / left / right / right;
-}
-
-#app > main > .left {
-  grid-area: left;
-}
-#app > main > .center {
-  grid-area: center;
-}
-#app > main > .right {
-  grid-column: right;
+#app > footer {
+  grid-area: footer;
 }

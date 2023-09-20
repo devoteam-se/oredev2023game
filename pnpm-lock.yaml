@@ -11,16 +11,16 @@ importers:
   packages/frontend:
     devDependencies:
       '@fontsource-variable/jetbrains-mono':
-        specifier: ^5.0.9
-        version: 5.0.9
+        specifier: ^5.0.13
+        version: 5.0.13
       '@xstate/immer':
         specifier: ^0.3.3
         version: 0.3.3(immer@10.0.2)(xstate@4.38.2)
       typescript:
-        specifier: ^5.0.2
+        specifier: ^5.2.2
         version: 5.2.2
       vite:
-        specifier: ^4.4.5
+        specifier: ^4.4.9
         version: 4.4.9
       xstate:
         specifier: ^4.38.2
@@ -226,8 +226,8 @@ packages:
     dev: true
     optional: true
 
-  /@fontsource-variable/jetbrains-mono@5.0.9:
-    resolution: {integrity: sha512-VaF1GjUbSFLJIeTG3WE721IyabL5ghOeseIfPukVrPBo+NNLhfFmHPMO+KH2/KSJ9AO/3/JNMYVkszVAnbMd6Q==}
+  /@fontsource-variable/jetbrains-mono@5.0.13:
+    resolution: {integrity: sha512-btDvHGApc1ckuJxHwxvwHXxXyoP+DceK0+i8GKGDGE9wOk7WveJhFk39v96sGyhM/lJ28SC/6l03rItAcAhSjQ==}
     dev: true
 
   /@xstate/immer@0.3.3(immer@10.0.2)(xstate@4.38.2):
@@ -292,8 +292,8 @@ packages:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
     dev: true
 
-  /postcss@8.4.29:
-    resolution: {integrity: sha512-cbI+jaqIeu/VGqXEarWkRCCffhjgXc0qjBtXpqJhTBohMUjUQnbBr0xqX3vEKudc4iviTewcJo5ajcec5+wdJw==}
+  /postcss@8.4.30:
+    resolution: {integrity: sha512-7ZEao1g4kd68l97aWG/etQKPKq07us0ieSZ2TnFDk11i0ZfDW2AwKHYU8qv4MZKqN2fdBfg+7q0ES06UA73C1g==}
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
       nanoid: 3.3.6
@@ -301,8 +301,8 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /rollup@3.28.1:
-    resolution: {integrity: sha512-R9OMQmIHJm9znrU3m3cpE8uhN0fGdXiawME7aZIpQqvpS/85+Vt1Hq1/yVIcYfOmaQiHjvXkQAoJukvLpau6Yw==}
+  /rollup@3.29.2:
+    resolution: {integrity: sha512-CJouHoZ27v6siztc21eEQGo0kIcE5D1gVPA571ez0mMYb25LGYGKnVNXpEj5MGlepmDWGXNjDB5q7uNiPHC11A==}
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
     hasBin: true
     optionalDependencies:
@@ -349,8 +349,8 @@ packages:
         optional: true
     dependencies:
       esbuild: 0.18.20
-      postcss: 8.4.29
-      rollup: 3.28.1
+      postcss: 8.4.30
+      rollup: 3.29.2
     optionalDependencies:
       fsevents: 2.3.3
     dev: true

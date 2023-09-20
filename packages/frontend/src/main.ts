@@ -1,4 +1,6 @@
-import { createAppContext, elements } from './game';
+import './global.ts';
+import { createAppContext } from './game/app-context.ts';
+import { elements } from './game/elements.ts';
 
 const ctx = createAppContext();
 

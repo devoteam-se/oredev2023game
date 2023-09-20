@@ -2,34 +2,35 @@
 
 :root,
 ::backdrop {
-  --color-white: #ede8e4;
-  --color-grey: #a1b2ba;
-  --color-dim-grey: #616a71;
-  --color-black: #212227;
-  --color-red: #ee6352;
-  --color-yellow: #fe9000;
-  --color-green: #8fc93a;
-  --color-blue: #7987e2;
+  --color-primary: #92fbe8;
+  --color-secondary: #69afab;
+  --color-tertiary: #486a68;
+  --color-background: #262424;
+  --color-blue: #7189ff;
+  --color-green: #2ef5a3;
+  --color-yellow: #ffc120;
+  --color-red: #ff5d47;
 
   --size-px: 1px;
-  --size-xxs: 0.125rem;
-  --size-xs: 0.25rem;
-  --size-s: 0.5rem;
+  --size-2xs: 0.125rem;
+  --size-xxs: 0.25rem;
+  --size-xs: 0.5rem;
+  --size-s: 0.75rem;
   --size-m: 1rem;
   --size-l: 1.5rem;
   --size-xl: 2rem;
   --size-xxl: 3rem;
 
-  --font-size-base: 32; /* 1rem in pixels when viewport is 1920px by 1080px */
+  --font-size-base: 16; /* 1rem in pixels when viewport is 1600px by 900px */
 
   font-size: min(
-    calc((var(--font-size-base) / 1920) * 100dvw),
-    calc((var(--font-size-base) / 1080) * 100dvh)
+    calc((var(--font-size-base) / 1600) * 100dvw),
+    calc((var(--font-size-base) / 900) * 100dvh)
   );
 
   font-family: 'JetBrains Mono Variable', monospace;
-  color: var(--color-white);
-  background-color: var(--color-black);
+  color: var(--color-primary);
+  background-color: var(--color-background);
 }
 
 * {
@@ -56,13 +57,13 @@ body {
 
 dialog[open] {
   color: inherit;
-  background-color: var(--color-black);
+  background-color: var(--color-background);
 
   border-style: double;
-  border-width: calc(3 * var(--size-xxs));
-  border-color: var(--color-grey);
+  border-width: calc(3 * var(--size-2xs));
+  border-color: var(--color-secondary);
 
-  box-shadow: var(--color-dim-grey) var(--size-xs) var(--size-xs);
+  box-shadow: var(--color-tertiary) var(--size-xxs) var(--size-xxs);
 
   padding: var(--size-l);
 
@@ -83,26 +84,33 @@ dialog::backdrop {
 button {
   font-size: inherit;
   font-family: inherit;
-  color: var(--color-white);
-  background-color: var(--color-black);
+  color: var(--color-primary);
+  background-color: var(--color-background);
 
   cursor: pointer;
 
   border-style: solid;
-  border-color: var(--color-white);
-  border-width: var(--size-xxs);
+  border-color: var(--color-primary);
+  border-width: var(--size-2xs);
   border-radius: 0;
-  padding: var(--size-s) var(--size-m);
+  padding: var(--size-xs) var(--size-m);
 
-  box-shadow: var(--color-dim-grey) var(--size-xs) var(--size-xs);
+  box-shadow: var(--color-tertiary) var(--size-xxs) var(--size-xxs);
 }
 
 button:active {
-  color: var(--color-black);
-  background-color: var(--color-white);
+  color: var(--color-background);
+  background-color: var(--color-primary);
 }
 
 button:focus-visible {
-  outline: currentColor dashed var(--size-xxs);
-  outline-offset: calc(-1 * var(--size-s));
+  outline: currentColor dashed var(--size-2xs);
+  outline-offset: calc(-1 * var(--size-xs));
+}
+
+hr {
+  width: 100%;
+  height: var(--size-2xs);
+  border: none;
+  background-color: var(--color-tertiary);
 }
