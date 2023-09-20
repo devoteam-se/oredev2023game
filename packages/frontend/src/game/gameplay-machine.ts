@@ -8,7 +8,6 @@ const maxGameDurationMs = 45_000;
 const maxNumActiveWords = 3;
 const maxWaveSize = 7;
 const messageDurationMs = 10_000;
-const waveStartDelayMs = 3_000;
 
 enum WordState {
   Inactive,
@@ -18,7 +17,6 @@ enum WordState {
 
 type GameplayContext = {
   animationIds: {
-    countdown: number;
     heatDisplay: number;
   };
   currentWave: { [word: string]: WordState };
@@ -49,7 +47,6 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
 
     context: {
       animationIds: {
-        countdown: NaN,
         heatDisplay: NaN,
       },
       currentWave: {},
@@ -59,25 +56,20 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       waveStartTime: NaN,
     },
 
-    initial: 'waveCountdown',
+    initial: 'wave',
     states: {
-      waveCountdown: {
-        entry: [
-          'hideWaveView',
-          'assignWaveStartTime',
-          'startCountdownAnimation',
-          'showWaveCountdownView',
-        ],
-        exit: ['hideWaveCountdownView', 'stopCountdownAnimation'],
-        after: { [waveStartDelayMs]: 'wave' },
-      },
       wave: {
-        entry: ['startNextWave', 'startHeatDisplayAnimation', 'showWaveView'],
+        entry: [
+          'assignWaveStartTime',
+          'startNextWave',
+          'startHeatDisplayAnimation',
+          'showWaveView',
+        ],
         exit: ['stopHeatDisplayAnimation'],
 
         onDone: [
-          { target: 'waveCountdown', cond: 'someWavesRemaining' },
-          { target: 'victory' },
+          { target: 'victory', cond: 'allWavesCleared' },
+          { target: 'wave' },
         ],
         after: { OVERHEAT_DELAY: 'failure' },
 
@@ -161,7 +153,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       }),
 
       assignWaveStartTime: assign((ctx) => {
-        ctx.waveStartTime = Date.now() + waveStartDelayMs;
+        ctx.waveStartTime = Date.now();
       }),
 
       clearWord: assign((ctx) => {
@@ -194,9 +186,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
 
       hideVictoryMessage: () => elements['victory-message'].close(),
 
-      hideWaveView: () => hideElement('wave'),
-
-      hideWaveCountdownView: () => hideElement('wave-countdown'),
+      hideWaveView: () => hideElement('wave-view'),
 
       resetTextEntry: assign((ctx) => {
         ctx.textEntry = '';
@@ -207,18 +197,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
 
       showVictoryMessage: () => elements['victory-message'].showModal(),
 
-      showWaveView: () => showElement('wave'),
-
-      showWaveCountdownView: () => showElement('wave-countdown'),
-
-      startCountdownAnimation: assign((ctx) => {
-        const waveStartTime = ctx.waveStartTime;
-        ctx.animationIds.countdown = startAnimation(() => {
-          elements['wave-countdown-display'].textContent = Math.ceil(
-            (waveStartTime - Date.now()) / 1000,
-          ).toString();
-        });
-      }),
+      showWaveView: () => showElement('wave-view'),
 
       startHeatDisplayAnimation: assign((ctx) => {
         const waveStartTime = ctx.waveStartTime;
@@ -244,10 +223,6 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
         ctx.remainingWaves = ctx.remainingWaves.slice(1);
       }),
 
-      stopCountdownAnimation: (ctx) => {
-        cancelAnimation(ctx.animationIds.countdown);
-      },
-
       stopHeatDisplayAnimation: (ctx) => {
         cancelAnimation(ctx.animationIds.heatDisplay);
       },
@@ -266,12 +241,12 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
     },
 
     guards: {
+      allWavesCleared: ({ remainingWaves }) => remainingWaves.length === 0,
+
       invalidChar: ({ focusedWord, textEntry }, event) =>
         !isKeystrokeEvent(event) ||
         focusedWord === null ||
         focusedWord.charAt(textEntry.length) !== event.char,
-
-      someWavesRemaining: ({ remainingWaves }) => remainingWaves.length > 0,
 
       validFirstChar: ({ currentWave }, event) =>
         isKeystrokeEvent(event) &&

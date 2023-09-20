@@ -12,14 +12,13 @@ const requiredElements = {
   'text-entry': HTMLElement,
   'victory-message': HTMLDialogElement,
   'victory-ok-button': HTMLButtonElement,
-  wave: HTMLElement,
-  'wave-countdown': HTMLElement,
-  'wave-countdown-display': HTMLElement,
+  'wave-view': HTMLElement,
 } as const;
 export type ElementId = keyof typeof requiredElements;
 
 type ElementInstance<I extends ElementId> =
   (typeof requiredElements)[I]['prototype'];
+
 const checkElement = <I extends ElementId>(id: I): ElementInstance<I> => {
   const element = document.getElementById(id);
 
@@ -35,6 +34,7 @@ const checkElement = <I extends ElementId>(id: I): ElementInstance<I> => {
 
   return element;
 };
+
 export const elements: { [I in ElementId]: ElementInstance<I> } = (() => {
   const result: { [id: string]: HTMLElement } = {};
 
