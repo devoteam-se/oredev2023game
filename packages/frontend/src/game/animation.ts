@@ -1,4 +1,4 @@
-let nextAnimationId = 1;
+let nextAnimationId = 0;
 
 type RafAnimation = {
   rafCallback: (time: number) => void;

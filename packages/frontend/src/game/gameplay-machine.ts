@@ -2,11 +2,10 @@ import { createMachine } from 'xstate';
 import { assign } from '@xstate/immer';
 import { elements, hideElement, serverViews } from './elements.ts';
 import { cancelAnimation, startAnimation } from './animation.ts';
-import { serverNames } from './server-names.ts';
+import { gameStages } from './game-stages.ts';
 import {
   maxGameDurationMs,
   maxNumActiveWords,
-  maxWaveSize,
   postGameMessageDurationMs,
 } from './constants.ts';
 
@@ -187,12 +186,15 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       }),
 
       createWaves: assign((ctx) => {
-        ctx.remainingWaves = serverNames.map((nameList) => {
-          const pool = [...nameList].shuffle();
+        ctx.remainingWaves = gameStages.map((stage) => {
+          const codes = [...stage.possibleCodes].shuffle();
           const result: string[] = [];
 
-          while (result.length < maxWaveSize && result.length < pool.length) {
-            const candidate = pool.pop();
+          while (
+            result.length < stage.numServers &&
+            result.length < codes.length
+          ) {
+            const candidate = codes.pop();
             if (
               candidate &&
               !result.some((word) => word.startsWith(candidate.charAt(0)))
@@ -212,15 +214,25 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       hideWaveView: () => hideElement('servers-view'),
 
       initializeServerViews: (ctx) => {
-        ctx.remainingWaves.flat().forEach((code, i) => {
+        const allCodes = ctx.remainingWaves.flat();
+
+        allCodes.forEach((code, i) => {
           const serverViewIndex = ctx.serverViewIndicesByCode[code];
           const serverView = serverViews[serverViewIndex];
 
+          serverView.rootElement.classList.remove('final-boss');
           serverView.idElement.textContent = (i + 1)
             .toString()
             .padStart(3, '0');
           serverView.codeElement.textContent = code;
         });
+
+        const finalCode = allCodes[allCodes.length - 1];
+        const finalServerViewIndex = ctx.serverViewIndicesByCode[finalCode];
+        const finalServerView = serverViews[finalServerViewIndex];
+
+        finalServerView.rootElement.classList.add('final-boss');
+        finalServerView.idElement.textContent = '503';
       },
 
       resetTextEntry: assign((ctx) => {

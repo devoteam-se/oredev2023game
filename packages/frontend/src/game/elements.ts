@@ -1,5 +1,5 @@
 // TODO enforce presence and typing of required elements using linter
-import { numServersInGame } from './constants.ts';
+import { totalNumServers } from './constants.ts';
 
 const staticElements = {
   'failure-message': HTMLDialogElement,
@@ -55,7 +55,7 @@ export type ServerView = {
 };
 export const serverViews: ServerView[] = (() => {
   const result: ServerView[] = [];
-  for (let i = 0; i < numServersInGame; i++) {
+  for (let i = 0; i < totalNumServers; i++) {
     const clone = elements['server-view-template'].content.cloneNode(
       true,
     ) as DocumentFragment;

@@ -80,6 +80,13 @@
   visibility: visible;
 }
 
+.server-view.final-boss > * {
+  order: 9999;
+}
+.server-view.final-boss .code {
+  grid-column-end: span 4;
+}
+
 #text-entry-box {
   grid-area: text-entry;
 }
