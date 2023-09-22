@@ -1,4 +1,6 @@
-@import '@fontsource-variable/jetbrains-mono';
+@import '@fontsource/jetbrains-mono/400.css';
+@import '@fontsource/jetbrains-mono/700.css';
+@import '@fontsource/tomorrow/400.css';
 
 :root,
 ::backdrop {
@@ -22,19 +24,17 @@
   --size-xxl: 3rem;
 
   --font-size-base: 16; /* 1rem in pixels when viewport is 1600px by 900px */
-
   font-size: min(
     calc((var(--font-size-base) / 1600) * 100dvw),
     calc((var(--font-size-base) / 900) * 100dvh)
   );
 
-  font-family: 'JetBrains Mono Variable', monospace;
+  --font-monospace: 'JetBrains Mono', monospace;
+  --font-proportional: 'Tomorrow', sans-serif;
+
+  font-family: var(--font-proportional);
   color: var(--color-primary);
   background-color: var(--color-background);
-}
-
-* {
-  font-size: var(--size-m);
 }
 
 html {
@@ -113,4 +113,12 @@ hr {
   height: var(--size-2xs);
   border: none;
   background-color: var(--color-tertiary);
+}
+
+.fake-monospace {
+  writing-mode: vertical-lr;
+  text-orientation: upright;
+  height: min-content;
+  overflow-wrap: anywhere;
+  line-height: 66.67%;
 }

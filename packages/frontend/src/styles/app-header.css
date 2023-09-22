@@ -1,5 +1,11 @@
+#app-header {
+  display: flex;
+  align-items: center;
+}
+
 #app-header h1 {
   margin: 0;
   font-weight: normal;
+  font-size: var(--size-m);
   color: var(--color-tertiary);
 }

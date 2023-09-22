@@ -10,9 +10,12 @@ importers:
 
   packages/frontend:
     devDependencies:
-      '@fontsource-variable/jetbrains-mono':
-        specifier: ^5.0.13
-        version: 5.0.13
+      '@fontsource/jetbrains-mono':
+        specifier: ^5.0.12
+        version: 5.0.12
+      '@fontsource/tomorrow':
+        specifier: ^5.0.12
+        version: 5.0.12
       '@xstate/immer':
         specifier: ^0.3.3
         version: 0.3.3(immer@10.0.2)(xstate@4.38.2)
@@ -226,8 +229,12 @@ packages:
     dev: true
     optional: true
 
-  /@fontsource-variable/jetbrains-mono@5.0.13:
-    resolution: {integrity: sha512-btDvHGApc1ckuJxHwxvwHXxXyoP+DceK0+i8GKGDGE9wOk7WveJhFk39v96sGyhM/lJ28SC/6l03rItAcAhSjQ==}
+  /@fontsource/jetbrains-mono@5.0.12:
+    resolution: {integrity: sha512-BO2in8zNXWUn1TJsPWgL2qSMYU2SQKoKOmJ9FRrE9gMFtPhEDKgxc0hUCVmeDUcMFrafFEn+KqZ5a85z8rwMzA==}
+    dev: true
+
+  /@fontsource/tomorrow@5.0.12:
+    resolution: {integrity: sha512-2zuGJB+ATYK0mFGMd5dscu4ifRlWssP+i9ZsEa7kABG87jLQfqWyNR98Hx4qJlOSaQTrMRqy8A5ES9UaAuQQsQ==}
     dev: true
 
   /@xstate/immer@0.3.3(immer@10.0.2)(xstate@4.38.2):
