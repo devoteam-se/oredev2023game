@@ -1,9 +1,9 @@
 #gameplay-screen {
   display: grid;
   grid-template:
-    'servers servers servers' 3fr
-    'clock terminal heat' 2fr
-    'globe terminal score' 2fr
+    'servers servers servers' 2fr
+    'clock terminal heat' 1fr
+    'globe terminal score' 1fr
     / 1fr 3fr 1fr;
   gap: var(--size-m);
 }

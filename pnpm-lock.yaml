@@ -13,6 +13,9 @@ importers:
       '@fontsource/jetbrains-mono':
         specifier: ^5.0.12
         version: 5.0.12
+      '@fontsource/rubik-glitch':
+        specifier: ^5.0.8
+        version: 5.0.8
       '@fontsource/tomorrow':
         specifier: ^5.0.12
         version: 5.0.12
@@ -231,6 +234,10 @@ packages:
 
   /@fontsource/jetbrains-mono@5.0.12:
     resolution: {integrity: sha512-BO2in8zNXWUn1TJsPWgL2qSMYU2SQKoKOmJ9FRrE9gMFtPhEDKgxc0hUCVmeDUcMFrafFEn+KqZ5a85z8rwMzA==}
+    dev: true
+
+  /@fontsource/rubik-glitch@5.0.8:
+    resolution: {integrity: sha512-t5+AautP/LnUp2PaRXCs08OETXSJVUD+a0eIj9B4MdL6cMN1Kwxk29KDEeDvK9Yv/g4N9ZZB9+fqNdWRK6/VkA==}
     dev: true
 
   /@fontsource/tomorrow@5.0.12:

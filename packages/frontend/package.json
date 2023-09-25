@@ -1,4 +1,5 @@
 {
+  "name": "@oredev2023game/frontend",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,6 +9,7 @@
   },
   "devDependencies": {
     "@fontsource/jetbrains-mono": "^5.0.12",
+    "@fontsource/rubik-glitch": "^5.0.8",
     "@fontsource/tomorrow": "^5.0.12",
     "@xstate/immer": "^0.3.3",
     "typescript": "^5.2.2",

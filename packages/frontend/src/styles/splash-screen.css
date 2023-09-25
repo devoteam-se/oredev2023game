@@ -14,4 +14,7 @@
 
 #splash-screen > h1 {
   text-transform: uppercase;
+  font-weight: 400;
+  font-size: var(--size-xxl);
+  font-family: var(--font-family-title);
 }
