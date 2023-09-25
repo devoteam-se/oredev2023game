@@ -1,0 +1,7 @@
+.fake-monospace {
+  writing-mode: vertical-lr;
+  text-orientation: upright;
+  height: min-content;
+  overflow-wrap: anywhere;
+  line-height: 66.67%;
+}
