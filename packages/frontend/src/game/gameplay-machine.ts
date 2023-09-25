@@ -1,7 +1,9 @@
 import { createMachine } from 'xstate';
 import { assign } from '@xstate/immer';
+
+import { cancelAnimation, startAnimation } from '../utils';
+
 import { elements, hideElement, serverViews } from './elements.ts';
-import { cancelAnimation, startAnimation } from './animation.ts';
 import { gameStages } from './game-stages.ts';
 import {
   maxGameDurationMs,

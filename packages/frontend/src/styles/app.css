@@ -5,7 +5,7 @@
   grid-template:
     'header' var(--size-xl)
     'main' 1fr
-    'footer' var(--size-xl);
+    /*'footer' var(--size-xl)*/;
   gap: var(--size-m);
 }
 

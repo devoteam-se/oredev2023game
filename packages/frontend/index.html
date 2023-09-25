@@ -40,6 +40,10 @@
           <div class="column-header">Status</div>
           <div class="column-header">Reboot Code</div>
 
+          <div class="column-header">ID</div>
+          <div class="column-header">Status</div>
+          <div class="column-header">Reboot Code</div>
+
           <hr />
         </div>
       </section>
@@ -55,7 +59,9 @@
 
       <section id="clock-box">
         <h2>Time</h2>
-        <time class="fake-monospace">09:51:47</time>
+        <div id="clock-wrapper">
+          <auto-clock id="clock" class="fake-monospace" />
+        </div>
       </section>
 
       <section id="globe-box">
@@ -65,10 +71,10 @@
 
     <main id="game-over-screen" hidden>game over</main>
 
-    <footer id="app-footer">
-      Copyright (C) 1979 Devoteam Informatronics Corporation. All rights
-      reserved.
-    </footer>
+    <!--    <footer id="app-footer">-->
+    <!--      Copyright (C) 1979 Devoteam Informatronics Corporation. All rights-->
+    <!--      reserved.-->
+    <!--    </footer>-->
 
     <dialog id="victory-message">
       <p>you saved the servers, great job</p>

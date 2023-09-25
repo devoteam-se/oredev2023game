@@ -6,7 +6,6 @@ html {
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  padding: var(--size-m);
   font-family: var(--font-family-proportional);
   color: var(--color-primary);
   background-color: var(--color-background);

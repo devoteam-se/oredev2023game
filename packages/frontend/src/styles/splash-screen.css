@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--size-xxl);
+  gap: var(--size-2xl);
 }
 
 #splash-screen > * {

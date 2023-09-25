@@ -1,4 +1,5 @@
 import './global.ts';
+import './custom-elements';
 import { createAppContext } from './game/app-context.ts';
 import { elements } from './game/elements.ts';
 

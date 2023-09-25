@@ -43,12 +43,12 @@
 }
 #servers-view {
   display: grid;
-  grid-template-columns: repeat(2, 1fr 3fr 5fr);
+  grid-template-columns: repeat(3, 1fr 3fr 5fr);
   gap: var(--size-xs) var(--size-s);
 }
 
 #servers-view > hr {
-  grid-column: 1 / 7;
+  grid-column: 1 / 10;
   margin: var(--size-xxs) 0;
 }
 
@@ -112,8 +112,16 @@
 #clock-box {
   grid-area: clock;
 }
-#clock-box time {
-  font-size: var(--size-xl);
+#clock-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+#clock {
+  font-size: var(--size-xxl);
 }
 
 #globe-box {
