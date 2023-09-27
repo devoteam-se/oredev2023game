@@ -50,17 +50,20 @@
 
       <section id="terminal">
         <h2>Terminal</h2>
-        <div id="text-entry-view">
-          <span id="text-entry-prompt">&gt;&nbsp;</span>
-          <span id="text-entry"></span>
-          <span id="text-entry-cursor">&nbsp;</span>
+        <div id="terminal-display">
+          <terminal-history id="terminal-history" lines="14"></terminal-history>
+          <div id="text-entry-view">
+            <span id="text-entry-prompt">&gt;&nbsp;</span
+            ><span id="text-entry"></span
+            ><span id="text-entry-cursor">&nbsp;</span>
+          </div>
         </div>
       </section>
 
       <section id="clock-box">
         <h2>Time</h2>
         <div id="clock-wrapper">
-          <auto-clock id="clock" class="fake-monospace" />
+          <auto-clock id="clock" class="fake-monospace"></auto-clock>
         </div>
       </section>
 
@@ -70,11 +73,6 @@
     </main>
 
     <main id="game-over-screen" hidden>game over</main>
-
-    <!--    <footer id="app-footer">-->
-    <!--      Copyright (C) 1979 Devoteam Informatronics Corporation. All rights-->
-    <!--      reserved.-->
-    <!--    </footer>-->
 
     <dialog id="victory-message">
       <p>you saved the servers, great job</p>

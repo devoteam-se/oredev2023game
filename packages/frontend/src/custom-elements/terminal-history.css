@@ -1,0 +1,23 @@
+.terminal-history-line.primary {
+  color: var(--color-primary);
+}
+
+.terminal-history-line.secondary {
+  color: var(--color-secondary);
+}
+
+.terminal-history-line.green {
+  color: var(--color-green);
+}
+
+.terminal-history-line.yellow {
+  color: var(--color-yellow);
+}
+
+.terminal-history-line.red {
+  color: var(--color-red);
+}
+
+.terminal-history-line.bold {
+  font-weight: var(--font-weight-bold);
+}

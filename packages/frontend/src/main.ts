@@ -10,9 +10,18 @@ elements['play-button'].addEventListener('click', () => {
 });
 
 window.addEventListener('keydown', (event: KeyboardEvent) => {
-  if (event.repeat) return;
+  if (event.key === 'Backspace') {
+    ctx.sendBackspace();
+    return;
+  }
 
-  if (!/^[a-z]$/i.test(event.key)) return;
+  if (event.repeat) {
+    return;
+  }
+
+  if (!/^[a-z]$/i.test(event.key)) {
+    return;
+  }
 
   ctx.sendKeystroke(event.key.toLowerCase());
 });

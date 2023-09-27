@@ -1,16 +1,14 @@
 import { cancelAnimation, startAnimation } from '../utils';
 
-export class AutoClock extends HTMLElement {
-  private timeElement: HTMLTimeElement;
+export class HTMLAutoClockElement extends HTMLElement {
+  private readonly timeElement: HTMLTimeElement;
   private animationRequestId: number = NaN;
 
   constructor() {
     super();
 
     const shadowRoot = this.attachShadow({ mode: 'open' });
-
     this.timeElement = document.createElement('time');
-
     shadowRoot.appendChild(this.timeElement);
   }
 
@@ -29,4 +27,4 @@ export class AutoClock extends HTMLElement {
   }
 }
 
-customElements.define('auto-clock', AutoClock);
+customElements.define('auto-clock', HTMLAutoClockElement);

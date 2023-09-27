@@ -1,5 +1,6 @@
 // TODO enforce presence and typing of required elements using linter
 import { totalNumServers } from './constants.ts';
+import { HTMLTerminalHistoryElement } from '../custom-elements';
 
 const staticElements = {
   'failure-message': HTMLDialogElement,
@@ -11,6 +12,7 @@ const staticElements = {
   'server-view-template': HTMLTemplateElement,
   'servers-view': HTMLElement,
   'splash-screen': HTMLElement,
+  'terminal-history': HTMLTerminalHistoryElement,
   'text-entry': HTMLElement,
   'victory-message': HTMLDialogElement,
   'victory-ok-button': HTMLButtonElement,
