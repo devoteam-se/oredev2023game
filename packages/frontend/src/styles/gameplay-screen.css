@@ -31,7 +31,6 @@
 }
 #score-display {
   font-size: var(--size-xl);
-  font-weight: 1;
 }
 
 #heat-box {
@@ -98,12 +97,17 @@
 #terminal {
   grid-area: terminal;
 }
+#terminal-display {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr var(--size-l);
+  font-family: var(--font-family-monospace);
+}
 #text-entry-view {
-  display: flex;
   font-family: var(--font-family-monospace);
 }
 #text-entry {
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
 }
 #text-entry-cursor {
   background-color: currentColor;

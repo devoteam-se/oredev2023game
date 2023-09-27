@@ -6,6 +6,7 @@ export type AppContext = {
   startApp: () => void;
   startGame: () => void;
   sendKeystroke: (key: string) => void;
+  sendBackspace: () => void;
   sendOkClicked: () => void;
 };
 
@@ -42,10 +43,14 @@ export const createAppContext = (): AppContext => {
       screenService.send('START_GAME');
     },
     sendKeystroke: (char: string) => {
-      if (!gameplayService) {
-        return;
+      if (gameplayService) {
+        gameplayService.send({ type: 'KEYSTROKE', char });
       }
-      gameplayService.send({ type: 'KEYSTROKE', char });
+    },
+    sendBackspace: () => {
+      if (gameplayService) {
+        gameplayService.send({ type: 'BACKSPACE' });
+      }
     },
     sendOkClicked: () => {
       if (!gameplayService) {

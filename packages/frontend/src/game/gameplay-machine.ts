@@ -6,6 +6,7 @@ import { cancelAnimation, startAnimation } from '../utils';
 import { elements, hideElement, serverViews } from './elements.ts';
 import { gameStages } from './game-stages.ts';
 import {
+  countdownDurationMs,
   maxGameDurationMs,
   maxNumActiveWords,
   postGameMessageDurationMs,
@@ -39,7 +40,11 @@ export type GameplayKeystrokeEvent = {
   char: string;
 };
 export type GameplayOkClickedEvent = { type: 'OK_CLICKED' };
-export type GameplayEvent = GameplayKeystrokeEvent | GameplayOkClickedEvent;
+export type GameplayBackspaceEvent = { type: 'BACKSPACE' };
+export type GameplayEvent =
+  | GameplayKeystrokeEvent
+  | GameplayBackspaceEvent
+  | GameplayOkClickedEvent;
 
 const isKeystrokeEvent = (
   event: GameplayEvent,
@@ -64,13 +69,17 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
 
     initial: 'countdown',
     states: {
+      // TODO implement countdown visuals
       countdown: {
         entry: [
           'createWaves',
           'assignServerViewIndices',
           'initializeServerViews',
+          'initializeTerminal',
         ],
-        always: 'playing', // TODO implement countdown
+        after: {
+          [countdownDurationMs]: 'playing',
+        },
       },
       playing: {
         entry: [
@@ -107,9 +116,24 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
             entry: ['updateTextEntry', 'updateServerViews'],
             on: {
               KEYSTROKE: [
-                { target: 'noWordFocused', cond: 'invalidChar' },
+                {
+                  target: 'noWordFocused',
+                  cond: 'invalidChar',
+                  actions: ['printUserCommand', 'printErrorMessage'],
+                },
                 { target: 'wordFocused', cond: 'wordIncomplete' },
-                { target: 'noWordFocused', actions: 'clearWord' },
+                {
+                  target: 'noWordFocused',
+                  actions: [
+                    'printUserCommand',
+                    'printSuccessMessage',
+                    'clearWord',
+                  ],
+                },
+              ],
+              BACKSPACE: [
+                { target: 'noWordFocused', cond: 'exactlyOneCharEntered' },
+                { target: 'wordFocused', actions: 'deleteLastCharEntered' },
               ],
             },
           },
@@ -209,6 +233,10 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
         });
       }),
 
+      deleteLastCharEntered: assign((ctx) => {
+        ctx.textEntry = ctx.textEntry.slice(0, -1);
+      }),
+
       hideFailureMessage: () => elements['failure-message'].close(),
 
       hideVictoryMessage: () => elements['victory-message'].close(),
@@ -217,15 +245,16 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
 
       initializeServerViews: (ctx) => {
         const allCodes = ctx.remainingWaves.flat();
+        const serverIds = Array.compute(allCodes.length, (i) =>
+          (i + 1).toString().padStart(3, '0'),
+        ).shuffle();
 
         allCodes.forEach((code, i) => {
           const serverViewIndex = ctx.serverViewIndicesByCode[code];
           const serverView = serverViews[serverViewIndex];
 
           serverView.rootElement.classList.remove('final-boss');
-          serverView.idElement.textContent = (i + 1)
-            .toString()
-            .padStart(3, '0');
+          serverView.idElement.textContent = serverIds[i];
           serverView.codeElement.textContent = code;
         });
 
@@ -235,6 +264,87 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
 
         finalServerView.rootElement.classList.add('final-boss');
         finalServerView.idElement.textContent = '503';
+      },
+
+      initializeTerminal: () => {
+        const t = elements['terminal-history'];
+
+        t.reset();
+
+        t.push('SERVER HYPERVISION INTERFACE v4.6.11_19791102a', {
+          bold: true,
+        });
+        t.push('Copyright (C) 20XX, Devoteam Informatronics Corporation.');
+        t.push('All rights reserved.');
+        t.push('-------------------------------------------------------------');
+
+        t.push('Booting up...', { delayMs: countdownDurationMs * 0.1 });
+
+        t.push('Initializing...', { delayMs: countdownDurationMs * 0.2 });
+
+        t.push('Loading...', { delayMs: countdownDurationMs * 0.3 });
+
+        t.push('Reticulating splines...', {
+          delayMs: countdownDurationMs * 0.6,
+        });
+
+        t.push('Assessing server temperatures...', {
+          delayMs: countdownDurationMs * 0.65,
+        });
+
+        t.push('WARNING: Increasing server temperatures detected.', {
+          delayMs: countdownDurationMs * 0.8,
+          color: 'yellow',
+        });
+
+        t.push('ALERT: Server temperatures exceeding safety threshold!', {
+          delayMs: countdownDurationMs * 0.9,
+          color: 'red',
+        });
+
+        t.push('SAVE THE SERVERS!', {
+          delayMs: countdownDurationMs * 0.9,
+          color: 'red',
+          bold: true,
+        });
+      },
+
+      printErrorMessage: (ctx, event) => {
+        if (!isKeystrokeEvent(event)) {
+          return;
+        }
+
+        const invalidCode = ctx.textEntry + event.char;
+
+        elements['terminal-history'].push(
+          `Unknown reboot code: \`${invalidCode}\``,
+          {
+            color: 'red',
+          },
+        );
+      },
+
+      printSuccessMessage: (ctx) => {
+        if (ctx.focusedWord === null) {
+          return;
+        }
+
+        const serverViewIndex = ctx.serverViewIndicesByCode[ctx.focusedWord];
+        const serverView = serverViews[serverViewIndex];
+        const serverId = serverView.idElement.textContent;
+
+        elements['terminal-history'].push(`Server #${serverId} saved!`, {
+          color: 'green',
+        });
+      },
+
+      printUserCommand: (ctx, event) => {
+        if (!isKeystrokeEvent(event)) {
+          return;
+        }
+
+        const command = ctx.textEntry + event.char;
+        elements['terminal-history'].push(`> ${command}`, { bold: true });
       },
 
       resetTextEntry: assign((ctx) => {
@@ -274,8 +384,10 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
         cancelAnimation(ctx.animationIds.heatDisplay);
       },
 
-      updateTextEntry: assign((ctx, event: GameplayKeystrokeEvent) => {
-        ctx.textEntry = ctx.textEntry + event.char;
+      updateTextEntry: assign((ctx, event) => {
+        if (isKeystrokeEvent(event)) {
+          ctx.textEntry = ctx.textEntry + event.char;
+        }
       }),
 
       updateServerViews: (ctx) => {
@@ -301,6 +413,8 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
 
     guards: {
       allWavesCleared: ({ remainingWaves }) => remainingWaves.length === 0,
+
+      exactlyOneCharEntered: ({ textEntry }) => textEntry.length === 1,
 
       invalidChar: ({ focusedWord, textEntry }, event) =>
         !isKeystrokeEvent(event) ||
