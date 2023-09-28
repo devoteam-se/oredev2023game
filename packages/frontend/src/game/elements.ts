@@ -52,7 +52,8 @@ export const elements: { [I in ElementId]: ElementInstance<I> } = (() => {
 export type ServerView = {
   rootElement: HTMLElement;
   idElement: HTMLElement;
-  statusElement: HTMLElement;
+  heatMeterElement: HTMLElement;
+  heatPercentElement: HTMLElement;
   codeElement: HTMLElement;
 };
 export const serverViews: ServerView[] = (() => {
@@ -82,7 +83,8 @@ export const serverViews: ServerView[] = (() => {
     result.push({
       rootElement,
       idElement: checkSubView('id'),
-      statusElement: checkSubView('status'),
+      heatMeterElement: checkSubView('heat-meter'),
+      heatPercentElement: checkSubView('heat-percent'),
       codeElement: checkSubView('code'),
     });
 

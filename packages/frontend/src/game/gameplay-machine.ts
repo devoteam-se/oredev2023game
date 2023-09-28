@@ -17,10 +17,19 @@ enum ServerState {
   Active,
   Cleared,
 }
-const stateStrings = {
-  [ServerState.Inactive]: 'Warning',
-  [ServerState.Active]: 'Overheating',
-  [ServerState.Cleared]: 'OK',
+
+// TODO make an actual heat meter component
+const heatStringDefault = '';
+const heatStrings = {
+  [ServerState.Inactive]: '●●●●●●',
+  [ServerState.Active]: '●●●●●●●●●',
+  [ServerState.Cleared]: '●●●',
+} as const;
+const heatPercentageDefault = '0%';
+const heatPercentages = {
+  [ServerState.Inactive]: '67%',
+  [ServerState.Active]: '100%',
+  [ServerState.Cleared]: '33%',
 } as const;
 
 type GameplayContext = {
@@ -246,7 +255,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       initializeServerViews: (ctx) => {
         const allCodes = ctx.remainingWaves.flat();
         const serverIds = Array.compute(allCodes.length, (i) =>
-          (i + 1).toString().padStart(3, '0'),
+          (i + 1).toString().padStart(2, '0'),
         ).shuffle();
 
         allCodes.forEach((code, i) => {
@@ -263,7 +272,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
         const finalServerView = serverViews[finalServerViewIndex];
 
         finalServerView.rootElement.classList.add('final-boss');
-        finalServerView.idElement.textContent = '503';
+        finalServerView.idElement.textContent = '99';
       },
 
       initializeTerminal: () => {
@@ -406,8 +415,15 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
             const serverState = ctx.currentWave[word];
             const serverView = serverViews[serverViewIndex];
 
-            serverView.statusElement.textContent =
-              serverState === undefined ? 'Unknown' : stateStrings[serverState];
+            serverView.heatMeterElement.textContent =
+              serverState === undefined
+                ? heatStringDefault
+                : heatStrings[serverState];
+
+            serverView.heatPercentElement.textContent =
+              serverState === undefined
+                ? heatPercentageDefault
+                : heatPercentages[serverState];
 
             const classList = serverView.rootElement.classList;
             classList.toggle('focused', ctx.focusedWord === word);

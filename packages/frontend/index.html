@@ -36,27 +36,13 @@
       <section id="servers-box">
         <h2>Servers</h2>
 
-        <div id="servers-view" class="border">
-          <div class="column-header">ID</div>
-          <div class="column-header">Status</div>
-          <div class="column-header">Reboot Code</div>
-
-          <div class="column-header">ID</div>
-          <div class="column-header">Status</div>
-          <div class="column-header">Reboot Code</div>
-
-          <div class="column-header">ID</div>
-          <div class="column-header">Status</div>
-          <div class="column-header">Reboot Code</div>
-
-          <hr />
-        </div>
+        <div id="servers-view" class="border"></div>
       </section>
 
       <section id="terminal">
         <h2 class="border">Terminal</h2>
         <div id="terminal-display" class="border">
-          <terminal-history id="terminal-history" lines="12"></terminal-history>
+          <terminal-history id="terminal-history" lines="15"></terminal-history>
         </div>
         <div id="text-entry-view" class="border">
           <span id="text-entry-prompt">&gt;&nbsp;</span
@@ -87,9 +73,14 @@
 
     <template id="server-view-template">
       <div class="server-view">
-        <div class="id fake-monospace"></div>
-        <div class="status">Unknown</div>
+        <div class="id-box fake-monospace">#<span class="id"></span></div>
+
+        <div class="code-label label">Code:</div>
         <div class="code"></div>
+
+        <div class="heat-label label">Heat</div>
+        <div class="heat-meter status"></div>
+        <div class="heat-percent fake-monospace"></div>
       </div>
     </template>
 

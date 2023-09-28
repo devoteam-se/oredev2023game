@@ -2,6 +2,7 @@
 @import '@fontsource/jetbrains-mono/700.css';
 @import '@fontsource/rubik-glitch/400.css';
 @import '@fontsource/tomorrow/400.css';
+@import '@fontsource/tomorrow/500.css';
 
 :root,
 ::before,
@@ -11,10 +12,12 @@
   --color-secondary: #69afab;
   --color-tertiary: #486a68;
   --color-background: #262424;
+  --color-card-background: #3e3b3b;
   --color-blue: #7189ff;
   --color-green: #2ef5a3;
   --color-yellow: #ffc120;
   --color-red: #ff5d47;
+  --color-shadow: rgba(0, 0, 0, 0.25);
 
   --font-size-base: 16; /* 1rem in pixels when viewport is 1600px by 900px */
   font-size: min(
@@ -26,19 +29,24 @@
   --size-2: calc(2 * var(--size-1));
   --size-4: calc(4 * var(--size-1));
   --size-8: calc(8 * var(--size-1));
+  --size-10: calc(10 * var(--size-1));
   --size-12: calc(12 * var(--size-1));
+  --size-14: calc(14 * var(--size-1));
   --size-15: calc(15 * var(--size-1));
   --size-16: calc(16 * var(--size-1));
+  --size-20: calc(20 * var(--size-1));
   --size-24: calc(24 * var(--size-1));
   --size-32: calc(32 * var(--size-1));
   --size-40: calc(40 * var(--size-1));
   --size-48: calc(48 * var(--size-1));
   --size-72: calc(72 * var(--size-1));
+  --size-114: calc(114 * var(--size-1));
 
   --font-family-proportional: 'Tomorrow', sans-serif;
   --font-family-monospace: 'JetBrains Mono', monospace;
   --font-family-title: 'Rubik Glitch', sans-serif;
 
   --font-weight-normal: 400;
+  --font-weight-medium: 500;
   --font-weight-bold: 700;
 }

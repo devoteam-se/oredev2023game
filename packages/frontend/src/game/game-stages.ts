@@ -7,7 +7,7 @@ export type GameStages = Readonly<GameStage[]>;
 
 export const gameStages: GameStages = Object.freeze([
   {
-    numServers: 3,
+    numServers: 4,
     possibleCodes: [
       'bark',
       'bead',
@@ -60,7 +60,7 @@ export const gameStages: GameStages = Object.freeze([
     ],
   },
   {
-    numServers: 5,
+    numServers: 4,
     possibleCodes: [
       'accumulation',
       'administration',
@@ -113,7 +113,7 @@ export const gameStages: GameStages = Object.freeze([
     ],
   },
   {
-    numServers: 5,
+    numServers: 3,
     possibleCodes: [
       'aggregate',
       'darters',
@@ -136,13 +136,12 @@ export const gameStages: GameStages = Object.freeze([
       'serrated',
       'stagger',
       'starter',
-      'straggler',
       'stressed',
       'tetrad',
     ],
   },
   {
-    numServers: 3,
+    numServers: 2,
     possibleCodes: [
       'awceewvbhdtgprjspl',
       'awviwvmqqkjefh',
