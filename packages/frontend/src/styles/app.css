@@ -1,14 +1,10 @@
 #app {
-  padding: var(--size-m);
   display: grid;
   grid-template:
     /*'header' var(--size-xl)*/ 'main' 1fr;
   gap: var(--size-m);
 }
 
-#app > header {
-  grid-area: header;
-}
 #app > main,
 #app > noscript {
   grid-area: main;

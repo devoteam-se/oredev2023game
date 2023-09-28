@@ -27,6 +27,7 @@
   --size-xl: 2rem;
   --size-xxl: 2.5rem;
   --size-2xl: 3rem;
+  --size-3xl: 4rem;
 
   --font-size-base: 16; /* 1rem in pixels when viewport is 1600px by 900px */
   font-size: min(

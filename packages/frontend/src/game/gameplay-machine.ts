@@ -274,9 +274,8 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
         t.push('SERVER HYPERVISION INTERFACE v9.26.0_20231108-10', {
           bold: true,
         });
-        t.push(
-          'Copyright (C) 20XX, Devoteam Informatronics Corporation. All rights reserved.',
-        );
+        t.push('Copyright (C) 20XX, Devoteam Informatronics Corporation.');
+        t.push('All rights reserved.');
 
         t.push('Booting up...', {
           delayMs: countdownDurationMs * 0.1,

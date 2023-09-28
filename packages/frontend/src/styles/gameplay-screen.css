@@ -1,11 +1,14 @@
 /* MAIN */
 #gameplay-screen {
+  padding: var(--size-s) var(--size-3xl);
+
   display: grid;
   grid-template:
-    'servers servers servers' 2fr
-    'clock terminal heat' 1fr
-    'globe terminal score' 1fr
-    / 1fr 3fr 1fr;
+    'header header header' 3fr
+    'servers servers servers' 6fr
+    'clock terminal heat' 4fr
+    'globe terminal score' 4fr
+    / 1fr 2fr 1fr;
   gap: var(--size-m);
 }
 
@@ -18,6 +21,27 @@
 
   font-size: var(--size-m);
   font-weight: var(--font-weight-normal);
+}
+
+/* HEADER */
+#gameplay-screen > header {
+  grid-area: header;
+  display: flex;
+  place-content: center;
+  align-items: center;
+
+  background:
+    left / contain no-repeat url(../assets/devoteam-spin.gif),
+    right / contain no-repeat url(../assets/devoteam-spin.gif);
+}
+
+#gameplay-screen > header > h1 {
+  margin: 0;
+  font-family: var(--font-family-title);
+  font-size: var(--size-3xl);
+  font-weight: var(--font-weight-normal);
+  text-transform: uppercase;
+  color: var(--color-secondary);
 }
 
 /* SCORE */
