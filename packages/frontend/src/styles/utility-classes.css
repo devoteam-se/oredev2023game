@@ -1,3 +1,7 @@
+.border {
+  border: var(--size-3xs) solid var(--color-secondary);
+}
+
 .fake-monospace {
   writing-mode: vertical-lr;
   text-orientation: upright;

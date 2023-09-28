@@ -1,3 +1,14 @@
+#terminal-history-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.terminal-history-line {
+  flex: 1;
+}
+
 .terminal-history-line.primary {
   color: var(--color-primary);
 }

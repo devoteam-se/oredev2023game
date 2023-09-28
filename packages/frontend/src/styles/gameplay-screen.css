@@ -1,3 +1,4 @@
+/* MAIN */
 #gameplay-screen {
   display: grid;
   grid-template:
@@ -8,24 +9,18 @@
   gap: var(--size-m);
 }
 
-#gameplay-screen > section {
-  box-sizing: border-box;
-  border: var(--color-tertiary) solid var(--size-2xs);
-  padding: var(--size-xs);
-}
-
 #gameplay-screen > section > h2 {
-  margin: calc(-1 * var(--size-l)) 0 0 0;
-  width: fit-content;
-  padding: var(--size-xxs);
+  margin: 0;
+  padding: var(--size-xs);
   text-transform: uppercase;
 
   color: var(--color-secondary);
-  background-color: var(--color-background);
 
   font-size: var(--size-m);
+  font-weight: var(--font-weight-normal);
 }
 
+/* SCORE */
 #score-box {
   grid-area: score;
 }
@@ -33,10 +28,12 @@
   font-size: var(--size-xl);
 }
 
+/* HEAT */
 #heat-box {
   grid-area: heat;
 }
 
+/* SERVERS */
 #servers-box {
   grid-area: servers;
 }
@@ -94,17 +91,32 @@
   grid-column-end: span 4;
 }
 
+/* TERMINAL */
 #terminal {
   grid-area: terminal;
+
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+#terminal > h2 {
+  border-bottom-width: 0;
+
+  width: 12rem;
+
+  background-image: url(../assets/icon-close.svg);
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-origin: content-box;
+  background-size: var(--size-m);
 }
 #terminal-display {
-  height: 100%;
-  display: grid;
-  grid-template-rows: 1fr var(--size-l);
   font-family: var(--font-family-monospace);
+  padding: var(--size-xs);
 }
 #text-entry-view {
   font-family: var(--font-family-monospace);
+  padding: var(--size-xs);
+  border-top-width: 0;
 }
 #text-entry {
   font-weight: var(--font-weight-bold);
@@ -113,6 +125,7 @@
   background-color: currentColor;
 }
 
+/* CLOCK */
 #clock-box {
   grid-area: clock;
 }
@@ -128,6 +141,7 @@
   font-size: var(--size-xxl);
 }
 
+/* GLOBE */
 #globe-box {
   grid-area: globe;
 }

@@ -1,5 +1,4 @@
 #app {
-  box-sizing: border-box;
   padding: var(--size-m);
   display: grid;
   grid-template:

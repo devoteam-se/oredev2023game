@@ -271,29 +271,40 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
 
         t.reset();
 
-        t.push('SERVER HYPERVISION INTERFACE v4.6.11_19791102a', {
+        t.push('SERVER HYPERVISION INTERFACE v9.26.0_20231108-10', {
           bold: true,
         });
-        t.push('Copyright (C) 20XX, Devoteam Informatronics Corporation.');
-        t.push('All rights reserved.');
-        t.push('-------------------------------------------------------------');
+        t.push(
+          'Copyright (C) 20XX, Devoteam Informatronics Corporation. All rights reserved.',
+        );
 
-        t.push('Booting up...', { delayMs: countdownDurationMs * 0.1 });
+        t.push('Booting up...', {
+          delayMs: countdownDurationMs * 0.1,
+          color: 'secondary',
+        });
 
-        t.push('Initializing...', { delayMs: countdownDurationMs * 0.2 });
+        t.push('Initializing...', {
+          delayMs: countdownDurationMs * 0.2,
+          color: 'secondary',
+        });
 
-        t.push('Loading...', { delayMs: countdownDurationMs * 0.3 });
+        t.push('Loading...', {
+          delayMs: countdownDurationMs * 0.3,
+          color: 'secondary',
+        });
 
         t.push('Reticulating splines...', {
           delayMs: countdownDurationMs * 0.6,
+          color: 'secondary',
         });
 
         t.push('Assessing server temperatures...', {
           delayMs: countdownDurationMs * 0.65,
+          color: 'secondary',
         });
 
-        t.push('WARNING: Increasing server temperatures detected.', {
-          delayMs: countdownDurationMs * 0.8,
+        t.push('WARNING: Rising server temperatures detected.', {
+          delayMs: countdownDurationMs * 0.7,
           color: 'yellow',
         });
 

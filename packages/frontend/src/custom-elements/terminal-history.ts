@@ -48,6 +48,7 @@ export class HTMLTerminalHistoryElement extends HTMLElement {
     shadowRoot.appendChild(style);
 
     this.container = document.createElement('div');
+    this.container.id = 'terminal-history-container';
     shadowRoot.appendChild(this.container);
 
     // this.rerender();
@@ -127,19 +128,16 @@ export class HTMLTerminalHistoryElement extends HTMLElement {
         this.container.appendChild(element);
       }
 
-    while (this.data.length < this.lines) {
-      this.data.push({
+    const renderData = this.data.slice(-this.lines);
+    while (renderData.length < this.lines) {
+      renderData.push({
         value: '',
         options: defaultTerminalHistoryLineOptions,
       });
     }
 
-    for (let i = 0; i < this.lines; i++) {
-      const {
-        value,
-        options: { color, bold },
-      } = this.data[this.data.length - 1 - i];
-      const lineElement = lineElements[lineElements.length - 1 - i];
+    renderData.forEach(({ value, options: { color, bold } }, i) => {
+      const lineElement = lineElements[i];
       lineElement.textContent = value;
 
       terminalColors.forEach((colorName) => {
@@ -147,7 +145,7 @@ export class HTMLTerminalHistoryElement extends HTMLElement {
       });
 
       lineElement.classList.toggle('bold', bold);
-    }
+    });
   }
 }
 

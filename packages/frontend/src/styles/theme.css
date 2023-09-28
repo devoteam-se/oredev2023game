@@ -17,6 +17,7 @@
   --color-red: #ff5d47;
 
   --size-px: 1px;
+  --size-3xs: 0.0625rem;
   --size-2xs: 0.125rem;
   --size-xxs: 0.25rem;
   --size-xs: 0.5rem;
@@ -27,7 +28,7 @@
   --size-xxl: 2.5rem;
   --size-2xl: 3rem;
 
-  --font-size-base: 20; /* 1rem in pixels when viewport is 1600px by 900px */
+  --font-size-base: 16; /* 1rem in pixels when viewport is 1600px by 900px */
   font-size: min(
     calc((var(--font-size-base) / 1600) * 100dvw),
     calc((var(--font-size-base) / 900) * 100dvh)
