@@ -2,7 +2,7 @@
   display: grid;
   grid-template:
     /*'header' var(--size-xl)*/ 'main' 1fr;
-  gap: var(--size-m);
+  gap: var(--size-16);
 }
 
 #app > main,

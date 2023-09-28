@@ -1,5 +1,5 @@
 .border {
-  border: var(--size-3xs) solid var(--color-secondary);
+  border: var(--size-1) solid var(--color-secondary);
 }
 
 .fake-monospace {

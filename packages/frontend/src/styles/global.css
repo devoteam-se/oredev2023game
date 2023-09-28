@@ -27,16 +27,16 @@ dialog[open] {
   background-color: var(--color-background);
 
   border-style: double;
-  border-width: calc(3 * var(--size-2xs));
+  border-width: calc(3 * var(--size-2));
   border-color: var(--color-secondary);
 
-  box-shadow: var(--color-tertiary) var(--size-xxs) var(--size-xxs);
+  box-shadow: var(--color-tertiary) var(--size-4) var(--size-4);
 
-  padding: var(--size-l);
+  padding: var(--size-32);
 
   display: flex;
   flex-direction: column;
-  gap: var(--size-m);
+  gap: var(--size-16);
 }
 
 dialog[open] > * {
@@ -58,11 +58,11 @@ button {
 
   border-style: solid;
   border-color: var(--color-primary);
-  border-width: var(--size-2xs);
+  border-width: var(--size-2);
   border-radius: 0;
-  padding: var(--size-xs) var(--size-m);
+  padding: var(--size-8) var(--size-16);
 
-  box-shadow: var(--color-tertiary) var(--size-xxs) var(--size-xxs);
+  box-shadow: var(--color-tertiary) var(--size-4) var(--size-4);
 }
 
 button:active {
@@ -71,13 +71,13 @@ button:active {
 }
 
 button:focus-visible {
-  outline: currentColor dashed var(--size-2xs);
-  outline-offset: calc(-1 * var(--size-xs));
+  outline: currentColor dashed var(--size-2);
+  outline-offset: calc(-1 * var(--size-8));
 }
 
 hr {
   width: 100%;
-  height: var(--size-2xs);
+  height: var(--size-2);
   border: none;
   background-color: var(--color-tertiary);
 }

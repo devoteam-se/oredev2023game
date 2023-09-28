@@ -16,24 +16,24 @@
   --color-yellow: #ffc120;
   --color-red: #ff5d47;
 
-  --size-px: 1px;
-  --size-3xs: 0.0625rem;
-  --size-2xs: 0.125rem;
-  --size-xxs: 0.25rem;
-  --size-xs: 0.5rem;
-  --size-s: 0.75rem;
-  --size-m: 1rem;
-  --size-l: 1.5rem;
-  --size-xl: 2rem;
-  --size-xxl: 2.5rem;
-  --size-2xl: 3rem;
-  --size-3xl: 4rem;
-
   --font-size-base: 16; /* 1rem in pixels when viewport is 1600px by 900px */
   font-size: min(
     calc((var(--font-size-base) / 1600) * 100dvw),
     calc((var(--font-size-base) / 900) * 100dvh)
   );
+
+  --size-1: calc(1rem / var(--font-size-base));
+  --size-2: calc(2 * var(--size-1));
+  --size-4: calc(4 * var(--size-1));
+  --size-8: calc(8 * var(--size-1));
+  --size-12: calc(12 * var(--size-1));
+  --size-15: calc(15 * var(--size-1));
+  --size-16: calc(16 * var(--size-1));
+  --size-24: calc(24 * var(--size-1));
+  --size-32: calc(32 * var(--size-1));
+  --size-40: calc(40 * var(--size-1));
+  --size-48: calc(48 * var(--size-1));
+  --size-72: calc(72 * var(--size-1));
 
   --font-family-proportional: 'Tomorrow', sans-serif;
   --font-family-monospace: 'JetBrains Mono', monospace;

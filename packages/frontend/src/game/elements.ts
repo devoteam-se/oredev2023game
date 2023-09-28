@@ -7,7 +7,7 @@ const staticElements = {
   'failure-ok-button': HTMLButtonElement,
   'game-over-screen': HTMLElement,
   'gameplay-screen': HTMLElement,
-  'heat-display': HTMLElement,
+  'heat-value': HTMLElement,
   'play-button': HTMLButtonElement,
   'server-view-template': HTMLTemplateElement,
   'servers-view': HTMLElement,

@@ -373,7 +373,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
             1,
             (Date.now() - waveStartTime) / maxGameDurationMs,
           );
-          elements['heat-display'].textContent = Math.floor(
+          elements['heat-value'].textContent = Math.floor(
             heatRatio * 100,
           ).toString();
         });

@@ -6,10 +6,6 @@
     <title>Øredev 2023 Game</title>
   </head>
   <body id="app">
-    <!--    <header id="app-header">-->
-    <!--      <h1>Game Title</h1>-->
-    <!--    </header>-->
-
     <noscript>This app requires JavaScript to run.</noscript>
 
     <main id="splash-screen" hidden>
@@ -22,20 +18,25 @@
         <h1>Save the Servers</h1>
       </header>
 
-      <section id="score-box">
-        <h2>Score</h2>
-        <div id="score-display">0000000</div>
+      <section id="high-score-box" class="score-box border">
+        <h2>Highest Score</h2>
+        <div class="score-display fake-monospace">0000000</div>
+      </section>
+
+      <section id="your-score-box" class="score-box border">
+        <h2>Your Score</h2>
+        <div class="score-display fake-monospace">0000000</div>
       </section>
 
       <section id="heat-box">
-        <h2>Heat</h2>
-        <div><span id="heat-display">0</span>%</div>
+        <h2>Temperature</h2>
+        <div id="heat-readout"><span id="heat-value">0</span>%</div>
       </section>
 
       <section id="servers-box">
         <h2>Servers</h2>
 
-        <div id="servers-view">
+        <div id="servers-view" class="border">
           <div class="column-header">ID</div>
           <div class="column-header">Status</div>
           <div class="column-header">Reboot Code</div>
@@ -66,14 +67,10 @@
 
       <section id="clock-box">
         <h2>Time</h2>
-        <div id="clock-wrapper">
-          <auto-clock id="clock" class="fake-monospace"></auto-clock>
-        </div>
+        <auto-clock id="clock" class="fake-monospace"></auto-clock>
       </section>
 
-      <section id="globe-box">
-        <h2>Geoscape</h2>
-      </section>
+      <section id="globe-box"></section>
     </main>
 
     <main id="game-over-screen" hidden>game over</main>
