@@ -4,12 +4,12 @@
 
   display: grid;
   grid-template:
-    'header header header' 3fr
-    'servers servers servers' 6fr
-    'clock terminal heat' 2fr
-    'clock terminal heat' 2fr
-    'high-score terminal globe' 2fr
-    'your-score terminal globe' 2fr
+    'header     header   header ' 3fr
+    'servers    servers  servers' 6fr
+    'clock      terminal heat   ' 2fr
+    'clock      terminal heat   ' 2fr
+    'high-score terminal globe  ' 2fr
+    'your-score terminal globe  ' 2fr
     / 1fr 2fr 1fr;
   gap: var(--size-16);
 }
