@@ -9,13 +9,13 @@
     <noscript>This app requires JavaScript to run.</noscript>
 
     <main id="splash-screen" hidden>
-      <h1>Game Title</h1>
+      <h1 class="font-title">Game Title</h1>
       <button id="play-button">Play</button>
     </main>
 
     <main id="gameplay-screen" hidden>
       <header>
-        <h1>Save the Servers</h1>
+        <h1 class="font-title">Save the Servers</h1>
       </header>
 
       <section id="high-score-box" class="score-box border">
@@ -41,10 +41,10 @@
 
       <section id="terminal">
         <h2 class="border">Terminal</h2>
-        <div id="terminal-display" class="border">
+        <div id="terminal-display" class="border font-monospace">
           <terminal-history id="terminal-history" lines="15"></terminal-history>
         </div>
-        <div id="text-entry-view" class="border">
+        <div id="text-entry-view" class="border font-monospace-bold">
           <span id="text-entry-prompt">&gt;&nbsp;</span
           ><span id="text-entry"></span
           ><span id="text-entry-cursor">&nbsp;</span>

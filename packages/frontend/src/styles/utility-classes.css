@@ -9,3 +9,18 @@
   overflow-wrap: anywhere;
   line-height: 66.67%;
 }
+
+.font-monospace {
+  font-family: var(--font-family-monospace);
+  font-weight: var(--font-weight-extra-light);
+}
+.font-monospace-bold {
+  font-family: var(--font-family-monospace);
+  font-weight: var(--font-weight-bold);
+}
+
+.font-title {
+  font-family: var(--font-family-title);
+  font-weight: var(--font-weight-normal);
+  text-transform: uppercase;
+}

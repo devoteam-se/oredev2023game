@@ -38,10 +38,7 @@
 
 #gameplay-screen > header > h1 {
   margin: 0;
-  font-family: var(--font-family-title);
   font-size: var(--size-72);
-  font-weight: var(--font-weight-normal);
-  text-transform: uppercase;
   color: var(--color-secondary);
 }
 
@@ -196,15 +193,11 @@
 }
 #terminal-display,
 #text-entry-view {
-  font-family: var(--font-family-monospace);
   padding: var(--size-8);
   font-size: var(--size-15);
 }
 #text-entry-view {
   border-top-width: 0;
-}
-#text-entry {
-  font-weight: var(--font-weight-bold);
 }
 #text-entry-cursor {
   background-color: currentColor;
