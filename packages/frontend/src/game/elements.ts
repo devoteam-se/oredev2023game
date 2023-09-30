@@ -1,7 +1,8 @@
 // TODO enforce presence and typing of required elements using linter
-import { totalNumServers } from './constants.ts';
 import { HTMLTerminalHistoryElement } from '../custom-elements';
 import { checkByClass, checkById, checkSelector } from '../utils';
+
+import { totalNumServers } from './constants.ts';
 
 const staticElements = {
   'failure-message': HTMLDialogElement,
