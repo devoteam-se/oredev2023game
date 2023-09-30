@@ -1,8 +1,0 @@
-{
-  "name": "@oredev2023game/backend-api",
-  "private": true,
-  "type": "module",
-  "devDependencies": {
-    "typescript": "^5.2.2"
-  }
-}

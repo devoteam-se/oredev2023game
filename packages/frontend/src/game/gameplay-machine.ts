@@ -262,7 +262,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
           const serverViewIndex = ctx.serverViewIndicesByCode[code];
           const serverView = serverViews[serverViewIndex];
 
-          serverView.rootElement.classList.remove('final-boss');
+          serverView.container.classList.remove('final-boss');
           serverView.idElement.textContent = serverIds[i];
           serverView.codeElement.textContent = code;
         });
@@ -271,7 +271,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
         const finalServerViewIndex = ctx.serverViewIndicesByCode[finalCode];
         const finalServerView = serverViews[finalServerViewIndex];
 
-        finalServerView.rootElement.classList.add('final-boss');
+        finalServerView.container.classList.add('final-boss');
         finalServerView.idElement.textContent = '99';
       },
 
@@ -425,7 +425,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
                 ? heatPercentageDefault
                 : heatPercentages[serverState];
 
-            const classList = serverView.rootElement.classList;
+            const classList = serverView.container.classList;
             classList.toggle('focused', ctx.focusedWord === word);
             classList.toggle('cleared', serverState === ServerState.Cleared);
             classList.toggle('active', serverState === ServerState.Active);

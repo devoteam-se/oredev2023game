@@ -6,12 +6,10 @@ The booth game for Øredev 2023.
 
 ## Packages
 
-| Package     | Description                                                                              | Implementation Status |
-| ----------- | ---------------------------------------------------------------------------------------- | --------------------- |
-| app         | Self-contained application that combines backend and frontend, for easy local deployment | Not implemented.      |
-| backend     | Persists and vends leaderboard data.                                                     | Not implemented.      |
-| backend-api | TypeScript API for the above.                                                            | Not implemented.      |
-| frontend    | The in-browser application.                                                              | Mostly done.          |
+| Package  | Description                                                      | Implementation Status |
+| -------- | ---------------------------------------------------------------- | --------------------- |
+| app      | Self-contained application, to make the game easy to run locally | Not implemented.      |
+| frontend | The in-browser application.                                      | In progress.          |
 
 ## Development
 

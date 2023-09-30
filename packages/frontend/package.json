@@ -15,7 +15,6 @@
     "xstate": "^4.38.2"
   },
   "devDependencies": {
-    "@oredev2023game/backend-api": "workspace:*",
     "typescript": "^5.2.2",
     "vite": "^4.4.9"
   }

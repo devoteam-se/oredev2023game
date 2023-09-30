@@ -1,6 +1,7 @@
 // TODO enforce presence and typing of required elements using linter
 import { totalNumServers } from './constants.ts';
 import { HTMLTerminalHistoryElement } from '../custom-elements';
+import { checkByClass, checkById, checkSelector } from '../utils';
 
 const staticElements = {
   'failure-message': HTMLDialogElement,
@@ -22,73 +23,47 @@ export type ElementId = keyof typeof staticElements;
 type ElementInstance<I extends ElementId> =
   (typeof staticElements)[I]['prototype'];
 
-const checkElement = <I extends ElementId>(id: I): ElementInstance<I> => {
-  const element = document.getElementById(id);
-
-  if (!element) {
-    throw Error(`Could not find element #${id}`);
-  }
-
-  if (!(element instanceof staticElements[id])) {
-    throw Error(
-      `Element #${id} is not an instance of ${staticElements[id].name}`,
-    );
-  }
-
-  return element;
-};
-
 export const elements: { [I in ElementId]: ElementInstance<I> } = (() => {
   const result: { [id: string]: HTMLElement } = {};
 
   for (const key in staticElements) {
     const id = key as ElementId;
-    result[id] = checkElement(id);
+    result[id] = checkById(id, staticElements[id]);
   }
 
   return result as { [I in ElementId]: ElementInstance<I> };
 })();
 
 export type ServerView = {
-  rootElement: HTMLElement;
+  container: HTMLElement;
   idElement: HTMLElement;
   heatMeterElement: HTMLElement;
   heatPercentElement: HTMLElement;
   codeElement: HTMLElement;
 };
 export const serverViews: ServerView[] = (() => {
+  const template = elements['server-view-template'];
+  checkSelector('*', HTMLElement, template);
+
   const result: ServerView[] = [];
   for (let i = 0; i < totalNumServers; i++) {
     const clone = elements['server-view-template'].content.cloneNode(
       true,
     ) as DocumentFragment;
-    const rootElement = clone.firstElementChild;
+    const container = clone.firstElementChild as HTMLElement;
 
-    if (!(rootElement instanceof HTMLElement)) {
-      throw Error(
-        "First element child of cloned server view template's content is not an HTML element",
-      );
-    }
-
-    const checkSubView = (className: string): HTMLElement => {
-      const element = rootElement.querySelector(`.${className}`);
-
-      if (!(element instanceof HTMLElement)) {
-        throw Error(`Could not find sub view with class ${className}`);
-      }
-
-      return element;
-    };
+    const checkView = (className: string) =>
+      checkByClass(className, HTMLElement, container);
 
     result.push({
-      rootElement,
-      idElement: checkSubView('id'),
-      heatMeterElement: checkSubView('heat-meter'),
-      heatPercentElement: checkSubView('heat-percent'),
-      codeElement: checkSubView('code'),
+      container,
+      idElement: checkView('id'),
+      heatMeterElement: checkView('heat-meter'),
+      heatPercentElement: checkView('heat-percent'),
+      codeElement: checkView('code'),
     });
 
-    elements['servers-view'].appendChild(rootElement);
+    elements['servers-view'].appendChild(container);
   }
 
   return result;

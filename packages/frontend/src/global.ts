@@ -6,14 +6,14 @@ declare global {
      * Shuffles the array in place.
      * This method mutates the array and returns a reference to it.
      */
-    shuffle(): Array<T>;
+    shuffle(): this;
   }
   interface ArrayConstructor {
     /**
      * Creates a new array of the given length filled with values produced by
      * the given function.
      */
-    compute<T>(length: number, fn: (i: number) => T): Array<T>;
+    compute<T>(length: number, fn: (i: number) => T): T[];
   }
 }
 
@@ -31,10 +31,6 @@ Object.defineProperty(Array, 'compute', {
   writable: false,
   configurable: false,
   value: function compute<T>(length: number, fn: (i: number) => T): Array<T> {
-    const result = new Array(length);
-    for (let i = 0; i < length; i++) {
-      result[i] = fn(i);
-    }
-    return result;
+    return Array.from({ length }, (_, i) => fn(i));
   },
 });
