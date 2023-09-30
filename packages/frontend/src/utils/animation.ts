@@ -25,7 +25,7 @@ export const startAnimation = (callback: (time: number) => void): number => {
 export const cancelAnimation = (id: number): void => {
   const animation = animations.get(id);
   if (animation === undefined) {
-    throw Error(`No animation with id ${id}`);
+    throw new Error(`No animation with id ${id}`);
   }
 
   window.cancelAnimationFrame(animation.rafId);

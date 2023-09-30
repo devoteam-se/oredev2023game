@@ -42,15 +42,12 @@ export type ServerView = {
   codeElement: HTMLElement;
 };
 export const serverViews: ServerView[] = (() => {
-  const template = elements['server-view-template'];
-  checkSelector('*', HTMLElement, template);
-
   const result: ServerView[] = [];
   for (let i = 0; i < totalNumServers; i++) {
     const clone = elements['server-view-template'].content.cloneNode(
       true,
     ) as DocumentFragment;
-    const container = clone.firstElementChild as HTMLElement;
+    const container = checkSelector('*', HTMLElement, clone);
 
     const checkView = (className: string) =>
       checkByClass(className, HTMLElement, container);
