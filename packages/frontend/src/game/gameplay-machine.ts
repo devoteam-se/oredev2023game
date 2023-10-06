@@ -5,18 +5,17 @@ import { cancelAnimation, startAnimation } from '../utils';
 
 import { elements, hideElement, serverViews } from './elements.ts';
 import { gameStages } from './game-stages.ts';
-import {
-  countdownDurationMs,
-  maxGameDurationMs,
-  maxNumActiveWords,
-  postGameMessageDurationMs,
-} from './constants.ts';
 
 enum ServerState {
   Inactive,
   Active,
   Cleared,
 }
+
+const countdownDurationMs = 3_000;
+const maxGameDurationMs = 90_000;
+const maxNumActiveWords = 3;
+const postGameMessageDurationMs = 10_000;
 
 // TODO make an actual heat meter component
 const heatStringDefault = '';
