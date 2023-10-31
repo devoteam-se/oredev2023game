@@ -31,16 +31,24 @@ const heatPercentages = {
   [ServerState.Cleared]: '33%',
 } as const;
 
+type WaveContext = {
+  currentWave: { [code: string]: ServerState };
+  focusedWord: string | null;
+  remainingWaves: string[][];
+  waveStartTime: number;
+  serverViewIndicesByCode: { [code: string]: number };
+};
+
+type TerminalContext = {
+  textEntry: string;
+};
+
 type GameplayContext = {
   animationIds: {
     heatDisplay: number;
   };
-  currentWave: { [code: string]: ServerState };
-  focusedWord: string | null;
-  remainingWaves: string[][];
-  textEntry: string;
-  waveStartTime: number;
-  serverViewIndicesByCode: { [code: string]: number };
+  wave: WaveContext;
+  terminal: TerminalContext;
 };
 
 export type GameplayKeystrokeEvent = {
@@ -67,12 +75,16 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       animationIds: {
         heatDisplay: NaN,
       },
-      currentWave: {},
-      focusedWord: null,
-      remainingWaves: [],
-      textEntry: '',
-      waveStartTime: NaN,
-      serverViewIndicesByCode: {},
+      wave: {
+        currentWave: {},
+        focusedWord: null,
+        remainingWaves: [],
+        waveStartTime: NaN,
+        serverViewIndicesByCode: {},
+      },
+      terminal: {
+        textEntry: '',
+      },
     },
 
     initial: 'countdown',
@@ -166,33 +178,33 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
   {
     actions: {
       activateWordsAsNeeded: assign((ctx) => {
-        const numActiveWords = Object.values(ctx.currentWave).reduce(
+        const numActiveWords = Object.values(ctx.wave.currentWave).reduce(
           (n, wordState) => (wordState === ServerState.Active ? n + 1 : n),
           0,
         );
-        const inactiveWords = Object.keys(ctx.currentWave)
-          .filter((word) => ctx.currentWave[word] === ServerState.Inactive)
+        const inactiveWords = Object.keys(ctx.wave.currentWave)
+          .filter((word) => ctx.wave.currentWave[word] === ServerState.Inactive)
           .shuffle();
 
         const numWordsToActivate = Math.min(
           inactiveWords.length,
           maxNumActiveWords - numActiveWords,
-          Object.keys(ctx.currentWave).length,
+          Object.keys(ctx.wave.currentWave).length,
         );
 
-        const newWave = { ...ctx.currentWave };
+        const newWave = { ...ctx.wave.currentWave };
         for (let i = 0; i < numWordsToActivate; i++) {
           newWave[inactiveWords[i]] = ServerState.Active;
         }
 
-        ctx.currentWave = newWave;
+        ctx.wave.currentWave = newWave;
       }),
 
       assignFocusedWord: assign((ctx, event: GameplayKeystrokeEvent) => {
-        ctx.focusedWord =
-          Object.keys(ctx.currentWave).find(
+        ctx.wave.focusedWord =
+          Object.keys(ctx.wave.currentWave).find(
             (word) =>
-              ctx.currentWave[word] === ServerState.Active &&
+              ctx.wave.currentWave[word] === ServerState.Active &&
               word.startsWith(event.char),
           ) ?? null;
       }),
@@ -203,24 +215,27 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
           (i) => i,
         ).shuffle();
 
-        ctx.remainingWaves.flat().forEach((code, i) => {
-          ctx.serverViewIndicesByCode[code] = serverViewIndices[i];
+        ctx.wave.remainingWaves.flat().forEach((code, i) => {
+          ctx.wave.serverViewIndicesByCode[code] = serverViewIndices[i];
         });
       }),
 
       assignWaveStartTime: assign((ctx) => {
-        ctx.waveStartTime = Date.now();
+        ctx.wave.waveStartTime = Date.now();
       }),
 
       clearWord: assign((ctx) => {
-        ctx.currentWave =
-          ctx.focusedWord === null
-            ? ctx.currentWave
-            : { ...ctx.currentWave, [ctx.focusedWord]: ServerState.Cleared };
+        ctx.wave.currentWave =
+          ctx.wave.focusedWord === null
+            ? ctx.wave.currentWave
+            : {
+                ...ctx.wave.currentWave,
+                [ctx.wave.focusedWord]: ServerState.Cleared,
+              };
       }),
 
       createWaves: assign((ctx) => {
-        ctx.remainingWaves = gameStages.map((stage) => {
+        ctx.wave.remainingWaves = gameStages.map((stage) => {
           const codes = [...stage.possibleCodes].shuffle();
           const result: string[] = [];
 
@@ -242,7 +257,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       }),
 
       deleteLastCharEntered: assign((ctx) => {
-        ctx.textEntry = ctx.textEntry.slice(0, -1);
+        ctx.terminal.textEntry = ctx.terminal.textEntry.slice(0, -1);
       }),
 
       hideFailureMessage: () => elements['failure-message'].close(),
@@ -252,13 +267,13 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       hideWaveView: () => hideElement('servers-view'),
 
       initializeServerViews: (ctx) => {
-        const allCodes = ctx.remainingWaves.flat();
+        const allCodes = ctx.wave.remainingWaves.flat();
         const serverIds = Array.compute(allCodes.length, (i) =>
           (i + 1).toString().padStart(2, '0'),
         ).shuffle();
 
         allCodes.forEach((code, i) => {
-          const serverViewIndex = ctx.serverViewIndicesByCode[code];
+          const serverViewIndex = ctx.wave.serverViewIndicesByCode[code];
           const serverView = serverViews[serverViewIndex];
 
           serverView.rootElement.classList.remove('final-boss');
@@ -267,7 +282,8 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
         });
 
         const finalCode = allCodes[allCodes.length - 1];
-        const finalServerViewIndex = ctx.serverViewIndicesByCode[finalCode];
+        const finalServerViewIndex =
+          ctx.wave.serverViewIndicesByCode[finalCode];
         const finalServerView = serverViews[finalServerViewIndex];
 
         finalServerView.rootElement.classList.add('final-boss');
@@ -332,7 +348,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
           return;
         }
 
-        const invalidCode = ctx.textEntry + event.char;
+        const invalidCode = ctx.terminal.textEntry + event.char;
 
         elements['terminal-history'].push(
           `Unknown reboot code: \`${invalidCode}\``,
@@ -343,11 +359,12 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       },
 
       printSuccessMessage: (ctx) => {
-        if (ctx.focusedWord === null) {
+        if (ctx.wave.focusedWord === null) {
           return;
         }
 
-        const serverViewIndex = ctx.serverViewIndicesByCode[ctx.focusedWord];
+        const serverViewIndex =
+          ctx.wave.serverViewIndicesByCode[ctx.wave.focusedWord];
         const serverView = serverViews[serverViewIndex];
         const serverId = serverView.idElement.textContent;
 
@@ -361,13 +378,13 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
           return;
         }
 
-        const command = ctx.textEntry + event.char;
+        const command = ctx.terminal.textEntry + event.char;
         elements['terminal-history'].push(`> ${command}`, { bold: true });
       },
 
       resetTextEntry: assign((ctx) => {
-        ctx.textEntry = '';
-        ctx.focusedWord = null;
+        ctx.terminal.textEntry = '';
+        ctx.wave.focusedWord = null;
       }),
 
       showFailureMessage: () => elements['failure-message'].showModal(),
@@ -375,7 +392,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       showVictoryMessage: () => elements['victory-message'].showModal(),
 
       startHeatDisplayAnimation: assign((ctx) => {
-        const waveStartTime = ctx.waveStartTime;
+        const waveStartTime = ctx.wave.waveStartTime;
         ctx.animationIds.heatDisplay = startAnimation(() => {
           const heatRatio = Math.min(
             1,
@@ -388,14 +405,14 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       }),
 
       startNextWave: assign((ctx) => {
-        ctx.currentWave = [...ctx.remainingWaves[0]].reduce(
+        ctx.wave.currentWave = [...ctx.wave.remainingWaves[0]].reduce(
           (acc, word) => ({
             ...acc,
             [word]: ServerState.Inactive,
           }),
-          ctx.currentWave,
+          ctx.wave.currentWave,
         );
-        ctx.remainingWaves = ctx.remainingWaves.slice(1);
+        ctx.wave.remainingWaves = ctx.wave.remainingWaves.slice(1);
       }),
 
       stopHeatDisplayAnimation: (ctx) => {
@@ -404,14 +421,14 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
 
       updateTextEntry: assign((ctx, event) => {
         if (isKeystrokeEvent(event)) {
-          ctx.textEntry = ctx.textEntry + event.char;
+          ctx.terminal.textEntry = ctx.terminal.textEntry + event.char;
         }
       }),
 
       updateServerViews: (ctx) => {
-        Object.entries(ctx.serverViewIndicesByCode).forEach(
+        Object.entries(ctx.wave.serverViewIndicesByCode).forEach(
           ([word, serverViewIndex]) => {
-            const serverState = ctx.currentWave[word];
+            const serverState = ctx.wave.currentWave[word];
             const serverView = serverViews[serverViewIndex];
 
             serverView.heatMeterElement.textContent =
@@ -425,42 +442,43 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
                 : heatPercentages[serverState];
 
             const classList = serverView.rootElement.classList;
-            classList.toggle('focused', ctx.focusedWord === word);
+            classList.toggle('focused', ctx.wave.focusedWord === word);
             classList.toggle('cleared', serverState === ServerState.Cleared);
             classList.toggle('active', serverState === ServerState.Active);
             classList.toggle('inactive', serverState === ServerState.Inactive);
           },
         );
 
-        elements['text-entry'].textContent = ctx.textEntry;
+        elements['text-entry'].textContent = ctx.terminal.textEntry;
       },
     },
 
     guards: {
-      allWavesCleared: ({ remainingWaves }) => remainingWaves.length === 0,
+      allWavesCleared: ({ wave }) => wave.remainingWaves.length === 0,
 
-      exactlyOneCharEntered: ({ textEntry }) => textEntry.length === 1,
+      exactlyOneCharEntered: ({ terminal }) => terminal.textEntry.length === 1,
 
-      invalidChar: ({ focusedWord, textEntry }, event) =>
+      invalidChar: ({ wave, terminal }, event) =>
         !isKeystrokeEvent(event) ||
-        focusedWord === null ||
-        focusedWord.charAt(textEntry.length) !== event.char,
+        wave.focusedWord === null ||
+        wave.focusedWord.charAt(terminal.textEntry.length) !== event.char,
 
-      validFirstChar: ({ currentWave }, event) =>
+      validFirstChar: ({ wave }, event) =>
         isKeystrokeEvent(event) &&
-        Object.keys(currentWave).some(
+        Object.keys(wave.currentWave).some(
           (word) =>
-            currentWave[word] === ServerState.Active &&
+            wave.currentWave[word] === ServerState.Active &&
             word.startsWith(event.char),
         ),
 
-      waveCleared: ({ currentWave }) =>
-        Object.values(currentWave).every(
+      waveCleared: ({ wave }) =>
+        Object.values(wave.currentWave).every(
           (wordState) => wordState === ServerState.Cleared,
         ),
 
-      wordIncomplete: ({ focusedWord, textEntry }, event) =>
-        !isKeystrokeEvent(event) || textEntry + event.char !== focusedWord,
+      wordIncomplete: ({ wave, terminal }, event) =>
+        !isKeystrokeEvent(event) ||
+        terminal.textEntry + event.char !== wave.focusedWord,
     },
 
     delays: {
