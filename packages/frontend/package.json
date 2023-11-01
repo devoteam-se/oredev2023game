@@ -5,13 +5,15 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prettier:fix": "npx prettier --write ."
   },
   "devDependencies": {
     "@fontsource/jetbrains-mono": "^5.0.12",
     "@fontsource/rubik-glitch": "^5.0.8",
     "@fontsource/tomorrow": "^5.0.12",
     "@xstate/immer": "^0.3.3",
+    "prettier": "^3.0.3",
     "typescript": "^5.2.2",
     "vite": "^4.4.9",
     "xstate": "^4.38.2"

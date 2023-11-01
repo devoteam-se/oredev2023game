@@ -65,10 +65,7 @@ export const initializeTerminal = () => {
   });
 };
 
-export const printErrorMessage = (
-  ctx: GameplayContext,
-  event: GameplayKeystrokeEvent,
-) => {
+export const printErrorMessage = (ctx: GameplayContext, event: GameplayKeystrokeEvent) => {
   if (!isKeystrokeEvent(event)) {
     return;
   }
@@ -85,8 +82,7 @@ export const printSuccessMessage = (ctx: GameplayContext) => {
     return;
   }
 
-  const serverViewIndex =
-    ctx.wave.serverViewIndicesByCode[ctx.wave.focusedWord];
+  const serverViewIndex = ctx.wave.serverViewIndicesByCode[ctx.wave.focusedWord];
   const serverView = serverViews[serverViewIndex];
   const serverId = serverView.idElement.textContent;
 
@@ -95,10 +91,7 @@ export const printSuccessMessage = (ctx: GameplayContext) => {
   });
 };
 
-export const printUserCommand = (
-  ctx: GameplayContext,
-  event: GameplayKeystrokeEvent,
-) => {
+export const printUserCommand = (ctx: GameplayContext, event: GameplayKeystrokeEvent) => {
   if (!isKeystrokeEvent(event)) {
     return;
   }
@@ -124,29 +117,25 @@ export const showFailureMessage = () => elements['failure-message'].showModal();
 
 export const showVictoryMessage = () => elements['victory-message'].showModal();
 
-export const updateTextEntry = assign<GameplayContext, GameplayEvent>(
-  (ctx, event) => {
-    let newTextEntry = ctx.terminal.textEntry;
-    if (isKeystrokeEvent(event)) {
-      newTextEntry += event.char;
-    }
-    return {
-      terminal: {
-        ...ctx.terminal,
-        textEntry: newTextEntry,
-      },
-    };
-  },
-);
+export const updateTextEntry = assign<GameplayContext, GameplayEvent>((ctx, event) => {
+  let newTextEntry = ctx.terminal.textEntry;
+  if (isKeystrokeEvent(event)) {
+    newTextEntry += event.char;
+  }
+  return {
+    terminal: {
+      ...ctx.terminal,
+      textEntry: newTextEntry,
+    },
+  };
+});
 
-export const deleteLastCharEntered = assign<GameplayContext, GameplayEvent>(
-  (ctx) => {
-    const newTextEntry = ctx.terminal.textEntry.slice(0, -1);
-    return {
-      terminal: {
-        ...ctx.terminal,
-        textEntry: newTextEntry,
-      },
-    };
-  },
-);
+export const deleteLastCharEntered = assign<GameplayContext, GameplayEvent>((ctx) => {
+  const newTextEntry = ctx.terminal.textEntry.slice(0, -1);
+  return {
+    terminal: {
+      ...ctx.terminal,
+      textEntry: newTextEntry,
+    },
+  };
+});

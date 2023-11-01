@@ -20,10 +20,7 @@
   --color-shadow: rgba(0, 0, 0, 0.25);
 
   --font-size-base: 16; /* 1rem in pixels when viewport is 1600px by 900px */
-  font-size: min(
-    calc((var(--font-size-base) / 1600) * 100dvw),
-    calc((var(--font-size-base) / 900) * 100dvh)
-  );
+  font-size: min(calc((var(--font-size-base) / 1600) * 100dvw), calc((var(--font-size-base) / 900) * 100dvh));
 
   --size-1: calc(1rem / var(--font-size-base));
   --size-2: calc(2 * var(--size-1));

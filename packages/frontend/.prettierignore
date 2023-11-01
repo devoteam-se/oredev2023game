@@ -1,0 +1,16 @@
+node_modules
+
+# folders
+public
+
+# file types
+*.html
+*.svg
+*.jpg
+*.png
+
+# files
+Dockerfile
+.cache
+.gitignore
+.prettierignore

@@ -54,14 +54,9 @@ export type GameplayKeystrokeEvent = {
 };
 export type GameplayOkClickedEvent = { type: 'OK_CLICKED' };
 export type GameplayBackspaceEvent = { type: 'BACKSPACE' };
-export type GameplayEvent =
-  | GameplayKeystrokeEvent
-  | GameplayBackspaceEvent
-  | GameplayOkClickedEvent;
+export type GameplayEvent = GameplayKeystrokeEvent | GameplayBackspaceEvent | GameplayOkClickedEvent;
 
-export const isKeystrokeEvent = (
-  event: GameplayEvent
-): event is GameplayKeystrokeEvent => event.type === 'KEYSTROKE';
+export const isKeystrokeEvent = (event: GameplayEvent): event is GameplayKeystrokeEvent => event.type === 'KEYSTROKE';
 
 export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
   {
@@ -88,38 +83,22 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
     states: {
       // TODO implement countdown visuals
       countdown: {
-        entry: [
-          'createWaves',
-          'assignServerViewIndices',
-          'initializeServerViews',
-          'initializeTerminal',
-        ],
+        entry: ['createWaves', 'assignServerViewIndices', 'initializeServerViews', 'initializeTerminal'],
         after: {
           [countdownDurationMs]: 'playing',
         },
       },
       playing: {
-        entry: [
-          'assignWaveStartTime',
-          'startNextWave',
-          'startHeatDisplayAnimation',
-        ],
+        entry: ['assignWaveStartTime', 'startNextWave', 'startHeatDisplayAnimation'],
         exit: ['stopHeatDisplayAnimation'],
 
-        onDone: [
-          { target: 'victory', cond: 'allWavesCleared' },
-          { target: 'playing' },
-        ],
+        onDone: [{ target: 'victory', cond: 'allWavesCleared' }, { target: 'playing' }],
         after: { OVERHEAT_DELAY: 'failure' },
 
         initial: 'noWordFocused',
         states: {
           noWordFocused: {
-            entry: [
-              'resetTextEntry',
-              'activateWordsAsNeeded',
-              'updateServerViews',
-            ],
+            entry: ['resetTextEntry', 'activateWordsAsNeeded', 'updateServerViews'],
             on: {
               KEYSTROKE: {
                 target: 'wordFocused',
@@ -138,19 +117,24 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
                   cond: 'invalidChar',
                   actions: ['printUserCommand', 'printErrorMessage'],
                 },
-                { target: 'wordFocused', cond: 'wordIncomplete' },
+                {
+                  target: 'wordFocused',
+                  cond: 'wordIncomplete',
+                },
                 {
                   target: 'noWordFocused',
-                  actions: [
-                    'printUserCommand',
-                    'printSuccessMessage',
-                    'clearWord',
-                  ],
+                  actions: ['printUserCommand', 'printSuccessMessage', 'clearWord'],
                 },
               ],
               BACKSPACE: [
-                { target: 'noWordFocused', cond: 'exactlyOneCharEntered' },
-                { target: 'wordFocused', actions: 'deleteLastCharEntered' },
+                {
+                  target: 'noWordFocused',
+                  cond: 'exactlyOneCharEntered',
+                },
+                {
+                  target: 'wordFocused',
+                  actions: 'deleteLastCharEntered',
+                },
               ],
             },
           },
@@ -213,23 +197,18 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       validFirstChar: ({ wave }, event) =>
         isKeystrokeEvent(event) &&
         Object.keys(wave.currentWave).some(
-          (word) =>
-            wave.currentWave[word] === ServerState.Active &&
-            word.startsWith(event.char)
+          (word) => wave.currentWave[word] === ServerState.Active && word.startsWith(event.char),
         ),
 
       waveCleared: ({ wave }) =>
-        Object.values(wave.currentWave).every(
-          (wordState) => wordState === ServerState.Cleared
-        ),
+        Object.values(wave.currentWave).every((wordState) => wordState === ServerState.Cleared),
 
       wordIncomplete: ({ wave, terminal }, event) =>
-        !isKeystrokeEvent(event) ||
-        terminal.textEntry + event.char !== wave.focusedWord,
+        !isKeystrokeEvent(event) || terminal.textEntry + event.char !== wave.focusedWord,
     },
 
     delays: {
       OVERHEAT_DELAY: maxGameDurationMs,
     },
-  }
+  },
 );
