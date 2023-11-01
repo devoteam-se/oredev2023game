@@ -1,13 +1,6 @@
 import terminalHistoryCss from './terminal-history.css';
 
-const terminalColors = [
-  'primary',
-  'secondary',
-  'red',
-  'green',
-  'yellow',
-  'blue',
-] as const;
+const terminalColors = ['primary', 'secondary', 'red', 'green', 'yellow', 'blue'] as const;
 export type TerminalColor = (typeof terminalColors)[number] | 'default';
 
 export type TerminalHistoryItemOptions = {
@@ -17,16 +10,13 @@ export type TerminalHistoryItemOptions = {
 export type TerminalHistoryLineOptions = TerminalHistoryItemOptions & {
   delayMs?: number;
 };
-export type TerminalHistoryLine =
-  | string
-  | [value: string, options?: TerminalHistoryLineOptions];
+export type TerminalHistoryLine = string | [value: string, options?: TerminalHistoryLineOptions];
 
-const defaultTerminalHistoryLineOptions: Required<TerminalHistoryLineOptions> =
-  {
-    color: 'default',
-    bold: false,
-    delayMs: 0,
-  } as const;
+const defaultTerminalHistoryLineOptions: Required<TerminalHistoryLineOptions> = {
+  color: 'default',
+  bold: false,
+  delayMs: 0,
+} as const;
 type NormalizedLine = {
   value: string;
   options: Required<TerminalHistoryLineOptions>;
@@ -68,11 +58,7 @@ export class HTMLTerminalHistoryElement extends HTMLElement {
     this.rerender();
   }
 
-  attributeChangedCallback(
-    name: string,
-    _: string | null,
-    newValue: string | null,
-  ) {
+  attributeChangedCallback(name: string, _: string | null, newValue: string | null) {
     if (name !== 'lines') {
       return;
     }
@@ -112,9 +98,7 @@ export class HTMLTerminalHistoryElement extends HTMLElement {
   }
 
   private rerender() {
-    const lineElements = this.container.getElementsByClassName(
-      'terminal-history-line',
-    );
+    const lineElements = this.container.getElementsByClassName('terminal-history-line');
     if (lineElements.length > this.lines) {
       Array.from(lineElements)
         .slice(this.lines)

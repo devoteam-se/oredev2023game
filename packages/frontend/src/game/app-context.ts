@@ -28,11 +28,9 @@ export const createAppContext = (): AppContext => {
     }
 
     gameplayService = appState.children.gameplayMachine;
-    gameplayMachineSubscription = appState.children.gameplayMachine.subscribe(
-      (gameplayState) => {
-        console.log('[gameplay state]', gameplayState);
-      },
-    );
+    gameplayMachineSubscription = appState.children.gameplayMachine.subscribe((gameplayState) => {
+      console.log('[gameplay state]', gameplayState);
+    });
   });
 
   return {

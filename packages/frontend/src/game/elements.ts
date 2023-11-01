@@ -19,8 +19,7 @@ const staticElements = {
 } as const;
 export type ElementId = keyof typeof staticElements;
 
-type ElementInstance<I extends ElementId> =
-  (typeof staticElements)[I]['prototype'];
+type ElementInstance<I extends ElementId> = (typeof staticElements)[I]['prototype'];
 
 const checkElement = <I extends ElementId>(id: I): ElementInstance<I> => {
   const element = document.getElementById(id);
@@ -30,9 +29,7 @@ const checkElement = <I extends ElementId>(id: I): ElementInstance<I> => {
   }
 
   if (!(element instanceof staticElements[id])) {
-    throw Error(
-      `Element #${id} is not an instance of ${staticElements[id].name}`,
-    );
+    throw Error(`Element #${id} is not an instance of ${staticElements[id].name}`);
   }
 
   return element;
@@ -59,15 +56,11 @@ export type ServerView = {
 export const serverViews: ServerView[] = (() => {
   const result: ServerView[] = [];
   for (let i = 0; i < totalNumServers; i++) {
-    const clone = elements['server-view-template'].content.cloneNode(
-      true,
-    ) as DocumentFragment;
+    const clone = elements['server-view-template'].content.cloneNode(true) as DocumentFragment;
     const rootElement = clone.firstElementChild;
 
     if (!(rootElement instanceof HTMLElement)) {
-      throw Error(
-        "First element child of cloned server view template's content is not an HTML element",
-      );
+      throw Error("First element child of cloned server view template's content is not an HTML element");
     }
 
     const checkSubView = (className: string): HTMLElement => {
@@ -94,7 +87,5 @@ export const serverViews: ServerView[] = (() => {
   return result;
 })();
 
-export const showElement = (id: ElementId) =>
-  elements[id].removeAttribute('hidden');
-export const hideElement = (id: ElementId) =>
-  elements[id].setAttribute('hidden', '');
+export const showElement = (id: ElementId) => elements[id].removeAttribute('hidden');
+export const hideElement = (id: ElementId) => elements[id].setAttribute('hidden', '');
