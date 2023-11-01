@@ -30,7 +30,6 @@ export const heatPercentages = {
 
 type WaveContext = {
   currentWave: { [code: string]: ServerState };
-  focusedWord: string | null;
   remainingWaves: string[][];
   waveStartTime: number;
   serverViewIndicesByCode: { [code: string]: number };
@@ -40,7 +39,7 @@ type TerminalContext = {
   textEntry: string;
 };
 
-type GameplayContext = {
+export type GameplayContext = {
   animationIds: {
     heatDisplay: number;
   };
@@ -54,9 +53,16 @@ export type GameplayKeystrokeEvent = {
 };
 export type GameplayOkClickedEvent = { type: 'OK_CLICKED' };
 export type GameplayBackspaceEvent = { type: 'BACKSPACE' };
-export type GameplayEvent = GameplayKeystrokeEvent | GameplayBackspaceEvent | GameplayOkClickedEvent;
+export type GameplayEnterEvent = { type: 'ENTER' };
+export type GameplayEvent =
+  | GameplayKeystrokeEvent
+  | GameplayBackspaceEvent
+  | GameplayOkClickedEvent
+  | GameplayEnterEvent;
 
 export const isKeystrokeEvent = (event: GameplayEvent): event is GameplayKeystrokeEvent => event.type === 'KEYSTROKE';
+
+export const isEnterEvent = (event: GameplayEvent): event is GameplayEnterEvent => event.type === 'ENTER';
 
 export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
   {
@@ -69,7 +75,6 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       },
       wave: {
         currentWave: {},
-        focusedWord: null,
         remainingWaves: [],
         waveStartTime: NaN,
         serverViewIndicesByCode: {},
@@ -95,46 +100,39 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
         onDone: [{ target: 'victory', cond: 'allWavesCleared' }, { target: 'playing' }],
         after: { OVERHEAT_DELAY: 'failure' },
 
-        initial: 'noWordFocused',
+        initial: 'idle',
         states: {
-          noWordFocused: {
-            entry: ['resetTextEntry', 'activateWordsAsNeeded', 'updateServerViews'],
+          idle: {
+            entry: ['resetTextEntry', 'activateWordsAsNeeded', 'updateServerViews', 'updateTerminalView'],
             on: {
               KEYSTROKE: {
-                target: 'wordFocused',
-                cond: 'validFirstChar',
-                actions: 'assignFocusedWord',
+                target: 'typing',
+                actions: ['updateTextEntry', 'updateTerminalView'],
               },
             },
             always: [{ target: 'waveDone', cond: 'waveCleared' }],
           },
-          wordFocused: {
-            entry: ['updateTextEntry', 'updateServerViews'],
+          typing: {
             on: {
               KEYSTROKE: [
                 {
-                  target: 'noWordFocused',
-                  cond: 'invalidChar',
+                  actions: ['updateTextEntry', 'updateTerminalView'],
+                },
+              ],
+              ENTER: [
+                {
+                  target: 'idle',
+                  cond: 'invalidWord',
                   actions: ['printUserCommand', 'printErrorMessage'],
                 },
                 {
-                  target: 'wordFocused',
-                  cond: 'wordIncomplete',
-                },
-                {
-                  target: 'noWordFocused',
-                  actions: ['printUserCommand', 'printSuccessMessage', 'clearWord'],
+                  target: 'idle',
+                  actions: ['printUserCommand', 'printSuccessMessage', 'clearServer'],
                 },
               ],
               BACKSPACE: [
-                {
-                  target: 'noWordFocused',
-                  cond: 'exactlyOneCharEntered',
-                },
-                {
-                  target: 'wordFocused',
-                  actions: 'deleteLastCharEntered',
-                },
+                { target: 'idle', cond: 'exactlyOneCharEntered' },
+                { target: 'typing', actions: ['deleteLastCharEntered', 'updateTerminalView'] },
               ],
             },
           },
@@ -169,12 +167,11 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       showVictoryMessage: TerminalActions.showVictoryMessage,
       updateTextEntry: TerminalActions.updateTextEntry,
       deleteLastCharEntered: TerminalActions.deleteLastCharEntered,
+      updateTerminalView: TerminalActions.updateTerminalView,
 
       activateWordsAsNeeded: WaveActions.activateWordsAsNeeded,
-      assignFocusedWord: WaveActions.assignFocusedWord,
       assignServerViewIndices: WaveActions.assignServerViewIndices,
       assignWaveStartTime: WaveActions.assignWaveStartTime,
-      clearWord: WaveActions.clearWord,
       createWaves: WaveActions.createWaves,
       hideWaveView: WaveActions.hideWaveView,
       initializeServerViews: WaveActions.initializeServerViews,
@@ -182,6 +179,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       startNextWave: WaveActions.startNextWave,
       stopHeatDisplayAnimation: WaveActions.stopHeatDisplayAnimation,
       updateServerViews: WaveActions.updateServerViews,
+      clearServer: WaveActions.clearServer,
     },
 
     guards: {
@@ -189,22 +187,10 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
 
       exactlyOneCharEntered: ({ terminal }) => terminal.textEntry.length === 1,
 
-      invalidChar: ({ wave, terminal }, event) =>
-        !isKeystrokeEvent(event) ||
-        wave.focusedWord === null ||
-        wave.focusedWord.charAt(terminal.textEntry.length) !== event.char,
-
-      validFirstChar: ({ wave }, event) =>
-        isKeystrokeEvent(event) &&
-        Object.keys(wave.currentWave).some(
-          (word) => wave.currentWave[word] === ServerState.Active && word.startsWith(event.char),
-        ),
+      invalidWord: ({ wave, terminal }) => !wave.currentWave[terminal.textEntry],
 
       waveCleared: ({ wave }) =>
         Object.values(wave.currentWave).every((wordState) => wordState === ServerState.Cleared),
-
-      wordIncomplete: ({ wave, terminal }, event) =>
-        !isKeystrokeEvent(event) || terminal.textEntry + event.char !== wave.focusedWord,
     },
 
     delays: {

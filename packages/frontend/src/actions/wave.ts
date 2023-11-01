@@ -42,22 +42,6 @@ export const activateWordsAsNeeded = assign<GameplayContext, GameplayEvent>((ctx
   };
 });
 
-export const assignFocusedWord = assign<GameplayContext, GameplayEvent>((ctx, event) => {
-  if (event.type !== 'KEYSTROKE') return ctx;
-
-  const focusedWord =
-    Object.keys(ctx.wave.currentWave).find(
-      (word) => ctx.wave.currentWave[word] === ServerState.Active && word.startsWith(event.char),
-    ) ?? null;
-
-  return {
-    wave: {
-      ...ctx.wave,
-      focusedWord,
-    },
-  };
-});
-
 export const assignServerViewIndices = assign<GameplayContext, GameplayEvent>((ctx) => {
   const serverViewIndices = Array.compute(serverViews.length, (i) => i).shuffle();
 
@@ -82,23 +66,6 @@ export const assignWaveStartTime = assign<GameplayContext, GameplayEvent>((ctx) 
     wave: {
       ...ctx.wave,
       waveStartTime: now,
-    },
-  };
-});
-
-export const clearWord = assign<GameplayContext, GameplayEvent>((ctx) => {
-  const updatedCurrentWave =
-    ctx.wave.focusedWord === null
-      ? ctx.wave.currentWave
-      : {
-          ...ctx.wave.currentWave,
-          [ctx.wave.focusedWord]: ServerState.Cleared,
-        };
-
-  return {
-    wave: {
-      ...ctx.wave,
-      currentWave: updatedCurrentWave,
     },
   };
 });
@@ -183,6 +150,20 @@ export const startNextWave = assign<GameplayContext, GameplayEvent>((ctx) => {
   };
 });
 
+export const clearServer = assign<GameplayContext, GameplayEvent>((ctx: GameplayContext) => {
+  const updatedCurrentWave = {
+    ...ctx.wave.currentWave,
+    [ctx.terminal.textEntry]: ServerState.Cleared,
+  };
+
+  return {
+    wave: {
+      ...ctx.wave,
+      currentWave: updatedCurrentWave,
+    },
+  };
+});
+
 export const stopHeatDisplayAnimation = (ctx: GameplayContext) => {
   cancelAnimation(ctx.animationIds.heatDisplay);
 };
@@ -198,11 +179,8 @@ export const updateServerViews = (ctx: GameplayContext) => {
       serverState === undefined ? heatPercentageDefault : heatPercentages[serverState];
 
     const classList = serverView.rootElement.classList;
-    classList.toggle('focused', ctx.wave.focusedWord === word);
     classList.toggle('cleared', serverState === ServerState.Cleared);
     classList.toggle('active', serverState === ServerState.Active);
     classList.toggle('inactive', serverState === ServerState.Inactive);
   });
-
-  elements['text-entry'].textContent = ctx.terminal.textEntry;
 };

@@ -15,6 +15,11 @@ window.addEventListener('keydown', (event: KeyboardEvent) => {
     return;
   }
 
+  if (event.key === 'Enter') {
+    ctx.sendEnter();
+    return;
+  }
+
   if (event.repeat) {
     return;
   }

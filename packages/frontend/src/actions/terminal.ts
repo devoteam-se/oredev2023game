@@ -3,9 +3,10 @@ import { elements, serverViews } from '../game/elements.ts';
 import {
   GameplayContext,
   GameplayEvent,
-  GameplayKeystrokeEvent,
   countdownDurationMs,
   isKeystrokeEvent,
+  isEnterEvent,
+  GameplayEnterEvent,
 } from '../game/gameplay-machine.ts';
 
 export const hideFailureMessage = () => elements['failure-message'].close();
@@ -65,24 +66,22 @@ export const initializeTerminal = () => {
   });
 };
 
-export const printErrorMessage = (ctx: GameplayContext, event: GameplayKeystrokeEvent) => {
-  if (!isKeystrokeEvent(event)) {
+export const printErrorMessage = (ctx: GameplayContext, event: GameplayEnterEvent) => {
+  if (!isEnterEvent(event)) {
     return;
   }
 
-  const invalidCode = ctx.terminal.textEntry + event.char;
-
-  elements['terminal-history'].push(`Unknown reboot code: \`${invalidCode}\``, {
+  elements['terminal-history'].push(`Unknown reboot code: \`${ctx.terminal.textEntry}\``, {
     color: 'red',
   });
 };
 
-export const printSuccessMessage = (ctx: GameplayContext) => {
-  if (ctx.wave.focusedWord === null) {
+export const printSuccessMessage = (ctx: GameplayContext, event: GameplayEnterEvent) => {
+  if (!isEnterEvent(event)) {
     return;
   }
 
-  const serverViewIndex = ctx.wave.serverViewIndicesByCode[ctx.wave.focusedWord];
+  const serverViewIndex = ctx.wave.serverViewIndicesByCode[ctx.terminal.textEntry];
   const serverView = serverViews[serverViewIndex];
   const serverId = serverView.idElement.textContent;
 
@@ -91,13 +90,12 @@ export const printSuccessMessage = (ctx: GameplayContext) => {
   });
 };
 
-export const printUserCommand = (ctx: GameplayContext, event: GameplayKeystrokeEvent) => {
-  if (!isKeystrokeEvent(event)) {
+export const printUserCommand = (ctx: GameplayContext, event: GameplayEnterEvent) => {
+  if (!isEnterEvent(event)) {
     return;
   }
 
-  const command = ctx.terminal.textEntry + event.char;
-  elements['terminal-history'].push(`> ${command}`, { bold: true });
+  elements['terminal-history'].push(`> ${ctx.terminal.textEntry}`, { bold: true });
 };
 
 export const resetTextEntry = assign<GameplayContext, GameplayEvent>((ctx) => {
@@ -105,10 +103,6 @@ export const resetTextEntry = assign<GameplayContext, GameplayEvent>((ctx) => {
     terminal: {
       ...ctx.terminal,
       textEntry: '',
-    },
-    wave: {
-      ...ctx.wave,
-      focusedWord: null,
     },
   };
 });
@@ -119,9 +113,11 @@ export const showVictoryMessage = () => elements['victory-message'].showModal();
 
 export const updateTextEntry = assign<GameplayContext, GameplayEvent>((ctx, event) => {
   let newTextEntry = ctx.terminal.textEntry;
+
   if (isKeystrokeEvent(event)) {
     newTextEntry += event.char;
   }
+
   return {
     terminal: {
       ...ctx.terminal,
@@ -139,3 +135,7 @@ export const deleteLastCharEntered = assign<GameplayContext, GameplayEvent>((ctx
     },
   };
 });
+
+export const updateTerminalView = (ctx: GameplayContext) => {
+  elements['text-entry'].textContent = ctx.terminal.textEntry;
+};
