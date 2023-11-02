@@ -11,6 +11,10 @@ type GameScore = {
   score: number;
 };
 
+type EmailCountResult = {
+  count: number;
+};
+
 const apiRouter = () => {
   const router = express.Router();
 
@@ -40,6 +44,27 @@ const apiRouter = () => {
       res.json(rows);
     });
   });
+
+  router.get('/can-play', (req, res) => {
+    const email = req.query.email;
+
+    if (!email) {
+      return res.status(400).json({ error: 'Email parameter is required' });
+    }
+
+    const sql = 'SELECT COUNT(*) as count FROM gamescores WHERE email = ?';
+
+    db.get(sql, [email], (err, row: EmailCountResult) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+
+      const canPlay = row.count <= 3;
+
+      res.json({ canPlay });
+    });
+  });
+
   return router;
 };
 

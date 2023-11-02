@@ -109,7 +109,31 @@ export const resetTextEntry = assign<GameplayContext, GameplayEvent>((ctx) => {
 
 export const showFailureMessage = () => elements['failure-message'].showModal();
 
-export const showVictoryMessage = () => elements['victory-message'].showModal();
+export const triggerVictory = async () => {
+  const url = `http://localhost:3000/api`;
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: elements['name-input'].value,
+        email: elements['email-input'].value,
+        score: 50,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+  } catch (error) {
+    console.error('There was a problem:', error);
+  }
+
+  elements['victory-message'].showModal();
+};
 
 export const updateTextEntry = assign<GameplayContext, GameplayEvent>((ctx, event) => {
   let newTextEntry = ctx.terminal.textEntry;
