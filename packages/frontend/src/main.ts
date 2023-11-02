@@ -5,7 +5,47 @@ import { elements } from './game/elements.ts';
 
 const ctx = createAppContext();
 
-elements['play-button'].addEventListener('click', () => {
+const canUserPlay = async (email: string) => {
+  const url = `http://localhost:3000/api/can-play?email=${encodeURIComponent(
+    email,
+  )}`;
+
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const data = await response.json();
+
+    return data.canPlay;
+  } catch (error) {
+    console.error('There was a problem:', error);
+  }
+};
+
+elements['play-button'].addEventListener('click', async () => {
+  const name = elements['name-input'].value;
+  const email = elements['email-input'].value;
+  const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
+  if (!name) {
+    alert('Name must be provided');
+    return;
+  }
+
+  if (!email || !emailRegex.test(email)) {
+    alert('Email must be provided');
+    return;
+  }
+  const canPlay = await canUserPlay(email);
+
+  if (!canPlay) {
+    alert('You have played too many times');
+    return;
+  }
+
   ctx.startGame();
 });
 

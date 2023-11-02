@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DBFILE="game.db"
+DBFILE="./game.db"
 
 SQL="
 CREATE TABLE gamescores (

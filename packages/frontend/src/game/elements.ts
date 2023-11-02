@@ -3,6 +3,8 @@ import { totalNumServers } from './constants.ts';
 import { HTMLTerminalHistoryElement } from '../custom-elements';
 
 const staticElements = {
+  'name-input': HTMLInputElement,
+  'email-input': HTMLInputElement,
   'failure-message': HTMLDialogElement,
   'failure-ok-button': HTMLButtonElement,
   'game-over-screen': HTMLElement,
