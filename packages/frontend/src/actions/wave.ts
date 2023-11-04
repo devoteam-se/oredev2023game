@@ -150,7 +150,7 @@ export const startNextWave = assign<GameplayContext, GameplayEvent>((ctx) => {
   };
 });
 
-export const clearServer = assign<GameplayContext, GameplayEvent>((ctx: GameplayContext) => {
+export const clearWord = assign<GameplayContext, GameplayEvent>((ctx: GameplayContext) => {
   const updatedCurrentWave = {
     ...ctx.wave.currentWave,
     [ctx.terminal.textEntry]: ServerState.Cleared,
@@ -183,4 +183,12 @@ export const updateServerViews = (ctx: GameplayContext) => {
     classList.toggle('active', serverState === ServerState.Active);
     classList.toggle('inactive', serverState === ServerState.Inactive);
   });
+};
+
+export const decreaseScore = (ctx: GameplayContext) => {
+  console.log('decreaseScore');
+};
+
+export const increaseScore = (ctx: GameplayContext) => {
+  console.log('increaseScore');
 };

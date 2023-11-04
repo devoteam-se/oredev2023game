@@ -109,6 +109,8 @@ export const resetTextEntry = assign<GameplayContext, GameplayEvent>((ctx) => {
 
 export const showFailureMessage = () => elements['failure-message'].showModal();
 
+export const showVictoryMessage = () => elements['victory-message'].showModal();
+
 export const triggerVictory = async () => {
   const url = `http://localhost:3000/api`;
 
@@ -131,8 +133,6 @@ export const triggerVictory = async () => {
   } catch (error) {
     console.error('There was a problem:', error);
   }
-
-  elements['victory-message'].showModal();
 };
 
 export const updateTextEntry = assign<GameplayContext, GameplayEvent>((ctx, event) => {

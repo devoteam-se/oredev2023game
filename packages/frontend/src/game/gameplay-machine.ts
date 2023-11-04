@@ -123,11 +123,11 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
                 {
                   target: 'idle',
                   cond: 'invalidWord',
-                  actions: ['printUserCommand', 'printErrorMessage'],
+                  actions: ['printUserCommand', 'printErrorMessage', 'decreaseScore'],
                 },
                 {
                   target: 'idle',
-                  actions: ['printUserCommand', 'printSuccessMessage', 'clearServer'],
+                  actions: ['printUserCommand', 'printSuccessMessage', 'clearWord', 'increaseScore'],
                 },
               ],
               BACKSPACE: [
@@ -146,6 +146,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
         after: { [postGameMessageDurationMs]: 'gameplayDone' },
       },
       victory: {
+        entry: 'showVictoryMessage',
         invoke: {
           src: 'triggerVictoryService',
         },
@@ -169,6 +170,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       printUserCommand: TerminalActions.printUserCommand,
       resetTextEntry: TerminalActions.resetTextEntry,
       showFailureMessage: TerminalActions.showFailureMessage,
+      showVictoryMessage: TerminalActions.showVictoryMessage,
       updateTextEntry: TerminalActions.updateTextEntry,
       deleteLastCharEntered: TerminalActions.deleteLastCharEntered,
       updateTerminalView: TerminalActions.updateTerminalView,
@@ -183,7 +185,9 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       startNextWave: WaveActions.startNextWave,
       stopHeatDisplayAnimation: WaveActions.stopHeatDisplayAnimation,
       updateServerViews: WaveActions.updateServerViews,
-      clearServer: WaveActions.clearServer,
+      clearWord: WaveActions.clearWord,
+      decreaseScore: WaveActions.decreaseScore,
+      increaseScore: WaveActions.increaseScore,
     },
 
     guards: {
