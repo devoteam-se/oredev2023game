@@ -176,7 +176,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
   },
   {
     services: {
-      triggerVictoryService: TerminalActions.triggerVictory,
+      triggerVictoryService: WaveActions.triggerVictory,
       updateTopScoreService: WaveActions.updateTopScore,
     },
     actions: {
@@ -187,8 +187,6 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       printSuccessMessage: TerminalActions.printSuccessMessage,
       printUserCommand: TerminalActions.printUserCommand,
       resetTextEntry: TerminalActions.resetTextEntry,
-      showFailureMessage: TerminalActions.showFailureMessage,
-      showVictoryMessage: TerminalActions.showVictoryMessage,
       updateTextEntry: TerminalActions.updateTextEntry,
       deleteLastCharEntered: TerminalActions.deleteLastCharEntered,
       updateTerminalView: TerminalActions.updateTerminalView,
@@ -209,6 +207,8 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       increaseScore: WaveActions.increaseScore,
       assignWordStartTime: WaveActions.assignWordStartTime,
       assignWordTypingTime: WaveActions.assignWordTypingTime,
+      showFailureMessage: WaveActions.showFailureMessage,
+      showVictoryMessage: WaveActions.showVictoryMessage,
     },
 
     guards: {
