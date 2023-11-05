@@ -13,6 +13,9 @@ import {
 import { elements, hideElement, serverViews } from '../game/elements';
 import { gameStages } from '../game/game-stages';
 import { startAnimation, cancelAnimation } from '../utils';
+import { calculateScore } from '../utils/score';
+
+const GAME_STAGES_COUNT = gameStages.length;
 
 export const activateWordsAsNeeded = assign<GameplayContext, GameplayEvent>((ctx: GameplayContext) => {
   const numActiveWords = Object.values(ctx.wave.currentWave).reduce(
@@ -186,9 +189,35 @@ export const updateServerViews = (ctx: GameplayContext) => {
 };
 
 export const decreaseScore = (ctx: GameplayContext) => {
-  console.log('decreaseScore');
+  const level = GAME_STAGES_COUNT - ctx.wave.remainingWaves.length;
+  const time = ctx.wave.currentWordTypingTime;
+  const score = calculateScore({ level, timeMs: time, isSuccess: false });
+  // TODO update view
+  console.log('decreaseScore:', score);
 };
 
 export const increaseScore = (ctx: GameplayContext) => {
-  console.log('increaseScore');
+  const level = GAME_STAGES_COUNT - ctx.wave.remainingWaves.length;
+  const time = ctx.wave.currentWordTypingTime;
+  const score = calculateScore({ level, timeMs: time, isSuccess: true });
+  // TODO update view
+  console.log('increaseScore:', score);
 };
+
+export const assignWordStartTime = assign<GameplayContext, GameplayEvent>((ctx: GameplayContext) => {
+  return {
+    wave: {
+      ...ctx.wave,
+      currentWordStartTime: Date.now(),
+    },
+  };
+});
+
+export const assignWordTypingTime = assign<GameplayContext, GameplayEvent>((ctx: GameplayContext) => {
+  return {
+    wave: {
+      ...ctx.wave,
+      currentWordTypingTime: Date.now() - ctx.wave.currentWordStartTime,
+    },
+  };
+});

@@ -33,6 +33,8 @@ type WaveContext = {
   remainingWaves: string[][];
   waveStartTime: number;
   serverViewIndicesByCode: { [code: string]: number };
+  currentWordStartTime: number;
+  currentWordTypingTime: number;
 };
 
 type TerminalContext = {
@@ -78,6 +80,8 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
         remainingWaves: [],
         waveStartTime: NaN,
         serverViewIndicesByCode: {},
+        currentWordStartTime: NaN,
+        currentWordTypingTime: NaN,
       },
       terminal: {
         textEntry: '',
@@ -113,6 +117,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
             always: [{ target: 'waveDone', cond: 'waveCleared' }],
           },
           typing: {
+            entry: ['assignWordStartTime'],
             on: {
               KEYSTROKE: [
                 {
@@ -135,6 +140,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
                 { target: 'typing', actions: ['deleteLastCharEntered', 'updateTerminalView'] },
               ],
             },
+            exit: ['assignWordTypingTime'],
           },
           waveDone: { type: 'final' },
         },
@@ -188,6 +194,8 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       clearWord: WaveActions.clearWord,
       decreaseScore: WaveActions.decreaseScore,
       increaseScore: WaveActions.increaseScore,
+      assignWordStartTime: WaveActions.assignWordStartTime,
+      assignWordTypingTime: WaveActions.assignWordTypingTime,
     },
 
     guards: {
