@@ -13,6 +13,9 @@ import {
 import { elements, hideElement, serverViews } from '../game/elements';
 import { gameStages } from '../game/game-stages';
 import { startAnimation, cancelAnimation } from '../utils';
+import { calculateScore, formatScore } from '../utils/score';
+
+const GAME_STAGES_COUNT = gameStages.length;
 
 export const activateWordsAsNeeded = assign<GameplayContext, GameplayEvent>((ctx: GameplayContext) => {
   const numActiveWords = Object.values(ctx.wave.currentWave).reduce(
@@ -150,7 +153,7 @@ export const startNextWave = assign<GameplayContext, GameplayEvent>((ctx) => {
   };
 });
 
-export const clearServer = assign<GameplayContext, GameplayEvent>((ctx: GameplayContext) => {
+export const clearWord = assign<GameplayContext, GameplayEvent>((ctx: GameplayContext) => {
   const updatedCurrentWave = {
     ...ctx.wave.currentWave,
     [ctx.terminal.textEntry]: ServerState.Cleared,
@@ -184,3 +187,56 @@ export const updateServerViews = (ctx: GameplayContext) => {
     classList.toggle('inactive', serverState === ServerState.Inactive);
   });
 };
+
+export const updateScoreView = (ctx: GameplayContext) => {
+  const currentScore = ctx.wave.score;
+  const scoreStr = formatScore(currentScore);
+
+  elements['player-score-display'].textContent = scoreStr;
+};
+
+export const decreaseScore = assign<GameplayContext, GameplayEvent>((ctx: GameplayContext) => {
+  const level = GAME_STAGES_COUNT - ctx.wave.remainingWaves.length;
+  const time = ctx.wave.currentWordTypingTime;
+  const score = calculateScore({ level, timeMs: time, isSuccess: false });
+
+  const newScore = ctx.wave.score + score;
+
+  return {
+    wave: {
+      ...ctx.wave,
+      score: newScore <= 0 ? 0 : newScore,
+    },
+  };
+});
+
+export const increaseScore = assign<GameplayContext, GameplayEvent>((ctx: GameplayContext) => {
+  const level = GAME_STAGES_COUNT - ctx.wave.remainingWaves.length;
+  const time = ctx.wave.currentWordTypingTime;
+  const score = calculateScore({ level, timeMs: time, isSuccess: true });
+
+  return {
+    wave: {
+      ...ctx.wave,
+      score: ctx.wave.score + score,
+    },
+  };
+});
+
+export const assignWordStartTime = assign<GameplayContext, GameplayEvent>((ctx: GameplayContext) => {
+  return {
+    wave: {
+      ...ctx.wave,
+      currentWordStartTime: Date.now(),
+    },
+  };
+});
+
+export const assignWordTypingTime = assign<GameplayContext, GameplayEvent>((ctx: GameplayContext) => {
+  return {
+    wave: {
+      ...ctx.wave,
+      currentWordTypingTime: Date.now() - ctx.wave.currentWordStartTime,
+    },
+  };
+});

@@ -33,6 +33,9 @@ type WaveContext = {
   remainingWaves: string[][];
   waveStartTime: number;
   serverViewIndicesByCode: { [code: string]: number };
+  currentWordStartTime: number;
+  currentWordTypingTime: number;
+  score: number;
 };
 
 type TerminalContext = {
@@ -78,6 +81,9 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
         remainingWaves: [],
         waveStartTime: NaN,
         serverViewIndicesByCode: {},
+        currentWordStartTime: NaN,
+        currentWordTypingTime: NaN,
+        score: 0,
       },
       terminal: {
         textEntry: '',
@@ -103,7 +109,13 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
         initial: 'idle',
         states: {
           idle: {
-            entry: ['resetTextEntry', 'activateWordsAsNeeded', 'updateServerViews', 'updateTerminalView'],
+            entry: [
+              'resetTextEntry',
+              'activateWordsAsNeeded',
+              'updateServerViews',
+              'updateTerminalView',
+              'updateScoreView',
+            ],
             on: {
               KEYSTROKE: {
                 target: 'typing',
@@ -113,6 +125,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
             always: [{ target: 'waveDone', cond: 'waveCleared' }],
           },
           typing: {
+            entry: ['assignWordStartTime'],
             on: {
               KEYSTROKE: [
                 {
@@ -123,11 +136,11 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
                 {
                   target: 'idle',
                   cond: 'invalidWord',
-                  actions: ['printUserCommand', 'printErrorMessage'],
+                  actions: ['printUserCommand', 'printErrorMessage', 'decreaseScore'],
                 },
                 {
                   target: 'idle',
-                  actions: ['printUserCommand', 'printSuccessMessage', 'clearServer'],
+                  actions: ['printUserCommand', 'printSuccessMessage', 'clearWord', 'increaseScore'],
                 },
               ],
               BACKSPACE: [
@@ -135,6 +148,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
                 { target: 'typing', actions: ['deleteLastCharEntered', 'updateTerminalView'] },
               ],
             },
+            exit: ['assignWordTypingTime'],
           },
           waveDone: { type: 'final' },
         },
@@ -146,6 +160,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
         after: { [postGameMessageDurationMs]: 'gameplayDone' },
       },
       victory: {
+        entry: 'showVictoryMessage',
         invoke: {
           src: 'triggerVictoryService',
         },
@@ -169,6 +184,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       printUserCommand: TerminalActions.printUserCommand,
       resetTextEntry: TerminalActions.resetTextEntry,
       showFailureMessage: TerminalActions.showFailureMessage,
+      showVictoryMessage: TerminalActions.showVictoryMessage,
       updateTextEntry: TerminalActions.updateTextEntry,
       deleteLastCharEntered: TerminalActions.deleteLastCharEntered,
       updateTerminalView: TerminalActions.updateTerminalView,
@@ -183,7 +199,12 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       startNextWave: WaveActions.startNextWave,
       stopHeatDisplayAnimation: WaveActions.stopHeatDisplayAnimation,
       updateServerViews: WaveActions.updateServerViews,
-      clearServer: WaveActions.clearServer,
+      updateScoreView: WaveActions.updateScoreView,
+      clearWord: WaveActions.clearWord,
+      decreaseScore: WaveActions.decreaseScore,
+      increaseScore: WaveActions.increaseScore,
+      assignWordStartTime: WaveActions.assignWordStartTime,
+      assignWordTypingTime: WaveActions.assignWordTypingTime,
     },
 
     guards: {

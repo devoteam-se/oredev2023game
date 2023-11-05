@@ -9,7 +9,7 @@
     'clock      terminal heat   ' 2fr
     'clock      terminal heat   ' 2fr
     'high-score terminal globe  ' 2fr
-    'your-score terminal globe  ' 2fr
+    'player-score terminal globe  ' 2fr
     / 1fr 2fr 1fr;
   gap: var(--size-16);
 }
@@ -46,8 +46,8 @@
 #high-score-box {
   grid-area: high-score;
 }
-#your-score-box {
-  grid-area: your-score;
+#player-score-box {
+  grid-area: player-score;
 }
 .score-box {
   justify-self: center;

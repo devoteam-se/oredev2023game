@@ -6,9 +6,7 @@ import { elements } from './game/elements.ts';
 const ctx = createAppContext();
 
 const canUserPlay = async (email: string) => {
-  const url = `http://localhost:3000/api/can-play?email=${encodeURIComponent(
-    email,
-  )}`;
+  const url = `http://localhost:3000/api/can-play?email=${encodeURIComponent(email)}`;
 
   try {
     const response = await fetch(url);
