@@ -241,6 +241,34 @@ export const assignWordTypingTime = assign<GameplayContext, GameplayEvent>((ctx:
   };
 });
 
+export const showFailureMessage = () => elements['failure-message'].showModal();
+
+export const showVictoryMessage = () => elements['victory-message'].showModal();
+
+export const triggerVictory = async (ctx: GameplayContext) => {
+  const url = `http://localhost:3000/api`;
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: elements['name-input'].value,
+        email: elements['email-input'].value,
+        score: ctx.wave.score,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+  } catch (error) {
+    console.error('There was a problem:', error);
+  }
+};
+
 export const updateTopScore = async () => {
   fetchTopScores()
     .then(function (scores) {
