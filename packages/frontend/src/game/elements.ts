@@ -18,8 +18,8 @@ const staticElements = {
   'text-entry': HTMLElement,
   'victory-message': HTMLDialogElement,
   'victory-ok-button': HTMLButtonElement,
-  'player-score-box': HTMLElement,
-  'high-score-box': HTMLElement,
+  'player-score-display': HTMLElement,
+  'high-score-display': HTMLElement,
 } as const;
 export type ElementId = keyof typeof staticElements;
 

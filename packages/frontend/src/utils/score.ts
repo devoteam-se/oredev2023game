@@ -2,6 +2,7 @@ import { maxGameDurationMs } from '../game/gameplay-machine';
 
 const SUCCESS_COEF = 2;
 const FAILURE_COEF = -1;
+const DISPLAYED_DIGITS = 7;
 
 type CalculateScoreProps = {
   /** difficulty level */
@@ -17,4 +18,14 @@ export const calculateScore = ({ level, timeMs, isSuccess }: CalculateScoreProps
   const timeCoefficient = (maxGameDurationMs - timeMs) / 1000;
 
   return Math.round(level * timeCoefficient * successCoefficient);
+};
+
+export const formatScore = (score: number): string => {
+  let scoreStr = score.toString();
+
+  while (scoreStr.length < DISPLAYED_DIGITS) {
+    scoreStr = '0' + scoreStr;
+  }
+
+  return scoreStr;
 };

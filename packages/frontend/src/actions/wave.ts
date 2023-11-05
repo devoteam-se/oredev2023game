@@ -13,7 +13,7 @@ import {
 import { elements, hideElement, serverViews } from '../game/elements';
 import { gameStages } from '../game/game-stages';
 import { startAnimation, cancelAnimation } from '../utils';
-import { calculateScore } from '../utils/score';
+import { calculateScore, formatScore } from '../utils/score';
 
 const GAME_STAGES_COUNT = gameStages.length;
 
@@ -188,21 +188,40 @@ export const updateServerViews = (ctx: GameplayContext) => {
   });
 };
 
-export const decreaseScore = (ctx: GameplayContext) => {
+export const updateScoreView = (ctx: GameplayContext) => {
+  const currentScore = ctx.wave.score;
+  const scoreStr = formatScore(currentScore);
+
+  elements['player-score-display'].textContent = scoreStr;
+};
+
+export const decreaseScore = assign<GameplayContext, GameplayEvent>((ctx: GameplayContext) => {
   const level = GAME_STAGES_COUNT - ctx.wave.remainingWaves.length;
   const time = ctx.wave.currentWordTypingTime;
   const score = calculateScore({ level, timeMs: time, isSuccess: false });
-  // TODO update view
-  console.log('decreaseScore:', score);
-};
 
-export const increaseScore = (ctx: GameplayContext) => {
+  const newScore = ctx.wave.score + score;
+
+  return {
+    wave: {
+      ...ctx.wave,
+      score: newScore <= 0 ? 0 : newScore,
+    },
+  };
+});
+
+export const increaseScore = assign<GameplayContext, GameplayEvent>((ctx: GameplayContext) => {
   const level = GAME_STAGES_COUNT - ctx.wave.remainingWaves.length;
   const time = ctx.wave.currentWordTypingTime;
   const score = calculateScore({ level, timeMs: time, isSuccess: true });
-  // TODO update view
-  console.log('increaseScore:', score);
-};
+
+  return {
+    wave: {
+      ...ctx.wave,
+      score: ctx.wave.score + score,
+    },
+  };
+});
 
 export const assignWordStartTime = assign<GameplayContext, GameplayEvent>((ctx: GameplayContext) => {
   return {
