@@ -6,6 +6,7 @@ const db = new sqlite3.Database('./game.db');
 
 type GameScore = {
   id?: number;
+  position: number;
   name: string;
   email: string;
   score: number;
@@ -54,12 +55,64 @@ const apiRouter = () => {
     });
   });
 
-  router.get('/', (_req, res) => {
-    const sql = 'SELECT * FROM gamescores ORDER BY score DESC LIMIT 20';
+  router.get('/', (req, res) => {
+    let sql;
+
+    const rankingSubquery = `
+    SELECT
+      id,
+      name,
+      email,
+      score,
+      RANK() OVER (ORDER BY score DESC, id ASC) AS position
+    FROM gamescores
+  `;
+
+    if (req.query.type === 'recent') {
+      sql = `
+      WITH RankedScores AS (${rankingSubquery})
+      SELECT * FROM (
+        SELECT * FROM RankedScores
+        ORDER BY id DESC
+        LIMIT 10
+      ) ORDER BY id DESC
+    `;
+    } else {
+      // 'top' is the default behavior
+      sql = `
+      SELECT * FROM (${rankingSubquery}) 
+      ORDER BY position ASC 
+      LIMIT 10
+    `;
+    }
+
     db.all(sql, [], (err: Error | null, rows: GameScore[]) => {
       if (err) {
-        throw err;
+        res.status(500).json({ error: err.message });
+        return;
       }
+      res.json(rows);
+    });
+  });
+
+  router.get('/', (req, res) => {
+    const orderBy = req.query.orderBy === 'id' ? 'id' : 'score';
+
+    const sql = `
+    SELECT
+      *,
+      ROW_NUMBER() OVER (ORDER BY ${orderBy} DESC) as position
+    FROM gamescores
+    ORDER BY ${orderBy} DESC
+    LIMIT 20
+  `;
+
+    db.all(sql, [], (err: Error | null, rows: any[]) => {
+      if (err) {
+        res.status(500).json({ error: err.message });
+        return;
+      }
+
       res.json(rows);
     });
   });
