@@ -29,3 +29,11 @@ export const formatScore = (score: number): string => {
 
   return scoreStr;
 };
+
+export const fetchTopScores = async function () {
+  const response = await fetch('http://localhost:3000/api?type=top');
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+  return response.json();
+};
