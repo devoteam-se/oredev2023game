@@ -245,6 +245,10 @@ export const showFailureMessage = () => elements['failure-message'].showModal();
 
 export const showVictoryMessage = () => elements['victory-message'].showModal();
 
+export const hideFailureMessage = () => elements['failure-message'].close();
+
+export const hideVictoryMessage = () => elements['victory-message'].close();
+
 export const triggerVictory = async (ctx: GameplayContext) => {
   const url = `http://localhost:3000/api`;
 

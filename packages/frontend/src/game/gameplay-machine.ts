@@ -180,8 +180,6 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       updateTopScoreService: WaveActions.updateTopScore,
     },
     actions: {
-      hideFailureMessage: TerminalActions.hideFailureMessage,
-      hideVictoryMessage: TerminalActions.hideVictoryMessage,
       initializeTerminal: TerminalActions.initializeTerminal,
       printErrorMessage: TerminalActions.printErrorMessage,
       printSuccessMessage: TerminalActions.printSuccessMessage,
@@ -209,6 +207,8 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       assignWordTypingTime: WaveActions.assignWordTypingTime,
       showFailureMessage: WaveActions.showFailureMessage,
       showVictoryMessage: WaveActions.showVictoryMessage,
+      hideFailureMessage: WaveActions.hideFailureMessage,
+      hideVictoryMessage: WaveActions.hideVictoryMessage,
     },
 
     guards: {
