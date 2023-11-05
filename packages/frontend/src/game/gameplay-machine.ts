@@ -95,6 +95,9 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       // TODO implement countdown visuals
       countdown: {
         entry: ['createWaves', 'assignServerViewIndices', 'initializeServerViews', 'initializeTerminal'],
+        invoke: {
+          src: 'updateTopScoreService',
+        },
         after: {
           [countdownDurationMs]: 'playing',
         },
@@ -174,6 +177,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
   {
     services: {
       triggerVictoryService: TerminalActions.triggerVictory,
+      updateTopScoreService: WaveActions.updateTopScore,
     },
     actions: {
       hideFailureMessage: TerminalActions.hideFailureMessage,

@@ -2,30 +2,8 @@ import './global.ts';
 import './custom-elements';
 import { createAppContext } from './game/app-context.ts';
 import { elements } from './game/elements.ts';
-import { formatScore } from './utils/score.ts';
 
 const ctx = createAppContext();
-
-const fetchScores = async function (url: string) {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
-  }
-  return response.json();
-};
-
-const loadTopScore = function () {
-  fetchScores('http://localhost:3000/api?type=top')
-    .then(function (scores) {
-      const topScore = scores[0]?.score;
-      if (topScore) {
-        elements['high-score-display'].textContent = formatScore(topScore);
-      }
-    })
-    .catch(function (error) {
-      console.error('Failed to load top players:', error);
-    });
-};
 
 const canUserPlay = async (email: string) => {
   const url = `http://localhost:3000/api/can-play?email=${encodeURIComponent(email)}`;
@@ -97,7 +75,5 @@ elements['victory-ok-button'].addEventListener('click', () => {
 elements['failure-ok-button'].addEventListener('click', () => {
   ctx.sendOkClicked();
 });
-
-loadTopScore();
 
 ctx.startApp();

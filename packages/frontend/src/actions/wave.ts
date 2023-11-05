@@ -13,7 +13,7 @@ import {
 import { elements, hideElement, serverViews } from '../game/elements';
 import { gameStages } from '../game/game-stages';
 import { startAnimation, cancelAnimation } from '../utils';
-import { calculateScore, formatScore } from '../utils/score';
+import { calculateScore, fetchTopScores, formatScore } from '../utils/score';
 
 const GAME_STAGES_COUNT = gameStages.length;
 
@@ -240,3 +240,17 @@ export const assignWordTypingTime = assign<GameplayContext, GameplayEvent>((ctx:
     },
   };
 });
+
+export const updateTopScore = async () => {
+  fetchTopScores()
+    .then(function (scores) {
+      const topScore = scores[0]?.score;
+
+      if (topScore) {
+        elements['high-score-display'].textContent = formatScore(topScore);
+      }
+    })
+    .catch(function (error) {
+      console.error('Failed to load top players:', error);
+    });
+};
