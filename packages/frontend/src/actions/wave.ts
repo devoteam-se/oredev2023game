@@ -241,9 +241,23 @@ export const assignWordTypingTime = assign<GameplayContext, GameplayEvent>((ctx:
   };
 });
 
-export const showFailureMessage = () => elements['failure-message'].showModal();
+export const showFailureMessage = () => {
+  // click is fired when the modal shows, toggle disabled to workaround it
+  elements['failure-ok-button'].disabled = true;
+  elements['failure-message'].showModal();
+  elements['failure-ok-button'].disabled = false;
+};
 
-export const showVictoryMessage = () => elements['victory-message'].showModal();
+export const showVictoryMessage = () => {
+  // click is fired when the modal shows, toggle disabled to workaround it
+  elements['victory-ok-button'].disabled = true;
+  elements['victory-message'].showModal();
+  elements['victory-ok-button'].disabled = false;
+};
+
+export const hideFailureMessage = () => elements['failure-message'].close();
+
+export const hideVictoryMessage = () => elements['victory-message'].close();
 
 export const triggerVictory = async (ctx: GameplayContext) => {
   const url = `http://localhost:3000/api`;

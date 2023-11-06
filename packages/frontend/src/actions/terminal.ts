@@ -9,10 +9,6 @@ import {
   GameplayEnterEvent,
 } from '../game/gameplay-machine.ts';
 
-export const hideFailureMessage = () => elements['failure-message'].close();
-
-export const hideVictoryMessage = () => elements['victory-message'].close();
-
 export const initializeTerminal = () => {
   const t = elements['terminal-history'];
 
