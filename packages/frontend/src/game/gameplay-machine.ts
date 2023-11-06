@@ -12,7 +12,7 @@ export enum ServerState {
 export const countdownDurationMs = 3_000;
 export const maxGameDurationMs = 90_000;
 export const maxNumActiveWords = 3;
-const postGameMessageDurationMs = 10_000;
+const postGameMessageDurationMs = 15_000;
 
 // TODO make an actual heat meter component
 export const heatStringDefault = '';

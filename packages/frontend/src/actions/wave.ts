@@ -14,8 +14,7 @@ import { elements, hideElement, serverViews } from '../game/elements';
 import { gameStages } from '../game/game-stages';
 import { startAnimation, cancelAnimation } from '../utils';
 import { calculateScore, fetchTopScores, formatScore } from '../utils/score';
-
-const GAME_STAGES_COUNT = gameStages.length;
+import { GAME_STAGES_COUNT, LEADERBOARD_SIZE, VICTORY_TEXT_LEADER, VICTORY_TEXT_NON_LEADER } from '../game/constants';
 
 export const activateWordsAsNeeded = assign<GameplayContext, GameplayEvent>((ctx: GameplayContext) => {
   const numActiveWords = Object.values(ctx.wave.currentWave).reduce(
@@ -263,6 +262,7 @@ const resetGame = () => {
   elements['email-input'].value = '';
   elements['can-contact'].checked = false;
   elements['agree-gdpr'].checked = false;
+  elements['player-score-display'].textContent = formatScore(0);
 };
 
 export const hideFailureMessage = () => {
@@ -295,6 +295,19 @@ export const triggerVictory = async (ctx: GameplayContext) => {
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
+
+    response.json().then((res) => {
+      const position = res.position as number;
+      const isOnLeaderboard = position <= LEADERBOARD_SIZE;
+
+      const image = elements['victory-image'];
+      const textBox = elements['victory-text'];
+      const positionBox = elements['victory-position'];
+
+      image.classList.add(isOnLeaderboard ? 'leader' : 'not-leader');
+      textBox.textContent = isOnLeaderboard ? VICTORY_TEXT_LEADER : VICTORY_TEXT_NON_LEADER;
+      positionBox.textContent = position.toString();
+    });
   } catch (error) {
     console.error('There was a problem:', error);
   }

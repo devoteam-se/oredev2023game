@@ -1,7 +1,6 @@
 import { ActorRef, interpret, Subscription } from 'xstate';
 import { screenMachine } from './screen-machine.ts';
 import { GameplayEvent } from './gameplay-machine.ts';
-import { userMachine } from './form-machine.ts';
 
 export type AppContext = {
   startApp: () => void;

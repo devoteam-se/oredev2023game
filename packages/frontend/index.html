@@ -106,13 +106,25 @@
     <main id="game-over-screen" hidden>game over</main>
 
     <dialog id="victory-message">
-      <p>you saved the servers, great job</p>
-      <button id="victory-ok-button">OK</button>
+      <div class="result-content">
+      <div id="victory-image" class="result-image"></div>
+      <h3 class="result-header">You've saved us all!</h3>
+      <p>Wow, you're a very fast and accurate typer. Thank you for saving the world with your talent!</p>
+      <p id="victory-text"></p>
+      <span>Your position:</span>
+      <span id="victory-position"></span>
+      <button id="victory-ok-button" class="result-button">OK</button>
+    </div>
     </dialog>
 
     <dialog id="failure-message">
-      <p>the servers burned up (because you are bad at typing)</p>
-      <button id="failure-ok-button">OK</button>
+      <div class="result-content">
+      <div id="failure-image" class="result-image"></div>
+      <h3 class="result-header">You're fired!</h3>
+      <p>The entire server location overheated and all was lost!</p>
+      <p>Better luck next time!</p>
+      <button id="failure-ok-button" class="result-button">OK</button>
+    </div>
     </dialog>
 
     <template id="server-view-template">

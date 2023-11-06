@@ -1,0 +1,57 @@
+.result-content {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 400;
+  padding: 0 50px 16px;
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.result-header,
+#victory-position {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.result-header {
+  margin-bottom: 24px !important;
+}
+
+.result-image {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+#victory-image {
+  width: 190px;
+  height: 80px;
+}
+
+.leader {
+  background-image: url('../assets/crowns.png');
+}
+
+.not-leader {
+  background-image: url('../assets/stars.png');
+}
+
+#failure-image {
+  width: 270px;
+  height: 80px;
+  background-image: url('../assets/fail.png');
+}
+
+.result-button {
+  width: 120px;
+  margin-top: 24px !important;
+  font-weight: 700;
+}
+
+.result-button:hover {
+  background-color: var(--color-primary);
+  color: var(--color-background);
+}
