@@ -25,6 +25,9 @@ const staticElements = {
   'high-score-display': HTMLElement,
   instructions: HTMLElement,
   'hide-instructions': HTMLButtonElement,
+  'victory-image': HTMLElement,
+  'victory-text': HTMLElement,
+  'victory-position': HTMLElement,
 } as const;
 export type ElementId = keyof typeof staticElements;
 
