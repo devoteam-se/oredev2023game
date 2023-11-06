@@ -7,14 +7,19 @@ import {
   heatPercentages,
   heatStringDefault,
   heatStrings,
-  maxGameDurationMs,
-  maxNumActiveWords,
 } from '../game/gameplay-machine';
 import { elements, hideElement, serverViews } from '../game/elements';
 import { gameStages } from '../game/game-stages';
 import { startAnimation, cancelAnimation } from '../utils';
 import { calculateScore, fetchTopScores, formatScore } from '../utils/score';
-import { GAME_STAGES_COUNT, LEADERBOARD_SIZE, VICTORY_TEXT_LEADER, VICTORY_TEXT_NON_LEADER } from '../game/constants';
+import {
+  GAME_STAGES_COUNT,
+  LEADERBOARD_SIZE,
+  VICTORY_TEXT_LEADER,
+  VICTORY_TEXT_NON_LEADER,
+  maxGameDurationMs,
+  maxNumActiveWords,
+} from '../game/constants';
 
 export const activateWordsAsNeeded = assign<GameplayContext, GameplayEvent>((ctx: GameplayContext) => {
   const numActiveWords = Object.values(ctx.wave.currentWave).reduce(
@@ -325,4 +330,12 @@ export const updateTopScore = async () => {
     .catch(function (error) {
       console.error('Failed to load top players:', error);
     });
+};
+
+export const startTimer = () => {
+  elements['auto-clock'].startTime();
+};
+
+export const stopTimer = () => {
+  elements['auto-clock'].stopTime();
 };

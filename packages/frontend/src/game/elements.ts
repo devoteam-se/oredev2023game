@@ -1,6 +1,6 @@
 // TODO enforce presence and typing of required elements using linter
 import { totalNumServers } from './constants.ts';
-import { HTMLTerminalHistoryElement } from '../custom-elements';
+import { HTMLTerminalHistoryElement, HTMLAutoClockElement } from '../custom-elements';
 
 const staticElements = {
   'name-input': HTMLInputElement,
@@ -18,6 +18,7 @@ const staticElements = {
   'servers-view': HTMLElement,
   'splash-screen': HTMLElement,
   'terminal-history': HTMLTerminalHistoryElement,
+  'auto-clock': HTMLAutoClockElement,
   'text-entry': HTMLElement,
   'victory-message': HTMLDialogElement,
   'victory-ok-button': HTMLButtonElement,

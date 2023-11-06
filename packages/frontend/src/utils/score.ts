@@ -1,4 +1,4 @@
-import { maxGameDurationMs } from '../game/gameplay-machine';
+import { maxGameDurationMs } from '../game/constants';
 
 const SUCCESS_COEF = 2;
 const FAILURE_COEF = -1;

@@ -3,11 +3,11 @@ import { elements, serverViews } from '../game/elements.ts';
 import {
   GameplayContext,
   GameplayEvent,
-  countdownDurationMs,
   isKeystrokeEvent,
   isEnterEvent,
   GameplayEnterEvent,
 } from '../game/gameplay-machine.ts';
+import { countdownDurationMs } from '../game/constants.ts';
 
 export const initializeTerminal = () => {
   const t = elements['terminal-history'];
