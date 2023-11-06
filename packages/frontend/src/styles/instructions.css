@@ -1,6 +1,7 @@
 #instructions {
   place-self: center;
 
+  width: 60%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -11,7 +12,7 @@
 }
 
 .instructions-container {
-  max-width: 50%;
+  max-width: 60%;
 }
 
 .instructions-container h1 {
@@ -44,11 +45,11 @@
 }
 
 .image-container {
-  max-width: 50%;
+  max-width: 40%;
+  margin-left: 2rem;
 }
 
 .image-container img {
   max-width: 100%;
   height: auto;
-  border: 2px solid red;
 }
