@@ -215,8 +215,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background: url(../assets/clock.png) center no-repeat;
 }
-#clock {
+#auto-clock {
   font-size: var(--size-40);
 }
 

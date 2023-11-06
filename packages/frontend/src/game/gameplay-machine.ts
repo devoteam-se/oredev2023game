@@ -2,17 +2,13 @@ import { createMachine } from 'xstate';
 
 import * as WaveActions from '../actions/wave.ts';
 import * as TerminalActions from '../actions/terminal.ts';
+import { countdownDurationMs, maxGameDurationMs, postGameMessageDurationMs } from './constants.ts';
 
 export enum ServerState {
   Inactive,
   Active,
   Cleared,
 }
-
-export const countdownDurationMs = 3_000;
-export const maxGameDurationMs = 90_000;
-export const maxNumActiveWords = 3;
-const postGameMessageDurationMs = 15_000;
 
 // TODO make an actual heat meter component
 export const heatStringDefault = '';
@@ -103,8 +99,8 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
         },
       },
       playing: {
-        entry: ['assignWaveStartTime', 'startNextWave', 'startHeatDisplayAnimation'],
-        exit: ['stopHeatDisplayAnimation'],
+        entry: ['assignWaveStartTime', 'startNextWave', 'startHeatDisplayAnimation', 'startTimer'],
+        exit: ['stopHeatDisplayAnimation', 'stopTimer'],
 
         onDone: [{ target: 'victory', cond: 'allWavesCleared' }, { target: 'playing' }],
         after: { OVERHEAT_DELAY: 'failure' },
@@ -171,7 +167,7 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
         on: { OK_CLICKED: 'gameplayDone' },
         after: { [postGameMessageDurationMs]: 'gameplayDone' },
       },
-      gameplayDone: { type: 'final', entry: 'stopHeatDisplayAnimation' },
+      gameplayDone: { type: 'final', entry: ['stopHeatDisplayAnimation'] },
     },
   },
   {
@@ -209,6 +205,8 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
       showVictoryMessage: WaveActions.showVictoryMessage,
       hideFailureMessage: WaveActions.hideFailureMessage,
       hideVictoryMessage: WaveActions.hideVictoryMessage,
+      startTimer: WaveActions.startTimer,
+      stopTimer: WaveActions.stopTimer,
     },
 
     guards: {
