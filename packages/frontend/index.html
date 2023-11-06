@@ -8,22 +8,53 @@
   <body id="app">
     <noscript>This app requires JavaScript to run.</noscript>
 
-    <main id="splash-screen" hidden>
-      <h1 class="font-title">Game Title</h1>
+    <main id="instructions" hidden>
+      <div class="instructions-container">
+        <h1>Welcome to the server facility!</h1>
+        <p>Your job is to:</p>
+        <ol>
+          <li>Monitor the servers and make sure they don't overheat.</li>
+          <li>When a server’s temperature reaches a critical level, a reboot code will appear on the server.</li>
+          <li>Write the reboot code in the terminal to cool down the server and collect points.</li>
+        </ol>
+        <button id="hide-instructions" class="lets-go-button">Let's Go!</button>
+      </div>
+      <div class="image-container">
+        <img src="path-to-your-image.png" alt="Server Heat Meter">
+      </div>
+    </main>
 
-      <input
-        type="text"
-        name="name-input"
-        id="name-input"
-        placeholder="John Doe"
-      />
-      <input
-        type="email"
-        name="email-input"
-        id="email-input"
-        placeholder="john@doe.com"
-      />
-      <button id="play-button">Play</button>
+    <main id="splash-screen" hidden>
+      <h1 class="font-title">Save the servers</h1>
+
+      <div class="login-form">
+        <input
+          type="text"
+          name="name-input"
+          id="name-input"
+          placeholder="Your name"
+          autocomplete="off"
+          required
+        />
+        <input
+          type="email"
+          name="email-input"
+          id="email-input"
+          placeholder="Your email"
+          autocomplete="off"
+          required
+        />
+        <label for="agree-gdpr">
+          <input type="checkbox" id="agree-gdpr" name="agree-gdpr" autocomplete="off" />
+          Agree to save the world, and GDPR
+        </label>
+        <label for="can-contact">
+          <input type="checkbox" id="can-contact" name="event-invites" autocomplete="off" />
+          Send me invites to tech events
+        </label>
+        <button type="submit" id="play-button">Start</button>
+        <button type="button" id="instructions-link">How to play?</a>
+      </div>
     </main>
 
     <main id="gameplay-screen" hidden>

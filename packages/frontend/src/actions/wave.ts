@@ -255,9 +255,25 @@ export const showVictoryMessage = () => {
   elements['victory-ok-button'].disabled = false;
 };
 
-export const hideFailureMessage = () => elements['failure-message'].close();
+const resetGame = () => {
+  const element = document.querySelector('body');
+  element?.classList.remove('game-background');
 
-export const hideVictoryMessage = () => elements['victory-message'].close();
+  elements['name-input'].value = '';
+  elements['email-input'].value = '';
+  elements['can-contact'].checked = false;
+  elements['agree-gdpr'].checked = false;
+};
+
+export const hideFailureMessage = () => {
+  elements['failure-message'].close();
+  resetGame();
+};
+
+export const hideVictoryMessage = () => {
+  elements['victory-message'].close();
+  resetGame();
+};
 
 export const triggerVictory = async (ctx: GameplayContext) => {
   const url = `http://localhost:3000/api`;
@@ -272,6 +288,7 @@ export const triggerVictory = async (ctx: GameplayContext) => {
         name: elements['name-input'].value,
         email: elements['email-input'].value,
         score: ctx.wave.score,
+        canContact: elements['can-contact'].checked,
       }),
     });
 

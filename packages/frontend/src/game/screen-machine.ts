@@ -4,7 +4,7 @@ import { gameplayMachine } from './gameplay-machine.ts';
 
 export type ScreenContext = {};
 export type ScreenEvent = {
-  type: 'START_GAME';
+  type: 'START_GAME' | 'SHOW_INSTRUCTIONS' | 'EXIT_INSTRUCTIONS';
 };
 export const screenMachine = createMachine<ScreenContext, ScreenEvent>(
   {
@@ -18,7 +18,7 @@ export const screenMachine = createMachine<ScreenContext, ScreenEvent>(
       splash: {
         entry: 'showSplashScreen',
         exit: 'hideSplashScreen',
-        on: { START_GAME: 'game' },
+        on: { START_GAME: 'game', SHOW_INSTRUCTIONS: 'instructions' },
       },
       game: {
         initial: 'gameplay',
@@ -40,6 +40,19 @@ export const screenMachine = createMachine<ScreenContext, ScreenEvent>(
           },
         },
       },
+      instructions: {
+        initial: 'instructions',
+        onDone: 'splash',
+        on: {
+          EXIT_INSTRUCTIONS: 'splash',
+        },
+        states: {
+          instructions: {
+            entry: 'showInstructions',
+            exit: 'hideInstructions',
+          },
+        },
+      },
     },
   },
   {
@@ -50,6 +63,8 @@ export const screenMachine = createMachine<ScreenContext, ScreenEvent>(
       showGameplayScreen: () => showElement('gameplay-screen'),
       showGameOverScreen: () => showElement('game-over-screen'),
       showSplashScreen: () => showElement('splash-screen'),
+      showInstructions: () => showElement('instructions'),
+      hideInstructions: () => hideElement('instructions'),
     },
   },
 );

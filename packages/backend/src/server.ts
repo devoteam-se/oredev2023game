@@ -10,6 +10,7 @@ type GameScore = {
   name: string;
   email: string;
   score: number;
+  canContact: boolean;
 };
 
 type EmailCountResult = {
@@ -30,29 +31,33 @@ const apiRouter = () => {
       return res.status(400).json({ error: 'Invalid user data provided' });
     }
 
-    const stmt = db.prepare('INSERT INTO gamescores (name, email, score) VALUES (?, ?, ?)');
+    const stmt = db.prepare('INSERT INTO gamescores (name, email, score, can_contact) VALUES (?, ?, ?, ?)');
 
-    stmt.run([userData.name, userData.email, userData.score], async (err) => {
-      if (err) {
-        return res.status(500).json({ error: err.message });
-      }
-      try {
-        const getPosition = new Promise<ScoreCountResult>((resolve, reject) => {
-          const positionQuery = 'SELECT COUNT(*) as count FROM gamescores WHERE score >= ?';
-          db.get(positionQuery, [userData.score], (err, row: ScoreCountResult) => {
-            if (err) reject(err);
-            else resolve(row);
+    try {
+      stmt.run([userData.name, userData.email, userData.score, userData.canContact], async (err) => {
+        if (err) {
+          return res.status(500).json({ error: err.message });
+        }
+        try {
+          const getPosition = new Promise<ScoreCountResult>((resolve, reject) => {
+            const positionQuery = 'SELECT COUNT(*) as count FROM gamescores WHERE score >= ?';
+            db.get(positionQuery, [userData.score], (err, row: ScoreCountResult) => {
+              if (err) reject(err);
+              else resolve(row);
+            });
           });
-        });
 
-        const row = await getPosition;
-        const position = row.count + 1;
+          const row = await getPosition;
+          const position = row.count + 1;
 
-        res.json({ position });
-      } catch (positionError: unknown) {
-        res.status(500);
-      }
-    });
+          res.json({ position });
+        } catch (positionError: unknown) {
+          res.status(500);
+        }
+      });
+    } catch (err) {
+      console.error(err);
+    }
   });
 
   router.get('/', (req, res) => {
