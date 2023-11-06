@@ -4,7 +4,6 @@ import { createAppContext } from './game/app-context.ts';
 import { elements } from './game/elements.ts';
 
 const ctx = createAppContext();
-
 const canUserPlay = async (email: string) => {
   const url = `http://localhost:3000/api/can-play?email=${encodeURIComponent(email)}`;
 
@@ -22,6 +21,14 @@ const canUserPlay = async (email: string) => {
     console.error('There was a problem:', error);
   }
 };
+
+elements['instructions-link'].addEventListener('click', async () => {
+  ctx.showInstructions(true);
+});
+
+elements['hide-instructions'].addEventListener('click', async () => {
+  ctx.showInstructions(false);
+});
 
 elements['play-button'].addEventListener('click', async () => {
   const name = elements['name-input'].value;

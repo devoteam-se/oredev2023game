@@ -54,13 +54,14 @@ export type GameplayKeystrokeEvent = {
   type: 'KEYSTROKE';
   char: string;
 };
+
 export type GameplayOkClickedEvent = { type: 'OK_CLICKED' };
 export type GameplayBackspaceEvent = { type: 'BACKSPACE' };
 export type GameplayEnterEvent = { type: 'ENTER' };
 export type GameplayEvent =
   | GameplayKeystrokeEvent
-  | GameplayBackspaceEvent
   | GameplayOkClickedEvent
+  | GameplayBackspaceEvent
   | GameplayEnterEvent;
 
 export const isKeystrokeEvent = (event: GameplayEvent): event is GameplayKeystrokeEvent => event.type === 'KEYSTROKE';
@@ -89,7 +90,6 @@ export const gameplayMachine = createMachine<GameplayContext, GameplayEvent>(
         textEntry: '',
       },
     },
-
     initial: 'countdown',
     states: {
       // TODO implement countdown visuals

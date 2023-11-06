@@ -7,7 +7,8 @@ CREATE TABLE gamescores (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     email TEXT NOT NULL,
-    score NUMBER
+    score NUMBER,
+    can_contact BOOLEAN DEFAULT false
 );
 "
 

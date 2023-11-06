@@ -1,10 +1,12 @@
 import { ActorRef, interpret, Subscription } from 'xstate';
 import { screenMachine } from './screen-machine.ts';
 import { GameplayEvent } from './gameplay-machine.ts';
+import { userMachine } from './form-machine.ts';
 
 export type AppContext = {
   startApp: () => void;
   startGame: () => void;
+  showInstructions: (show: boolean) => void;
   sendKeystroke: (key: string) => void;
   sendBackspace: () => void;
   sendEnter: () => void;
@@ -39,7 +41,12 @@ export const createAppContext = (): AppContext => {
       screenService.start();
     },
     startGame: () => {
+      const element = document.querySelector('body');
+      element?.classList.add('game-background');
       screenService.send('START_GAME');
+    },
+    showInstructions: (show) => {
+      screenService.send(show ? 'SHOW_INSTRUCTIONS' : 'EXIT_INSTRUCTIONS');
     },
     sendKeystroke: (char: string) => {
       if (gameplayService) {

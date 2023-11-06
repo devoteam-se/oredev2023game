@@ -1,0 +1,54 @@
+#instructions {
+  place-self: center;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem;
+  background-color: #262424;
+  color: white;
+  border-radius: 0.625rem;
+}
+
+.instructions-container {
+  max-width: 50%;
+}
+
+.instructions-container h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.instructions-container ol {
+  padding-left: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.instructions-container li {
+  margin: 0.625rem 0;
+}
+
+.lets-go-button {
+  width: 100%;
+  background-color: #262424;
+  color: white;
+  padding: 0.875rem 1.25rem;
+  margin: 0.5rem 0;
+  border: 1px solid #69afab;
+  cursor: pointer;
+}
+
+.lets-go-button:hover {
+  color: #262424;
+  background-color: #69afab;
+}
+
+.image-container {
+  max-width: 50%;
+}
+
+.image-container img {
+  max-width: 100%;
+  height: auto;
+  border: 2px solid red;
+}

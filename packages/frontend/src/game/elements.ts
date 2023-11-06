@@ -5,12 +5,15 @@ import { HTMLTerminalHistoryElement } from '../custom-elements';
 const staticElements = {
   'name-input': HTMLInputElement,
   'email-input': HTMLInputElement,
+  'can-contact': HTMLInputElement,
+  'agree-gdpr': HTMLInputElement,
   'failure-message': HTMLDialogElement,
   'failure-ok-button': HTMLButtonElement,
   'game-over-screen': HTMLElement,
   'gameplay-screen': HTMLElement,
   'heat-value': HTMLElement,
   'play-button': HTMLButtonElement,
+  'instructions-link': HTMLButtonElement,
   'server-view-template': HTMLTemplateElement,
   'servers-view': HTMLElement,
   'splash-screen': HTMLElement,
@@ -20,6 +23,8 @@ const staticElements = {
   'victory-ok-button': HTMLButtonElement,
   'player-score-display': HTMLElement,
   'high-score-display': HTMLElement,
+  instructions: HTMLElement,
+  'hide-instructions': HTMLButtonElement,
 } as const;
 export type ElementId = keyof typeof staticElements;
 
