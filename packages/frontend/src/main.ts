@@ -22,11 +22,11 @@ const canUserPlay = async (email: string) => {
   }
 };
 
-elements['instructions-link'].addEventListener('click', async () => {
+elements['instructions-link'].addEventListener('click', () => {
   ctx.showInstructions(true);
 });
 
-elements['hide-instructions'].addEventListener('click', async () => {
+elements['hide-instructions'].addEventListener('click', () => {
   ctx.showInstructions(false);
 });
 

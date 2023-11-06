@@ -140,4 +140,8 @@ export const gameStages: GameStages = Object.freeze([
       'understanding',
     ],
   },
+  {
+    numServers: 1,
+    possibleCodes: ['pneumonoultramicroscopicsilicovolcanoconiosis'],
+  },
 ]);
