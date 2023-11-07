@@ -216,6 +216,7 @@
   align-items: center;
   justify-content: center;
   background: url(../assets/clock.png) center no-repeat;
+  background-size: contain;
 }
 #auto-clock {
   font-size: var(--size-40);

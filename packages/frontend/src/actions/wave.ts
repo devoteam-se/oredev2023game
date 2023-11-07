@@ -268,6 +268,8 @@ const resetGame = () => {
   elements['can-contact'].checked = false;
   elements['agree-gdpr'].checked = false;
   elements['player-score-display'].textContent = formatScore(0);
+
+  stopTimer();
 };
 
 export const hideFailureMessage = () => {
