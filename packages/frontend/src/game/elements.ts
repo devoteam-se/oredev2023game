@@ -12,6 +12,7 @@ const staticElements = {
   'game-over-screen': HTMLElement,
   'gameplay-screen': HTMLElement,
   'heat-value': HTMLElement,
+  'heat-needle': HTMLElement,
   'play-button': HTMLButtonElement,
   'instructions-link': HTMLButtonElement,
   'server-view-template': HTMLTemplateElement,

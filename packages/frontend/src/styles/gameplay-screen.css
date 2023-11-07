@@ -72,9 +72,32 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
+
+#heat-box img {
+  width: 219px;
+  height: 113px;
+}
+
+#heat-box h2 {
+  font-weight: var(--font-weight-medium);
+  font-size: var(--size-16);
+  margin: 12px 0 4px;
+}
+
 #heat-readout {
   font-size: var(--size-24);
+}
+
+#heat-needle {
+  position: absolute;
+  top: 49px;
+  width: 14px;
+  height: 180px;
+  background: url(../assets/temperature-needle.png) top no-repeat;
+  background-size: contain;
+  transform: rotate(-90deg);
 }
 
 /* SERVERS */
