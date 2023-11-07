@@ -10,6 +10,7 @@
     'clock      terminal heat   ' 2fr
     'high-score terminal globe  ' 2fr
     'player-score terminal globe  ' 2fr
+    'footer footer footer' 1fr
     / 1fr 2fr 1fr;
   gap: var(--size-16);
 }
@@ -235,14 +236,28 @@
   height: 100%;
 
   display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clock-background {
+  width: 147px;
+  height: 147px;
+
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
   background: url(../assets/clock.png) center no-repeat;
   background-size: contain;
+
+  font-weight: var(--font-weight-medium);
 }
+
 #auto-clock {
   font-size: var(--size-40);
+  font-weight: var(--font-weight-normal);
 }
 
 /* GLOBE */
