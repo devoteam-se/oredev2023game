@@ -1,3 +1,5 @@
+const templateScores = Array.from({ length: 10 }, (value, index) => ({ position: index + 1, name: '---', score: '---'}));
+
 document.addEventListener('DOMContentLoaded', function () {
   var topPlayersList = document.querySelector('#top-players ol');
   var recentPlayersList = document.querySelector('#recent-players ol');
@@ -11,8 +13,15 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   var displayScores = function (scores, listElement) {
+    let resultArray = scores;
+
+    if (scores.length < 10) {
+      const emptyStrings = templateScores.slice(scores.length);
+      resultArray = scores.concat(emptyStrings);
+    }
+
     listElement.innerHTML = '';
-    scores.forEach(function (score) {
+    resultArray.forEach(function (score) {
       var listItem = document.createElement('li');
       listItem.innerHTML = `<span>${score.position} ${score.name}</span><span>${score.score}</span>`;
       listElement.appendChild(listItem);
