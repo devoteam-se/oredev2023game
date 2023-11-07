@@ -33,7 +33,7 @@ elements['hide-instructions'].addEventListener('click', () => {
 elements['play-button'].addEventListener('click', async () => {
   const name = elements['name-input'].value;
   const email = elements['email-input'].value;
-  const emailRegex = /^.+@.+\..+$/;
+  const emailRegex = /(".+"|\S+)@\S+/ui;
 
   if (!name) {
     alert('Name must be provided');
