@@ -21,6 +21,7 @@ const staticElements = {
   'terminal-history': HTMLTerminalHistoryElement,
   'auto-clock': HTMLAutoClockElement,
   'text-entry': HTMLElement,
+  'text-entry-name': HTMLElement,
   'victory-message': HTMLDialogElement,
   'victory-ok-button': HTMLButtonElement,
   'player-score-display': HTMLElement,
