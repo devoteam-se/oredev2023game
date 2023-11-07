@@ -127,7 +127,10 @@ export const startHeatDisplayAnimation = assign<GameplayContext, GameplayEvent>(
   const waveStartTime = ctx.wave.waveStartTime;
   const heatDisplay = startAnimation(() => {
     const heatRatio = Math.min(1, (Date.now() - waveStartTime) / maxGameDurationMs);
-    elements['heat-value'].textContent = Math.floor(heatRatio * 100).toString();
+    const heatPercentage = Math.floor(heatRatio * 100);
+    const rotationDeg = Math.round(heatPercentage * 1.8) - 90;
+    elements['heat-value'].textContent = heatPercentage.toString();
+    elements['heat-needle'].setAttribute('style', `transform: rotate(${rotationDeg}deg)`);
   });
 
   return {
@@ -268,6 +271,7 @@ const resetGame = () => {
   elements['can-contact'].checked = false;
   elements['agree-gdpr'].checked = false;
   elements['player-score-display'].textContent = formatScore(0);
+  elements['heat-needle'].removeAttribute('style');
 
   stopTimer();
 };
