@@ -270,6 +270,7 @@ const resetGame = () => {
   elements['email-input'].value = '';
   elements['can-contact'].checked = false;
   elements['agree-gdpr'].checked = false;
+  elements['text-entry-name'].textContent = '';
   elements['player-score-display'].textContent = formatScore(0);
   elements['heat-needle'].removeAttribute('style');
 

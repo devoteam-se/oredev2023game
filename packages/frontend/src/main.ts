@@ -51,6 +51,8 @@ elements['play-button'].addEventListener('click', async () => {
     return;
   }
 
+  elements['text-entry-name'].textContent = name.toUpperCase();
+
   ctx.startGame();
 });
 
