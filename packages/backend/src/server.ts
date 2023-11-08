@@ -18,7 +18,7 @@ type EmailCountResult = {
 };
 
 type ScoreCountResult = {
-  count: number;
+  position: number;
 };
 
 const apiRouter = () => {
@@ -40,15 +40,18 @@ const apiRouter = () => {
         }
         try {
           const getPosition = new Promise<ScoreCountResult>((resolve, reject) => {
-            const positionQuery = 'SELECT COUNT(*) as count FROM gamescores WHERE score >= ?';
+            const positionQuery = 'SELECT count(*) as position FROM gamescores WHERE score >= ?';
             db.get(positionQuery, [userData.score], (err, row: ScoreCountResult) => {
-              if (err) reject(err);
-              else resolve(row);
+              if (err) {
+                return reject(err);
+              }
+
+              resolve(row);
             });
           });
 
           const row = await getPosition;
-          const position = row.count + 1;
+          const position = row.position;
 
           res.json({ position });
         } catch (positionError: unknown) {
